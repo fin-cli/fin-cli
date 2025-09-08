@@ -18,7 +18,7 @@ use FP_CLI\ProcessRun;
 use FP_CLI\Runner;
 use FP_CLI\SynopsisParser;
 use FP_CLI\Utils;
-use FP_CLI\WpHttpCacheManager;
+use FP_CLI\FpHttpCacheManager;
 
 /**
  * Various utilities for FP-CLI commands.
@@ -150,13 +150,13 @@ class FP_CLI {
 	}
 
 	/**
-	 * @return WpHttpCacheManager
+	 * @return FpHttpCacheManager
 	 */
 	public static function get_http_cache_manager() {
 		static $http_cacher;
 
 		if ( ! $http_cacher ) {
-			$http_cacher = new WpHttpCacheManager( self::get_cache() );
+			$http_cacher = new FpHttpCacheManager( self::get_cache() );
 		}
 
 		return $http_cacher;

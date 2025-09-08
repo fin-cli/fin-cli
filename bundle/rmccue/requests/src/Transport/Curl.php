@@ -5,17 +5,17 @@
  * @package Requests\Transport
  */
 
-namespace WpOrg\Requests\Transport;
+namespace FpOrg\Requests\Transport;
 
 use RecursiveArrayIterator;
 use RecursiveIteratorIterator;
-use WpOrg\Requests\Capability;
-use WpOrg\Requests\Exception;
-use WpOrg\Requests\Exception\InvalidArgument;
-use WpOrg\Requests\Exception\Transport\Curl as CurlException;
-use WpOrg\Requests\Requests;
-use WpOrg\Requests\Transport;
-use WpOrg\Requests\Utility\InputValidator;
+use FpOrg\Requests\Capability;
+use FpOrg\Requests\Exception;
+use FpOrg\Requests\Exception\InvalidArgument;
+use FpOrg\Requests\Exception\Transport\Curl as CurlException;
+use FpOrg\Requests\Requests;
+use FpOrg\Requests\Transport;
+use FpOrg\Requests\Utility\InputValidator;
 
 /**
  * cURL HTTP transport
@@ -64,7 +64,7 @@ final class Curl implements Transport {
 	/**
 	 * Hook dispatcher instance
 	 *
-	 * @var \WpOrg\Requests\Hooks
+	 * @var \FpOrg\Requests\Hooks
 	 */
 	private $hooks;
 
@@ -136,14 +136,14 @@ final class Curl implements Transport {
 	 * @param string|Stringable $url URL to request
 	 * @param array $headers Associative array of request headers
 	 * @param string|array $data Data to send either as the POST body, or as parameters in the URL for a GET/HEAD
-	 * @param array $options Request options, see {@see \WpOrg\Requests\Requests::response()} for documentation
+	 * @param array $options Request options, see {@see \FpOrg\Requests\Requests::response()} for documentation
 	 * @return string Raw HTTP result
 	 *
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $url argument is not a string or Stringable.
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $headers argument is not an array.
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $data parameter is not an array or string.
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $options argument is not an array.
-	 * @throws \WpOrg\Requests\Exception       On a cURL error (`curlerror`)
+	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $url argument is not a string or Stringable.
+	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $headers argument is not an array.
+	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $data parameter is not an array or string.
+	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $options argument is not an array.
+	 * @throws \FpOrg\Requests\Exception       On a cURL error (`curlerror`)
 	 */
 	public function request($url, $headers = [], $data = [], $options = []) {
 		if (InputValidator::is_string_or_stringable($url) === false) {
@@ -219,7 +219,7 @@ final class Curl implements Transport {
 		$this->process_response($response, $options);
 
 		// Need to remove the $this reference from the curl handle.
-		// Otherwise \WpOrg\Requests\Transport\Curl won't be garbage collected and the curl_close() will never be called.
+		// Otherwise \FpOrg\Requests\Transport\Curl won't be garbage collected and the curl_close() will never be called.
 		curl_setopt($this->handle, CURLOPT_HEADERFUNCTION, null);
 		curl_setopt($this->handle, CURLOPT_WRITEFUNCTION, null);
 
@@ -231,10 +231,10 @@ final class Curl implements Transport {
 	 *
 	 * @param array $requests Request data
 	 * @param array $options Global options
-	 * @return array Array of \WpOrg\Requests\Response objects (may contain \WpOrg\Requests\Exception or string responses as well)
+	 * @return array Array of \FpOrg\Requests\Response objects (may contain \FpOrg\Requests\Exception or string responses as well)
 	 *
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $requests argument is not an array or iterable object with array access.
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $options argument is not an array.
+	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $requests argument is not an array or iterable object with array access.
+	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $options argument is not an array.
 	 */
 	public function request_multiple($requests, $options) {
 		// If you're not requesting, we can't get any responses ¯\_(ツ)_/¯
@@ -329,7 +329,7 @@ final class Curl implements Transport {
 	 * @param string $url URL to request
 	 * @param array $headers Associative array of request headers
 	 * @param string|array $data Data to send either as the POST body, or as parameters in the URL for a GET/HEAD
-	 * @param array $options Request options, see {@see \WpOrg\Requests\Requests::response()} for documentation
+	 * @param array $options Request options, see {@see \FpOrg\Requests\Requests::response()} for documentation
 	 * @return resource|\CurlHandle Subrequest's cURL handle
 	 */
 	public function &get_subrequest_handle($url, $headers, $data, $options) {
@@ -357,7 +357,7 @@ final class Curl implements Transport {
 	 * @param string $url URL to request
 	 * @param array $headers Associative array of request headers
 	 * @param string|array $data Data to send either as the POST body, or as parameters in the URL for a GET/HEAD
-	 * @param array $options Request options, see {@see \WpOrg\Requests\Requests::response()} for documentation
+	 * @param array $options Request options, see {@see \FpOrg\Requests\Requests::response()} for documentation
 	 */
 	private function setup_handle($url, $headers, $data, $options) {
 		$options['hooks']->dispatch('curl.before_request', [&$this->handle]);
@@ -465,7 +465,7 @@ final class Curl implements Transport {
 	 * @param string $response Response data from the body
 	 * @param array $options Request options
 	 * @return string|false HTTP response data including headers. False if non-blocking.
-	 * @throws \WpOrg\Requests\Exception If the request resulted in a cURL error.
+	 * @throws \FpOrg\Requests\Exception If the request resulted in a cURL error.
 	 */
 	public function process_response($response, $options) {
 		if ($options['blocking'] === false) {
@@ -591,7 +591,7 @@ final class Curl implements Transport {
 	/**
 	 * Self-test whether the transport can be used.
 	 *
-	 * The available capabilities to test for can be found in {@see \WpOrg\Requests\Capability}.
+	 * The available capabilities to test for can be found in {@see \FpOrg\Requests\Capability}.
 	 *
 	 * @codeCoverageIgnore
 	 * @param array<string, bool> $capabilities Optional. Associative array of capabilities to test against, i.e. `['<capability>' => true]`.

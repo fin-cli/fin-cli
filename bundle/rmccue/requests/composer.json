@@ -64,14 +64,14 @@
   },
   "autoload": {
     "psr-4": {
-      "WpOrg\\Requests\\": "src/"
+      "FpOrg\\Requests\\": "src/"
     },
     "classmap": ["library/Requests.php"],
     "files": ["library/Deprecated.php"]
   },
   "autoload-dev": {
     "psr-4": {
-      "WpOrg\\Requests\\Tests\\": "tests/"
+      "FpOrg\\Requests\\Tests\\": "tests/"
     }
   },
   "scripts": {

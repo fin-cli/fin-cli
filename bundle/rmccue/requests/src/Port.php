@@ -6,10 +6,10 @@
  * @since   2.0.0
  */
 
-namespace WpOrg\Requests;
+namespace FpOrg\Requests;
 
-use WpOrg\Requests\Exception;
-use WpOrg\Requests\Exception\InvalidArgument;
+use FpOrg\Requests\Exception;
+use FpOrg\Requests\Exception\InvalidArgument;
 
 /**
  * Find the correct port depending on the Request type.
@@ -56,8 +56,8 @@ final class Port {
 	 *
 	 * @return int
 	 *
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When a non-string input has been passed.
-	 * @throws \WpOrg\Requests\Exception                 When a non-supported port is requested ('portnotsupported').
+	 * @throws \FpOrg\Requests\Exception\InvalidArgument When a non-string input has been passed.
+	 * @throws \FpOrg\Requests\Exception                 When a non-supported port is requested ('portnotsupported').
 	 */
 	public static function get($type) {
 		if (!is_string($type)) {

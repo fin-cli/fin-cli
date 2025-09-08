@@ -9,7 +9,7 @@ use FP_CLI;
  *
  * @package FP_CLI
  */
-class WpHttpCacheManager {
+class FpHttpCacheManager {
 
 	/**
 	 * @var array<string, array{key:string, ttl: int|null}> map whitelisted urls to keys and ttls

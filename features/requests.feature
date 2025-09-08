@@ -94,7 +94,7 @@ Feature: Requests integration with both v1 and v2
     When I run `fp eval 'var_dump( \FP_CLI\Utils\http_request( "GET", "https://example.com/" ) );'`
     Then STDOUT should contain:
       """
-      object(WpOrg\Requests\Response)
+      object(FpOrg\Requests\Response)
       """
     And STDOUT should contain:
       """

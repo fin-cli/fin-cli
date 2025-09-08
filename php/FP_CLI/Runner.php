@@ -1298,7 +1298,7 @@ class Runner {
 		}
 		// phpcs:enable FinPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 
-		$this->load_wordpress();
+		$this->load_finpress();
 
 		$this->run_command_and_exit();
 	}
@@ -1306,7 +1306,7 @@ class Runner {
 	/**
 	 * Load FinPress, if it hasn't already been loaded
 	 */
-	public function load_wordpress() {
+	public function load_finpress() {
 		static $fp_cli_is_loaded;
 		// Globals not explicitly globalized in FinPress
 		global $site_id, $fpdb, $public, $current_site, $current_blog, $path, $shortcode_tags;

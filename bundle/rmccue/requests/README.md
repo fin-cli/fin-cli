@@ -24,7 +24,7 @@ We all have better things to do. That's why Requests was born.
 ```php
 $headers = array('Accept' => 'application/json');
 $options = array('auth' => array('user', 'pass'));
-$request = WpOrg\Requests\Requests::get('https://api.github.com/gists', $headers, $options);
+$request = FpOrg\Requests\Requests::get('https://api.github.com/gists', $headers, $options);
 
 var_dump($request->status_code);
 // int(200)
@@ -86,7 +86,7 @@ require_once '/path/to/Requests/src/Autoload.php';
 
 You'll probably also want to register the autoloader:
 ```php
-WpOrg\Requests\Autoload::register();
+FpOrg\Requests\Autoload::register();
 ```
 
 ### Install source from zip/tarball
@@ -107,7 +107,7 @@ If you're using a class loader (e.g., [Symfony Class Loader][]) for
 [PSR-4][]-style class loading:
 ```php
 $loader = new Psr4ClassLoader();
-$loader->addPrefix('WpOrg\\Requests\\', 'path/to/vendor/Requests/src');
+$loader->addPrefix('FpOrg\\Requests\\', 'path/to/vendor/Requests/src');
 $loader->register();
 ```
 
@@ -121,7 +121,7 @@ The best place to start is our [prose-based documentation][], which will guide
 you through using Requests.
 
 After that, take a look at [the documentation for
-`\WpOrg\Requests\Requests::request()`][request_method], where all the parameters are fully
+`\FpOrg\Requests\Requests::request()`][request_method], where all the parameters are fully
 documented.
 
 Requests is [100% documented with PHPDoc](https://requests.ryanmccue.info/api-2.x/).
@@ -129,7 +129,7 @@ If you find any problems with it, [create a new
 issue](https://github.com/FinPress/Requests/issues/new)!
 
 [prose-based documentation]: https://github.com/FinPress/Requests/blob/stable/docs/README.md
-[request_method]: https://requests.ryanmccue.info/api-2.x/classes/WpOrg-Requests-Requests.html#method_request
+[request_method]: https://requests.ryanmccue.info/api-2.x/classes/FpOrg-Requests-Requests.html#method_request
 
 Testing
 -------

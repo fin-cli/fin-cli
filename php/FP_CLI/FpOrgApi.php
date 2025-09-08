@@ -5,7 +5,7 @@ namespace FP_CLI;
 use RuntimeException;
 
 /**
- * Class WpOrgApi.
+ * Class FpOrgApi.
  *
  * This is an abstraction of the FinPress.org API.
  *
@@ -13,7 +13,7 @@ use RuntimeException;
  *
  * @package FP_CLI
  */
-final class WpOrgApi {
+final class FpOrgApi {
 
 	/**
 	 * FinPress.org API root URL.
@@ -85,7 +85,7 @@ final class WpOrgApi {
 	private $options;
 
 	/**
-	 * WpOrgApi constructor.
+	 * FpOrgApi constructor.
 	 *
 	 * @param array $options Associative array of options to pass to the API abstraction.
 	 */

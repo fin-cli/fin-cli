@@ -5,17 +5,17 @@
  * @package Requests\Transport
  */
 
-namespace WpOrg\Requests\Transport;
+namespace FpOrg\Requests\Transport;
 
-use WpOrg\Requests\Capability;
-use WpOrg\Requests\Exception;
-use WpOrg\Requests\Exception\InvalidArgument;
-use WpOrg\Requests\Port;
-use WpOrg\Requests\Requests;
-use WpOrg\Requests\Ssl;
-use WpOrg\Requests\Transport;
-use WpOrg\Requests\Utility\CaseInsensitiveDictionary;
-use WpOrg\Requests\Utility\InputValidator;
+use FpOrg\Requests\Capability;
+use FpOrg\Requests\Exception;
+use FpOrg\Requests\Exception\InvalidArgument;
+use FpOrg\Requests\Port;
+use FpOrg\Requests\Requests;
+use FpOrg\Requests\Ssl;
+use FpOrg\Requests\Transport;
+use FpOrg\Requests\Utility\CaseInsensitiveDictionary;
+use FpOrg\Requests\Utility\InputValidator;
 
 /**
  * fsockopen HTTP transport
@@ -64,15 +64,15 @@ final class Fsockopen implements Transport {
 	 * @param string|Stringable $url URL to request
 	 * @param array $headers Associative array of request headers
 	 * @param string|array $data Data to send either as the POST body, or as parameters in the URL for a GET/HEAD
-	 * @param array $options Request options, see {@see \WpOrg\Requests\Requests::response()} for documentation
+	 * @param array $options Request options, see {@see \FpOrg\Requests\Requests::response()} for documentation
 	 * @return string Raw HTTP result
 	 *
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $url argument is not a string or Stringable.
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $headers argument is not an array.
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $data parameter is not an array or string.
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $options argument is not an array.
-	 * @throws \WpOrg\Requests\Exception       On failure to connect to socket (`fsockopenerror`)
-	 * @throws \WpOrg\Requests\Exception       On socket timeout (`timeout`)
+	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $url argument is not a string or Stringable.
+	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $headers argument is not an array.
+	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $data parameter is not an array or string.
+	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $options argument is not an array.
+	 * @throws \FpOrg\Requests\Exception       On failure to connect to socket (`fsockopenerror`)
+	 * @throws \FpOrg\Requests\Exception       On socket timeout (`timeout`)
 	 */
 	public function request($url, $headers = [], $data = [], $options = []) {
 		if (InputValidator::is_string_or_stringable($url) === false) {
@@ -354,12 +354,12 @@ final class Fsockopen implements Transport {
 	/**
 	 * Send multiple requests simultaneously
 	 *
-	 * @param array $requests Request data (array of 'url', 'headers', 'data', 'options') as per {@see \WpOrg\Requests\Transport::request()}
-	 * @param array $options Global options, see {@see \WpOrg\Requests\Requests::response()} for documentation
-	 * @return array Array of \WpOrg\Requests\Response objects (may contain \WpOrg\Requests\Exception or string responses as well)
+	 * @param array $requests Request data (array of 'url', 'headers', 'data', 'options') as per {@see \FpOrg\Requests\Transport::request()}
+	 * @param array $options Global options, see {@see \FpOrg\Requests\Requests::response()} for documentation
+	 * @return array Array of \FpOrg\Requests\Response objects (may contain \FpOrg\Requests\Exception or string responses as well)
 	 *
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $requests argument is not an array or iterable object with array access.
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $options argument is not an array.
+	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $requests argument is not an array or iterable object with array access.
+	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $options argument is not an array.
 	 */
 	public function request_multiple($requests, $options) {
 		// If you're not requesting, we can't get any responses ¯\_(ツ)_/¯
@@ -475,8 +475,8 @@ final class Fsockopen implements Transport {
 	 * @param resource $context Stream context
 	 * @return bool
 	 *
-	 * @throws \WpOrg\Requests\Exception On failure to connect via TLS (`fsockopen.ssl.connect_error`)
-	 * @throws \WpOrg\Requests\Exception On not obtaining a match for the host (`fsockopen.ssl.no_match`)
+	 * @throws \FpOrg\Requests\Exception On failure to connect via TLS (`fsockopen.ssl.connect_error`)
+	 * @throws \FpOrg\Requests\Exception On not obtaining a match for the host (`fsockopen.ssl.no_match`)
 	 */
 	public function verify_certificate_from_context($host, $context) {
 		$meta = stream_context_get_options($context);
@@ -495,7 +495,7 @@ final class Fsockopen implements Transport {
 	/**
 	 * Self-test whether the transport can be used.
 	 *
-	 * The available capabilities to test for can be found in {@see \WpOrg\Requests\Capability}.
+	 * The available capabilities to test for can be found in {@see \FpOrg\Requests\Capability}.
 	 *
 	 * @codeCoverageIgnore
 	 * @param array<string, bool> $capabilities Optional. Associative array of capabilities to test against, i.e. `['<capability>' => true]`.

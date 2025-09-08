@@ -5,10 +5,10 @@
  * @package Requests\Exceptions
  */
 
-namespace WpOrg\Requests\Exception;
+namespace FpOrg\Requests\Exception;
 
-use WpOrg\Requests\Exception;
-use WpOrg\Requests\Exception\Http\StatusUnknown;
+use FpOrg\Requests\Exception;
+use FpOrg\Requests\Exception\Http\StatusUnknown;
 
 /**
  * Exception based on HTTP response
@@ -68,7 +68,7 @@ class Http extends Exception {
 			return StatusUnknown::class;
 		}
 
-		$class = sprintf('\WpOrg\Requests\Exception\Http\Status%d', $code);
+		$class = sprintf('\FpOrg\Requests\Exception\Http\Status%d', $code);
 		if (class_exists($class)) {
 			return $class;
 		}

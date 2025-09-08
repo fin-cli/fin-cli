@@ -5,12 +5,12 @@
  * @package Requests\Authentication
  */
 
-namespace WpOrg\Requests\Auth;
+namespace FpOrg\Requests\Auth;
 
-use WpOrg\Requests\Auth;
-use WpOrg\Requests\Exception\ArgumentCount;
-use WpOrg\Requests\Exception\InvalidArgument;
-use WpOrg\Requests\Hooks;
+use FpOrg\Requests\Auth;
+use FpOrg\Requests\Exception\ArgumentCount;
+use FpOrg\Requests\Exception\InvalidArgument;
+use FpOrg\Requests\Hooks;
 
 /**
  * Basic Authentication provider
@@ -43,8 +43,8 @@ class Basic implements Auth {
 	 *
 	 * @param array|null $args Array of user and password. Must have exactly two elements
 	 *
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed argument is not an array or null.
-	 * @throws \WpOrg\Requests\Exception\ArgumentCount   On incorrect number of array elements (`authbasicbadargs`).
+	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed argument is not an array or null.
+	 * @throws \FpOrg\Requests\Exception\ArgumentCount   On incorrect number of array elements (`authbasicbadargs`).
 	 */
 	public function __construct($args = null) {
 		if (is_array($args)) {
@@ -64,9 +64,9 @@ class Basic implements Auth {
 	/**
 	 * Register the necessary callbacks
 	 *
-	 * @see \WpOrg\Requests\Auth\Basic::curl_before_send()
-	 * @see \WpOrg\Requests\Auth\Basic::fsockopen_header()
-	 * @param \WpOrg\Requests\Hooks $hooks Hook system
+	 * @see \FpOrg\Requests\Auth\Basic::curl_before_send()
+	 * @see \FpOrg\Requests\Auth\Basic::fsockopen_header()
+	 * @param \FpOrg\Requests\Hooks $hooks Hook system
 	 */
 	public function register(Hooks $hooks) {
 		$hooks->register('curl.before_send', [$this, 'curl_before_send']);

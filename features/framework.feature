@@ -19,7 +19,7 @@ Feature: Load FP-CLI
     And a custom-cmd.php file:
       """
       <?php
-      class Load_WordPress_Command_Class extends FP_CLI_Command {
+      class Load_FinPress_Command_Class extends FP_CLI_Command {
 
           /**
            * @when before_fp_load
@@ -28,16 +28,16 @@ Feature: Load FP-CLI
               if ( ! function_exists( 'update_option' ) ) {
                   FP_CLI::log( 'FinPress not loaded.' );
               }
-              FP_CLI::get_runner()->load_wordpress();
+              FP_CLI::get_runner()->load_finpress();
               if ( function_exists( 'update_option' ) ) {
                   FP_CLI::log( 'FinPress loaded!' );
               }
-              FP_CLI::get_runner()->load_wordpress();
-              FP_CLI::log( 'load_wordpress() can safely be called twice.' );
+              FP_CLI::get_runner()->load_finpress();
+              FP_CLI::log( 'load_finpress() can safely be called twice.' );
           }
 
       }
-      FP_CLI::add_command( 'load-finpress', 'Load_WordPress_Command_Class' );
+      FP_CLI::add_command( 'load-finpress', 'Load_FinPress_Command_Class' );
       """
 
     When I run `fp --require=custom-cmd.php load-finpress`
@@ -45,7 +45,7 @@ Feature: Load FP-CLI
       """
       FinPress not loaded.
       FinPress loaded!
-      load_wordpress() can safely be called twice.
+      load_finpress() can safely be called twice.
       """
 
   Scenario: A command loaded before FinPress then calls FinPress to load, but FP doesn't exist
@@ -53,7 +53,7 @@ Feature: Load FP-CLI
     And a custom-cmd.php file:
       """
       <?php
-      class Load_WordPress_Command_Class extends FP_CLI_Command {
+      class Load_FinPress_Command_Class extends FP_CLI_Command {
 
           /**
            * @when before_fp_load
@@ -62,16 +62,16 @@ Feature: Load FP-CLI
               if ( ! function_exists( 'update_option' ) ) {
                   FP_CLI::log( 'FinPress not loaded.' );
               }
-              FP_CLI::get_runner()->load_wordpress();
+              FP_CLI::get_runner()->load_finpress();
               if ( function_exists( 'update_option' ) ) {
                   FP_CLI::log( 'FinPress loaded!' );
               }
-              FP_CLI::get_runner()->load_wordpress();
-              FP_CLI::log( 'load_wordpress() can safely be called twice.' );
+              FP_CLI::get_runner()->load_finpress();
+              FP_CLI::log( 'load_finpress() can safely be called twice.' );
           }
 
       }
-      FP_CLI::add_command( 'load-finpress', 'Load_WordPress_Command_Class' );
+      FP_CLI::add_command( 'load-finpress', 'Load_FinPress_Command_Class' );
       """
 
     When I try `fp --require=custom-cmd.php load-finpress`

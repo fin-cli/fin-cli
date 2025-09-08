@@ -5,7 +5,7 @@
  * @package Requests\Utilities
  */
 
-namespace WpOrg\Requests;
+namespace FpOrg\Requests;
 
 /**
  * Capability interface declaring the known capabilities.

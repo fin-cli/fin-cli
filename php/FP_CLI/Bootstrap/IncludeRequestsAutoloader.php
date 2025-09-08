@@ -75,12 +75,12 @@ final class IncludeRequestsAutoloader implements BootstrapStep {
 
 		// First try to detect a newer Requests version bundled with FinPress.
 		if ( file_exists( $fp_root . '/fp-includes/Requests/src/Autoload.php' ) ) {
-			if ( ! class_exists( '\\WpOrg\\Requests\\Autoload', false ) ) {
+			if ( ! class_exists( '\\FpOrg\\Requests\\Autoload', false ) ) {
 				require_once $fp_root . '/fp-includes/Requests/src/Autoload.php';
 			}
 
-			if ( class_exists( '\\WpOrg\\Requests\\Autoload' ) ) {
-				\WpOrg\Requests\Autoload::register();
+			if ( class_exists( '\\FpOrg\\Requests\\Autoload' ) ) {
+				\FpOrg\Requests\Autoload::register();
 				$this->store_requests_meta( RequestsLibrary::CLASS_NAME_V2, self::FROM_FP_CORE );
 				return $state;
 			}
@@ -103,13 +103,13 @@ final class IncludeRequestsAutoloader implements BootstrapStep {
 		// Finally, fall back to the Requests version bundled with FP-CLI.
 		$autoloader = new Autoloader();
 		$autoloader->add_namespace(
-			'WpOrg\Requests',
+			'FpOrg\Requests',
 			FP_CLI_ROOT . '/bundle/rmccue/requests/src'
 		);
 
 		$autoloader->register();
 
-		\WpOrg\Requests\Autoload::register();
+		\FpOrg\Requests\Autoload::register();
 
 		$this->store_requests_meta( RequestsLibrary::CLASS_NAME_V2, self::FROM_FP_CLI );
 

@@ -67,7 +67,7 @@ final class RequestsLibrary {
 	 *
 	 * @var string
 	 */
-	const CLASS_NAME_V2 = '\WpOrg\Requests\Requests';
+	const CLASS_NAME_V2 = '\FpOrg\Requests\Requests';
 
 	/**
 	 * Version of the Requests library being used.
@@ -225,14 +225,14 @@ final class RequestsLibrary {
 	 * classes with PHP 5.6. Because of that, we catch generic exceptions, check if
 	 * they match the Requests library, and re-throw them if they do not.
 	 *
-	 * @param \Exception|\Requests_Exception|\WpOrg\Requests\Exception $exception Exception to check.
+	 * @param \Exception|\Requests_Exception|\FpOrg\Requests\Exception $exception Exception to check.
 	 * @return bool Whether the provided exception was issued by the Requests library.
 	 *
-	 * @phpstan-assert-if-true \Requests_Exception|\WpOrg\Requests\Exception $exception
+	 * @phpstan-assert-if-true \Requests_Exception|\FpOrg\Requests\Exception $exception
 	 */
 	public static function is_requests_exception( Exception $exception ) {
 		return is_a( $exception, '\Requests_Exception' )
-			|| is_a( $exception, '\WpOrg\Requests\Exception' );
+			|| is_a( $exception, '\FpOrg\Requests\Exception' );
 	}
 
 	/**
@@ -265,7 +265,7 @@ final class RequestsLibrary {
 					require_once FP_CLI_VENDOR_DIR . '/rmccue/requests/src/Autoload.php';
 				}
 			}
-			\WpOrg\Requests\Autoload::register();
+			\FpOrg\Requests\Autoload::register();
 		}
 	}
 

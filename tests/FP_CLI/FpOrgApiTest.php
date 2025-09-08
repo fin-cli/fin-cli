@@ -1,10 +1,10 @@
 <?php
 
 use FP_CLI\Tests\TestCase;
-use FP_CLI\WpOrgApi;
+use FP_CLI\FpOrgApi;
 use PHPUnit\Framework\Attributes\DataProvider;
 
-class WpOrgApiTest extends TestCase {
+class FpOrgApiTest extends TestCase {
 
 	public static function set_up_before_class() {
 		require_once dirname( __DIR__ ) . '/mock-requests-transport.php';
@@ -148,7 +148,7 @@ class WpOrgApiTest extends TestCase {
 		$options['transport']          = $transport_spy;
 		$expected_options['transport'] = $transport_spy;
 
-		$fp_org_api = new WpOrgApi( $options );
+		$fp_org_api = new FpOrgApi( $options );
 		try {
 			$fp_org_api->$method( ...array_values( $arguments ) );
 		} catch ( RuntimeException $exception ) { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedCatch

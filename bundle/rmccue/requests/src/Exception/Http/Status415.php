@@ -5,9 +5,9 @@
  * @package Requests\Exceptions
  */
 
-namespace WpOrg\Requests\Exception\Http;
+namespace FpOrg\Requests\Exception\Http;
 
-use WpOrg\Requests\Exception\Http;
+use FpOrg\Requests\Exception\Http;
 
 /**
  * Exception for 415 Unsupported Media Type responses

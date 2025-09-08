@@ -5,12 +5,12 @@
  * @package Requests\Utilities
  */
 
-namespace WpOrg\Requests\Utility;
+namespace FpOrg\Requests\Utility;
 
 use ArrayIterator;
 use ReturnTypeWillChange;
-use WpOrg\Requests\Exception\InvalidArgument;
-use WpOrg\Requests\Utility\InputValidator;
+use FpOrg\Requests\Exception\InvalidArgument;
+use FpOrg\Requests\Utility\InputValidator;
 
 /**
  * Iterator for arrays requiring filtered values
@@ -31,7 +31,7 @@ final class FilteredIterator extends ArrayIterator {
 	 * @param array    $data     The array or object to be iterated on.
 	 * @param callable $callback Callback to be called on each value
 	 *
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $data argument is not iterable.
+	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $data argument is not iterable.
 	 */
 	public function __construct($data, $callback) {
 		if (InputValidator::is_iterable($data) === false) {

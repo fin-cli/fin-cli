@@ -5,13 +5,13 @@
  * @package Requests\SessionHandler
  */
 
-namespace WpOrg\Requests;
+namespace FpOrg\Requests;
 
-use WpOrg\Requests\Cookie\Jar;
-use WpOrg\Requests\Exception\InvalidArgument;
-use WpOrg\Requests\Iri;
-use WpOrg\Requests\Requests;
-use WpOrg\Requests\Utility\InputValidator;
+use FpOrg\Requests\Cookie\Jar;
+use FpOrg\Requests\Exception\InvalidArgument;
+use FpOrg\Requests\Iri;
+use FpOrg\Requests\Requests;
+use FpOrg\Requests\Utility\InputValidator;
 
 /**
  * Session handler for persistent requests and default parameters
@@ -71,10 +71,10 @@ class Session {
 	 * @param array $data Default data for requests
 	 * @param array $options Default options for requests
 	 *
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $url argument is not a string, Stringable or null.
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $headers argument is not an array.
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $data argument is not an array.
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $options argument is not an array.
+	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $url argument is not a string, Stringable or null.
+	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $headers argument is not an array.
+	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $data argument is not an array.
+	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $options argument is not an array.
 	 */
 	public function __construct($url = null, $headers = [], $data = [], $options = []) {
 		if ($url !== null && InputValidator::is_string_or_stringable($url) === false) {
@@ -146,11 +146,11 @@ class Session {
 	}
 
 	/**#@+
-	 * @see \WpOrg\Requests\Session::request()
+	 * @see \FpOrg\Requests\Session::request()
 	 * @param string $url
 	 * @param array $headers
 	 * @param array $options
-	 * @return \WpOrg\Requests\Response
+	 * @return \FpOrg\Requests\Response
 	 */
 	/**
 	 * Send a GET request
@@ -175,12 +175,12 @@ class Session {
 	/**#@-*/
 
 	/**#@+
-	 * @see \WpOrg\Requests\Session::request()
+	 * @see \FpOrg\Requests\Session::request()
 	 * @param string $url
 	 * @param array $headers
 	 * @param array $data
 	 * @param array $options
-	 * @return \WpOrg\Requests\Response
+	 * @return \FpOrg\Requests\Response
 	 */
 	/**
 	 * Send a POST request
@@ -199,7 +199,7 @@ class Session {
 	/**
 	 * Send a PATCH request
 	 *
-	 * Note: Unlike {@see \WpOrg\Requests\Session::post()} and {@see \WpOrg\Requests\Session::put()},
+	 * Note: Unlike {@see \FpOrg\Requests\Session::post()} and {@see \FpOrg\Requests\Session::put()},
 	 * `$headers` is required, as the specification recommends that should send an ETag
 	 *
 	 * @link https://tools.ietf.org/html/rfc5789
@@ -215,16 +215,16 @@ class Session {
 	 * This method initiates a request and sends it via a transport before
 	 * parsing.
 	 *
-	 * @see \WpOrg\Requests\Requests::request()
+	 * @see \FpOrg\Requests\Requests::request()
 	 *
 	 * @param string $url URL to request
 	 * @param array $headers Extra headers to send with the request
 	 * @param array|null $data Data to send either as a query string for GET/HEAD requests, or in the body for POST requests
-	 * @param string $type HTTP request type (use \WpOrg\Requests\Requests constants)
-	 * @param array $options Options for the request (see {@see \WpOrg\Requests\Requests::request()})
-	 * @return \WpOrg\Requests\Response
+	 * @param string $type HTTP request type (use \FpOrg\Requests\Requests constants)
+	 * @param array $options Options for the request (see {@see \FpOrg\Requests\Requests::request()})
+	 * @return \FpOrg\Requests\Response
 	 *
-	 * @throws \WpOrg\Requests\Exception On invalid URLs (`nonhttp`)
+	 * @throws \FpOrg\Requests\Exception On invalid URLs (`nonhttp`)
 	 */
 	public function request($url, $headers = [], $data = [], $type = Requests::GET, $options = []) {
 		$request = $this->merge_request(compact('url', 'headers', 'data', 'options'));
@@ -235,14 +235,14 @@ class Session {
 	/**
 	 * Send multiple HTTP requests simultaneously
 	 *
-	 * @see \WpOrg\Requests\Requests::request_multiple()
+	 * @see \FpOrg\Requests\Requests::request_multiple()
 	 *
-	 * @param array $requests Requests data (see {@see \WpOrg\Requests\Requests::request_multiple()})
-	 * @param array $options Global and default options (see {@see \WpOrg\Requests\Requests::request()})
-	 * @return array Responses (either \WpOrg\Requests\Response or a \WpOrg\Requests\Exception object)
+	 * @param array $requests Requests data (see {@see \FpOrg\Requests\Requests::request_multiple()})
+	 * @param array $options Global and default options (see {@see \FpOrg\Requests\Requests::request()})
+	 * @return array Responses (either \FpOrg\Requests\Response or a \FpOrg\Requests\Exception object)
 	 *
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $requests argument is not an array or iterable object with array access.
-	 * @throws \WpOrg\Requests\Exception\InvalidArgument When the passed $options argument is not an array.
+	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $requests argument is not an array or iterable object with array access.
+	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $options argument is not an array.
 	 */
 	public function request_multiple($requests, $options = []) {
 		if (InputValidator::has_array_access($requests) === false || InputValidator::is_iterable($requests) === false) {
@@ -268,7 +268,7 @@ class Session {
 	/**
 	 * Merge a request's data with the default data
 	 *
-	 * @param array $request Request data (same form as {@see \WpOrg\Requests\Session::request_multiple()})
+	 * @param array $request Request data (same form as {@see \FpOrg\Requests\Session::request_multiple()})
 	 * @param boolean $merge_options Should we merge options as well?
 	 * @return array Request data
 	 */

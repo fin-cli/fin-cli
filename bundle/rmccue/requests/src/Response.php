@@ -2,22 +2,22 @@
 /**
  * HTTP response class
  *
- * Contains a response from \WpOrg\Requests\Requests::request()
+ * Contains a response from \FpOrg\Requests\Requests::request()
  *
  * @package Requests
  */
 
-namespace WpOrg\Requests;
+namespace FpOrg\Requests;
 
-use WpOrg\Requests\Cookie\Jar;
-use WpOrg\Requests\Exception;
-use WpOrg\Requests\Exception\Http;
-use WpOrg\Requests\Response\Headers;
+use FpOrg\Requests\Cookie\Jar;
+use FpOrg\Requests\Exception;
+use FpOrg\Requests\Exception\Http;
+use FpOrg\Requests\Response\Headers;
 
 /**
  * HTTP response class
  *
- * Contains a response from \WpOrg\Requests\Requests::request()
+ * Contains a response from \FpOrg\Requests\Requests::request()
  *
  * @package Requests
  */
@@ -40,7 +40,7 @@ class Response {
 	/**
 	 * Headers, as an associative array
 	 *
-	 * @var \WpOrg\Requests\Response\Headers Array-like object representing headers
+	 * @var \FpOrg\Requests\Response\Headers Array-like object representing headers
 	 */
 	public $headers = [];
 
@@ -82,14 +82,14 @@ class Response {
 	/**
 	 * Previous requests (from redirects)
 	 *
-	 * @var array Array of \WpOrg\Requests\Response objects
+	 * @var array Array of \FpOrg\Requests\Response objects
 	 */
 	public $history = [];
 
 	/**
 	 * Cookies from the request
 	 *
-	 * @var \WpOrg\Requests\Cookie\Jar Array-like object representing a cookie jar
+	 * @var \FpOrg\Requests\Cookie\Jar Array-like object representing a cookie jar
 	 */
 	public $cookies = [];
 
@@ -116,8 +116,8 @@ class Response {
 	 *
 	 * @param boolean $allow_redirects Set to false to throw on a 3xx as well
 	 *
-	 * @throws \WpOrg\Requests\Exception If `$allow_redirects` is false, and code is 3xx (`response.no_redirects`)
-	 * @throws \WpOrg\Requests\Exception\Http On non-successful status code. Exception class corresponds to "Status" + code (e.g. {@see \WpOrg\Requests\Exception\Http\Status404})
+	 * @throws \FpOrg\Requests\Exception If `$allow_redirects` is false, and code is 3xx (`response.no_redirects`)
+	 * @throws \FpOrg\Requests\Exception\Http On non-successful status code. Exception class corresponds to "Status" + code (e.g. {@see \FpOrg\Requests\Exception\Http\Status404})
 	 */
 	public function throw_for_status($allow_redirects = true) {
 		if ($this->is_redirect()) {
@@ -150,7 +150,7 @@ class Response {
 	 *
 	 * @return array
 	 *
-	 * @throws \WpOrg\Requests\Exception If `$this->body` is not valid json.
+	 * @throws \FpOrg\Requests\Exception If `$this->body` is not valid json.
 	 */
 	public function decode_body($associative = true, $depth = 512, $options = 0) {
 		$data = json_decode($this->body, $associative, $depth, $options);

@@ -24,7 +24,7 @@ use FP_CLI\Iterators\Transform;
 use FP_CLI\NoOp;
 use FP_CLI\Process;
 use FP_CLI\RequestsLibrary;
-use WpOrg\Requests\Response;
+use FpOrg\Requests\Response;
 
 /**
  * File stream wrapper prefix for Phar archives.
@@ -871,7 +871,7 @@ function http_request( $method, $url, $data = null, $headers = [], $options = []
 	try {
 		try {
 			return $request_method( $url, $headers, $data, $method, $options );
-		} catch ( \Requests_Exception | \WpOrg\Requests\Exception $exception ) {
+		} catch ( \Requests_Exception | \FpOrg\Requests\Exception $exception ) {
 			/**
 			 * @var \CurlHandle $curl_handle
 			 */
@@ -888,7 +888,7 @@ function http_request( $method, $url, $data = null, $headers = [], $options = []
 
 			return $request_method( $url, $headers, $data, $method, $options );
 		}
-	} catch ( \Requests_Exception | \WpOrg\Requests\Exception $exception ) {
+	} catch ( \Requests_Exception | \FpOrg\Requests\Exception $exception ) {
 		/**
 		 * @var \CurlHandle $curl_handle
 		 */
@@ -919,7 +919,7 @@ function http_request( $method, $url, $data = null, $headers = [], $options = []
 
 		try {
 			return $request_method( $url, $headers, $data, $method, $options );
-		} catch ( \Requests_Exception | \WpOrg\Requests\Exception $exception ) {
+		} catch ( \Requests_Exception | \FpOrg\Requests\Exception $exception ) {
 			$error_msg = sprintf( "Failed to get non-verified url '%s' %s.", $url, $exception->getMessage() );
 			if ( $halt_on_error ) {
 				FP_CLI::error( $error_msg );

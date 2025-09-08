@@ -18,13 +18,13 @@ namespace {
 }
 
 namespace {
-	class Requests_Exception extends WpOrg\Requests\Exception {
+	class Requests_Exception extends FpOrg\Requests\Exception {
 	}
 
 	class XCache_Object_Cache {
 	}
 
-	class Requests_Response extends WpOrg\Requests\Response {
+	class Requests_Response extends FpOrg\Requests\Response {
 	}
 
 	class fpdb {
@@ -52,7 +52,7 @@ namespace LCache {
 	}
 }
 
-namespace WpOrg\Requests {
+namespace FpOrg\Requests {
 	class Exception extends \Exception {
 		/**
 		 * Like {@see \Exception::getCode()}, but a string code.
@@ -89,7 +89,7 @@ namespace WpOrg\Requests {
 		/**
 		 * Headers, as an associative array
 		 *
-		 * @var \WpOrg\Requests\Response\Headers Array-like object representing headers
+		 * @var \FpOrg\Requests\Response\Headers Array-like object representing headers
 		 */
 		public $headers = [];
 
@@ -131,7 +131,7 @@ namespace WpOrg\Requests {
 		/**
 		 * Previous requests (from redirects)
 		 *
-		 * @var array Array of \WpOrg\Requests\Response objects
+		 * @var array Array of \FpOrg\Requests\Response objects
 		 */
 		public $history = [];
 
