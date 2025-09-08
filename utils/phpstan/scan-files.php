@@ -1,17 +1,17 @@
 <?php
 
 namespace {
-	define( 'WP_CLI_PHAR_PATH', '' );
-	define( 'WP_CLI_ROOT', '' );
-	define( 'WP_CLI_VERSION', '' );
+	define( 'FP_CLI_PHAR_PATH', '' );
+	define( 'FP_CLI_ROOT', '' );
+	define( 'FP_CLI_VERSION', '' );
 
 	define( 'ABSPATH', '' );
-	define( 'WP_CONTENT_DIR', '' );
-	define( 'WP_PLUGIN_DIR', '' );
-	define( 'WP_DEBUG', true );
-	define( 'WP_DEBUG_DISPLAY', true );
-	define( 'WP_DEBUG_LOG', '' );
-	define( 'WPINC', '' );
+	define( 'FP_CONTENT_DIR', '' );
+	define( 'FP_PLUGIN_DIR', '' );
+	define( 'FP_DEBUG', true );
+	define( 'FP_DEBUG_DISPLAY', true );
+	define( 'FP_DEBUG_LOG', '' );
+	define( 'FPINC', '' );
 	define( 'AUTH_COOKIE', '' );
 	define( 'SECURE_AUTH_COOKIE', '' );
 	define( 'DAY_IN_SECONDS', 1 );
@@ -27,7 +27,7 @@ namespace {
 	class Requests_Response extends WpOrg\Requests\Response {
 	}
 
-	class wpdb {
+	class fpdb {
 		/**
 		 * @param string $text The raw text to be escaped. The input typed by the user
 		 *                      should have no extra or deleted slashes.

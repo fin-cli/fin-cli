@@ -1,15 +1,15 @@
 Requests for PHP
 ================
 
-[![CS](https://github.com/WordPress/Requests/actions/workflows/cs.yml/badge.svg)](https://github.com/WordPress/Requests/actions/workflows/cs.yml)
-[![Lint](https://github.com/WordPress/Requests/actions/workflows/lint.yml/badge.svg)](https://github.com/WordPress/Requests/actions/workflows/lint.yml)
-[![Test](https://github.com/WordPress/Requests/actions/workflows/test.yml/badge.svg)](https://github.com/WordPress/Requests/actions/workflows/test.yml)
-[![codecov.io](https://codecov.io/gh/WordPress/Requests/branch/stable/graph/badge.svg?token=AfpxK7WMxj&branch=stable)](https://codecov.io/gh/WordPress/Requests?branch=stable)
+[![CS](https://github.com/FinPress/Requests/actions/workflows/cs.yml/badge.svg)](https://github.com/FinPress/Requests/actions/workflows/cs.yml)
+[![Lint](https://github.com/FinPress/Requests/actions/workflows/lint.yml/badge.svg)](https://github.com/FinPress/Requests/actions/workflows/lint.yml)
+[![Test](https://github.com/FinPress/Requests/actions/workflows/test.yml/badge.svg)](https://github.com/FinPress/Requests/actions/workflows/test.yml)
+[![codecov.io](https://codecov.io/gh/FinPress/Requests/branch/stable/graph/badge.svg?token=AfpxK7WMxj&branch=stable)](https://codecov.io/gh/FinPress/Requests?branch=stable)
 
 Requests is a HTTP library written in PHP, for human beings. It is roughly
 based on the API from the excellent [Requests Python
 library](http://python-requests.org/). Requests is [ISC
-Licensed](https://github.com/WordPress/Requests/blob/stable/LICENSE) (similar to
+Licensed](https://github.com/FinPress/Requests/blob/stable/LICENSE) (similar to
 the new BSD license) and has no dependencies, except for PHP 5.6+.
 
 Despite PHP's use as a language for the web, its tools for sending HTTP requests
@@ -76,7 +76,7 @@ or
 ### Install source from GitHub
 To install the source code:
 ```bash
-$ git clone git://github.com/WordPress/Requests.git
+$ git clone git://github.com/FinPress/Requests.git
 ```
 
 Next, include the autoloader in your scripts:
@@ -93,13 +93,13 @@ WpOrg\Requests\Autoload::register();
 Alternatively, you can fetch a [tarball][] or [zipball][]:
 
 ```bash
-$ curl -L https://github.com/WordPress/Requests/tarball/stable | tar xzv
+$ curl -L https://github.com/FinPress/Requests/tarball/stable | tar xzv
 (or)
-$ wget https://github.com/WordPress/Requests/tarball/stable -O - | tar xzv
+$ wget https://github.com/FinPress/Requests/tarball/stable -O - | tar xzv
 ```
 
-[tarball]: https://github.com/WordPress/Requests/tarball/stable
-[zipball]: https://github.com/WordPress/Requests/zipball/stable
+[tarball]: https://github.com/FinPress/Requests/tarball/stable
+[zipball]: https://github.com/FinPress/Requests/zipball/stable
 
 
 ### Using a Class Loader
@@ -126,9 +126,9 @@ documented.
 
 Requests is [100% documented with PHPDoc](https://requests.ryanmccue.info/api-2.x/).
 If you find any problems with it, [create a new
-issue](https://github.com/WordPress/Requests/issues/new)!
+issue](https://github.com/FinPress/Requests/issues/new)!
 
-[prose-based documentation]: https://github.com/WordPress/Requests/blob/stable/docs/README.md
+[prose-based documentation]: https://github.com/FinPress/Requests/blob/stable/docs/README.md
 [request_method]: https://requests.ryanmccue.info/api-2.x/classes/WpOrg-Requests-Requests.html#method_request
 
 Testing
@@ -137,7 +137,7 @@ Testing
 Requests strives to have 100% code-coverage of the library with an extensive
 set of tests. We're not quite there yet, but [we're getting close][codecov].
 
-[codecov]: https://codecov.io/github/WordPress/Requests/
+[codecov]: https://codecov.io/github/FinPress/Requests/
 
 To run the test suite, first check that you have the [PHP
 JSON extension ](https://www.php.net/book.json) enabled. Then
@@ -179,8 +179,8 @@ Contribute
 4. Send in a pull request.
 
 If you have questions while working on your contribution and you use Slack, there is
-a [#core-http-api] channel available in the [WordPress Slack] in which contributions can be discussed.
+a [#core-http-api] channel available in the [FinPress Slack] in which contributions can be discussed.
 
-[the repository]: https://github.com/WordPress/Requests
-[#core-http-api]: https://wordpress.slack.com/archives/C02BBE29V42
-[WordPress Slack]: https://make.wordpress.org/chat/
+[the repository]: https://github.com/FinPress/Requests
+[#core-http-api]: https://finpress.slack.com/archives/C02BBE29V42
+[FinPress Slack]: https://make.finpress.org/chat/

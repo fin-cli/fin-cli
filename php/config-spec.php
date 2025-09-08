@@ -4,7 +4,7 @@ return [
 	'path'              => [
 		'runtime' => '=<path>',
 		'file'    => '<path>',
-		'desc'    => 'Path to the WordPress files.',
+		'desc'    => 'Path to the FinPress files.',
 	],
 
 	'url'               => [
@@ -22,7 +22,7 @@ return [
 	'http'              => [
 		'runtime' => '=<http>',
 		'file'    => '<http>',
-		'desc'    => 'Perform operation against a remote WordPress installation over HTTP.',
+		'desc'    => 'Perform operation against a remote FinPress installation over HTTP.',
 	],
 
 	'blog'              => [
@@ -33,7 +33,7 @@ return [
 	'user'              => [
 		'runtime' => '=<id|login|email>',
 		'file'    => '<id|login|email>',
-		'desc'    => 'Set the WordPress user.',
+		'desc'    => 'Set the FinPress user.',
 	],
 
 	'skip-plugins'      => [
@@ -77,7 +77,7 @@ return [
 		'runtime' => '=<context>',
 		'file'    => '<context>',
 		'default' => 'cli',
-		'desc'    => 'Load WordPress in a given context.',
+		'desc'    => 'Load FinPress in a given context.',
 	],
 
 	'disabled_commands' => [
@@ -97,7 +97,7 @@ return [
 		'runtime' => '[=<group>]',
 		'file'    => '<group>',
 		'default' => false,
-		'desc'    => 'Show all PHP errors and add verbosity to WP-CLI output. Built-in groups include: bootstrap, commandfactory, and help.',
+		'desc'    => 'Show all PHP errors and add verbosity to FP-CLI output. Built-in groups include: bootstrap, commandfactory, and help.',
 	],
 
 	'prompt'            => [
@@ -121,7 +121,7 @@ return [
 		'default'  => [],
 	],
 
-	# --allow-root => (NOT RECOMMENDED) Allow wp-cli to run as root. This poses
+	# --allow-root => (NOT RECOMMENDED) Allow fp-cli to run as root. This poses
 	# a security risk, so you probably do not want to do this.
 	'allow-root'        => [
 		'file'    => false, # Explicit. Just in case the default changes.

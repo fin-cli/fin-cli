@@ -8,10 +8,10 @@ if ( 'cli' !== PHP_SAPI ) {
 }
 
 if ( version_compare( PHP_VERSION, '7.2.24', '<' ) ) {
-	printf( "Error: WP-CLI requires PHP %s or newer. You are running version %s.\n", '7.2.24', PHP_VERSION );
+	printf( "Error: FP-CLI requires PHP %s or newer. You are running version %s.\n", '7.2.24', PHP_VERSION );
 	die( -1 );
 }
 
-define( 'WP_CLI_ROOT', dirname( __DIR__ ) );
+define( 'FP_CLI_ROOT', dirname( __DIR__ ) );
 
-require_once WP_CLI_ROOT . '/php/wp-cli.php';
+require_once FP_CLI_ROOT . '/php/fp-cli.php';

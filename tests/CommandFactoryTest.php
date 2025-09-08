@@ -1,12 +1,12 @@
 <?php
 
-use WP_CLI\Tests\TestCase;
+use FP_CLI\Tests\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 class CommandFactoryTest extends TestCase {
 
 	public static function set_up_before_class() {
-		require_once dirname( __DIR__ ) . '/php/class-wp-cli-command.php';
+		require_once dirname( __DIR__ ) . '/php/class-fp-cli-command.php';
 	}
 
 	/**
@@ -15,12 +15,12 @@ class CommandFactoryTest extends TestCase {
 	#[DataProvider( 'dataProviderExtractLastDocComment' )] // phpcs:ignore PHPCompatibility.Attributes.NewAttributes.PHPUnitAttributeFound
 	public function testExtractLastDocComment( $content, $expected ): void {
 		// Save and set test env var.
-		$is_windows = getenv( 'WP_CLI_TEST_IS_WINDOWS' );
-		putenv( 'WP_CLI_TEST_IS_WINDOWS=0' );
+		$is_windows = getenv( 'FP_CLI_TEST_IS_WINDOWS' );
+		putenv( 'FP_CLI_TEST_IS_WINDOWS=0' );
 
 		static $extract_last_doc_comment = null;
 		if ( null === $extract_last_doc_comment ) {
-			$extract_last_doc_comment = new \ReflectionMethod( 'WP_CLI\Dispatcher\CommandFactory', 'extract_last_doc_comment' );
+			$extract_last_doc_comment = new \ReflectionMethod( 'FP_CLI\Dispatcher\CommandFactory', 'extract_last_doc_comment' );
 			if ( PHP_VERSION_ID < 80100 ) {
 				$extract_last_doc_comment->setAccessible( true );
 			}
@@ -30,7 +30,7 @@ class CommandFactoryTest extends TestCase {
 		$this->assertSame( $expected, $actual );
 
 		// Restore.
-		putenv( false === $is_windows ? 'WP_CLI_TEST_IS_WINDOWS' : "WP_CLI_TEST_IS_WINDOWS=$is_windows" );
+		putenv( false === $is_windows ? 'FP_CLI_TEST_IS_WINDOWS' : "FP_CLI_TEST_IS_WINDOWS=$is_windows" );
 	}
 
 	/**
@@ -39,12 +39,12 @@ class CommandFactoryTest extends TestCase {
 	#[DataProvider( 'dataProviderExtractLastDocComment' )] // phpcs:ignore PHPCompatibility.Attributes.NewAttributes.PHPUnitAttributeFound
 	public function testExtractLastDocCommentWin( $content, $expected ): void {
 		// Save and set test env var.
-		$is_windows = getenv( 'WP_CLI_TEST_IS_WINDOWS' );
-		putenv( 'WP_CLI_TEST_IS_WINDOWS=1' );
+		$is_windows = getenv( 'FP_CLI_TEST_IS_WINDOWS' );
+		putenv( 'FP_CLI_TEST_IS_WINDOWS=1' );
 
 		static $extract_last_doc_comment = null;
 		if ( null === $extract_last_doc_comment ) {
-			$extract_last_doc_comment = new \ReflectionMethod( 'WP_CLI\Dispatcher\CommandFactory', 'extract_last_doc_comment' );
+			$extract_last_doc_comment = new \ReflectionMethod( 'FP_CLI\Dispatcher\CommandFactory', 'extract_last_doc_comment' );
 			if ( PHP_VERSION_ID < 80100 ) {
 				$extract_last_doc_comment->setAccessible( true );
 			}
@@ -54,7 +54,7 @@ class CommandFactoryTest extends TestCase {
 		$this->assertSame( $expected, $actual );
 
 		// Restore.
-		putenv( false === $is_windows ? 'WP_CLI_TEST_IS_WINDOWS' : "WP_CLI_TEST_IS_WINDOWS=$is_windows" );
+		putenv( false === $is_windows ? 'FP_CLI_TEST_IS_WINDOWS' : "FP_CLI_TEST_IS_WINDOWS=$is_windows" );
 	}
 
 	public static function dataProviderExtractLastDocComment(): array {
@@ -91,14 +91,14 @@ class CommandFactoryTest extends TestCase {
 
 	public function testGetDocComment(): void {
 		// Save and set test env var.
-		$_get_doc_comment = getenv( 'WP_CLI_TEST_GET_DOC_COMMENT' );
-		$_is_windows      = getenv( 'WP_CLI_TEST_IS_WINDOWS' );
+		$_get_doc_comment = getenv( 'FP_CLI_TEST_GET_DOC_COMMENT' );
+		$_is_windows      = getenv( 'FP_CLI_TEST_IS_WINDOWS' );
 
-		putenv( 'WP_CLI_TEST_GET_DOC_COMMENT=1' );
-		putenv( 'WP_CLI_TEST_IS_WINDOWS=0' );
+		putenv( 'FP_CLI_TEST_GET_DOC_COMMENT=1' );
+		putenv( 'FP_CLI_TEST_IS_WINDOWS=0' );
 
 		// Make private function accessible.
-		$get_doc_comment = new \ReflectionMethod( 'WP_CLI\Dispatcher\CommandFactory', 'get_doc_comment' );
+		$get_doc_comment = new \ReflectionMethod( 'FP_CLI\Dispatcher\CommandFactory', 'get_doc_comment' );
 		if ( PHP_VERSION_ID < 80100 ) {
 			$get_doc_comment->setAccessible( true );
 		}
@@ -260,20 +260,20 @@ class CommandFactoryTest extends TestCase {
 		$this->assertSame( $expected, $actual );
 
 		// Restore.
-		putenv( false === $_get_doc_comment ? 'WP_CLI_TEST_GET_DOC_COMMENT' : "WP_CLI_TEST_GET_DOC_COMMENT=$_get_doc_comment" );
-		putenv( false === $_is_windows ? 'WP_CLI_TEST_IS_WINDOWS' : "WP_CLI_TEST_IS_WINDOWS=$_is_windows" );
+		putenv( false === $_get_doc_comment ? 'FP_CLI_TEST_GET_DOC_COMMENT' : "FP_CLI_TEST_GET_DOC_COMMENT=$_get_doc_comment" );
+		putenv( false === $_is_windows ? 'FP_CLI_TEST_IS_WINDOWS' : "FP_CLI_TEST_IS_WINDOWS=$_is_windows" );
 	}
 
 	public function testGetDocCommentWin(): void {
 		// Save and set test env var.
-		$_get_doc_comment = getenv( 'WP_CLI_TEST_GET_DOC_COMMENT' );
-		$_is_windows      = getenv( 'WP_CLI_TEST_IS_WINDOWS' );
+		$_get_doc_comment = getenv( 'FP_CLI_TEST_GET_DOC_COMMENT' );
+		$_is_windows      = getenv( 'FP_CLI_TEST_IS_WINDOWS' );
 
-		putenv( 'WP_CLI_TEST_GET_DOC_COMMENT=1' );
-		putenv( 'WP_CLI_TEST_IS_WINDOWS=1' );
+		putenv( 'FP_CLI_TEST_GET_DOC_COMMENT=1' );
+		putenv( 'FP_CLI_TEST_IS_WINDOWS=1' );
 
 		// Make private function accessible.
-		$get_doc_comment = new \ReflectionMethod( 'WP_CLI\Dispatcher\CommandFactory', 'get_doc_comment' );
+		$get_doc_comment = new \ReflectionMethod( 'FP_CLI\Dispatcher\CommandFactory', 'get_doc_comment' );
 		if ( PHP_VERSION_ID < 80100 ) {
 			$get_doc_comment->setAccessible( true );
 		}
@@ -435,7 +435,7 @@ class CommandFactoryTest extends TestCase {
 		$this->assertSame( $expected, $actual );
 
 		// Restore.
-		putenv( false === $_get_doc_comment ? 'WP_CLI_TEST_GET_DOC_COMMENT' : "WP_CLI_TEST_GET_DOC_COMMENT=$_get_doc_comment" );
-		putenv( false === $_is_windows ? 'WP_CLI_TEST_IS_WINDOWS' : "WP_CLI_TEST_IS_WINDOWS=$_is_windows" );
+		putenv( false === $_get_doc_comment ? 'FP_CLI_TEST_GET_DOC_COMMENT' : "FP_CLI_TEST_GET_DOC_COMMENT=$_get_doc_comment" );
+		putenv( false === $_is_windows ? 'FP_CLI_TEST_IS_WINDOWS' : "FP_CLI_TEST_IS_WINDOWS=$_is_windows" );
 	}
 }

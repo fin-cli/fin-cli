@@ -1,10 +1,10 @@
 <?php
 // phpcs:disable Generic.Files.OneObjectStructurePerFile.MultipleFound -- Ignoring test doubles.
-// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Ignoring test doubles.
+// phpcs:disable FinPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Ignoring test doubles.
 
-use WP_CLI\Tests\TestCase;
+use FP_CLI\Tests\TestCase;
 
-class MockRegularLogger extends WP_CLI\Loggers\Regular {
+class MockRegularLogger extends FP_CLI\Loggers\Regular {
 
 	protected function get_runner() {
 		// @phpstan-ignore return.type
@@ -20,7 +20,7 @@ class MockRegularLogger extends WP_CLI\Loggers\Regular {
 	}
 }
 
-class MockQuietLogger extends WP_CLI\Loggers\Quiet {
+class MockQuietLogger extends FP_CLI\Loggers\Quiet {
 
 	protected function get_runner() {
 		// @phpstan-ignore return.type
@@ -57,7 +57,7 @@ class LoggingTest extends TestCase {
 
 	public function testExecutionLogger(): void {
 		// Save Runner config.
-		$runner        = WP_CLI::get_runner();
+		$runner        = FP_CLI::get_runner();
 		$runner_config = new \ReflectionProperty( $runner, 'config' );
 		if ( PHP_VERSION_ID < 80100 ) {
 			$runner_config->setAccessible( true );
@@ -68,7 +68,7 @@ class LoggingTest extends TestCase {
 		// Set debug.
 		$runner_config->setValue( $runner, [ 'debug' => true ] );
 
-		$logger = new WP_CLI\Loggers\Execution();
+		$logger = new FP_CLI\Loggers\Execution();
 
 		// Standard use.
 

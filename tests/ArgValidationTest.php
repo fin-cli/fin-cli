@@ -1,7 +1,7 @@
 <?php
 
-use WP_CLI\SynopsisValidator;
-use WP_CLI\Tests\TestCase;
+use FP_CLI\SynopsisValidator;
+use FP_CLI\Tests\TestCase;
 
 class ArgValidationTest extends TestCase {
 

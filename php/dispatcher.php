@@ -1,6 +1,6 @@
 <?php
 
-namespace WP_CLI\Dispatcher;
+namespace FP_CLI\Dispatcher;
 
 /**
  * Get the path to a command, e.g. "core download"

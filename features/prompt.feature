@@ -13,10 +13,10 @@ Feature: Prompt user for input
        * [--flag]
        * : An optional flag
        *
-       * @when before_wp_load
+       * @when before_fp_load
        */
-      WP_CLI::add_command( 'test-prompt', function( $_, $assoc_args ){
-        var_dump( WP_CLI\Utils\get_flag_value( $assoc_args, 'flag' ) );
+      FP_CLI::add_command( 'test-prompt', function( $_, $assoc_args ){
+        var_dump( FP_CLI\Utils\get_flag_value( $assoc_args, 'flag' ) );
       });
       """
     And a uppercase-session file:
@@ -27,19 +27,19 @@ Feature: Prompt user for input
       """
       y
       """
-    And a wp-cli.yml file:
+    And a fp-cli.yml file:
       """
       require:
         - cmd.php
       """
 
-    When I run `wp test-prompt --prompt < uppercase-session`
+    When I run `fp test-prompt --prompt < uppercase-session`
     Then STDOUT should contain:
       """
       bool(true)
       """
 
-    When I run `wp test-prompt --prompt < lowercase-session`
+    When I run `fp test-prompt --prompt < lowercase-session`
     Then STDOUT should contain:
       """
       bool(true)
@@ -64,20 +64,20 @@ Feature: Prompt user for input
        * [--flag2=<value>]
        * : An optional flag
        *
-       * @when before_wp_load
+       * @when before_fp_load
        */
-      WP_CLI::add_command( 'foobar', function( $_, $assoc_args ) {
-        WP_CLI::line( 'arg: ' . $_[0] );
-        WP_CLI::line( 'flag1: ' . $assoc_args['flag1'] );
+      FP_CLI::add_command( 'foobar', function( $_, $assoc_args ) {
+        FP_CLI::line( 'arg: ' . $_[0] );
+        FP_CLI::line( 'flag1: ' . $assoc_args['flag1'] );
       } );
       """
-    And a wp-cli.yml file:
+    And a fp-cli.yml file:
       """
       require:
         - command-foobar.php
       """
 
-    When I run `echo 'bar' | wp foobar foo --prompt=flag1`
+    When I run `echo 'bar' | fp foobar foo --prompt=flag1`
     Then the return code should be 0
     And STDERR should be empty
     And STDOUT should contain:
@@ -89,10 +89,10 @@ Feature: Prompt user for input
       flag1: bar
       """
 
-    When I run `wp foobar foo --prompt --help`
+    When I run `fp foobar foo --prompt --help`
     Then STDOUT should contain:
       """
-      wp foobar
+      fp foobar
       """
     And STDERR should be empty
 
@@ -121,14 +121,14 @@ Feature: Prompt user for input
        * [--flag3=<value>]
        * : A flag.
        *
-       * @when before_wp_load
+       * @when before_fp_load
        */
-      WP_CLI::add_command( 'test-prompt', function( $args, $assoc_args ) {
-        WP_CLI::line( 'arg1: ' . $args[0] );
-        WP_CLI::line( 'arg2: ' . $args[1] );
-        WP_CLI::line( 'flag1: ' . $assoc_args['flag1'] );
-        WP_CLI::line( 'flag2: ' . $assoc_args['flag2'] );
-        WP_CLI::line( 'flag3: ' . $assoc_args['flag3'] );
+      FP_CLI::add_command( 'test-prompt', function( $args, $assoc_args ) {
+        FP_CLI::line( 'arg1: ' . $args[0] );
+        FP_CLI::line( 'arg2: ' . $args[1] );
+        FP_CLI::line( 'flag1: ' . $assoc_args['flag1'] );
+        FP_CLI::line( 'flag2: ' . $assoc_args['flag2'] );
+        FP_CLI::line( 'flag3: ' . $assoc_args['flag3'] );
       } );
       """
     And a value-file file:
@@ -136,13 +136,13 @@ Feature: Prompt user for input
       positional2
       value2
       """
-    And a wp-cli.yml file:
+    And a fp-cli.yml file:
       """
       require:
         - cmd.php
       """
 
-    When I run `wp test-prompt positional1 --flag1=value1 --flag3=value3 --prompt < value-file`
+    When I run `fp test-prompt positional1 --flag1=value1 --flag3=value3 --prompt < value-file`
     Then the return code should be 0
     And STDERR should be empty
     And STDOUT should contain:
@@ -167,7 +167,7 @@ Feature: Prompt user for input
       """
 
   Scenario: Prompt should show full command after inputs
-    Given a WP installation
+    Given a FP installation
     And a value-file file:
       """
       post_type
@@ -177,16 +177,16 @@ Feature: Prompt user for input
       post_title,post_name,post_status
       csv
       """
-    When I run `wp post create --post_title='Publish post' --post_content='Publish post content' --post_status='publish'`
+    When I run `fp post create --post_title='Publish post' --post_content='Publish post content' --post_status='publish'`
     Then STDOUT should not be empty
 
-    When I run `wp post create --post_title='Publish post 2' --post_content='Publish post content' --post_status='publish'`
+    When I run `fp post create --post_title='Publish post 2' --post_content='Publish post content' --post_status='publish'`
     Then STDOUT should not be empty
 
-    When I run `wp post list --prompt < value-file`
+    When I run `fp post list --prompt < value-file`
     Then STDOUT should contain:
       """
-      wp post list --post_type='post' --fields='post_title,post_name,post_status' --format='csv'
+      fp post list --post_type='post' --fields='post_title,post_name,post_status' --format='csv'
       """
     And STDOUT should contain:
       """
@@ -206,7 +206,7 @@ Feature: Prompt user for input
       """
 
   Scenario: Prompt should show positional arguments
-    Given a WP installation
+    Given a FP installation
     And a value-file file:
       """
       category
@@ -217,10 +217,10 @@ Feature: Prompt user for input
 
       """
 
-    When I run `wp term create --prompt < value-file`
+    When I run `fp term create --prompt < value-file`
     Then STDOUT should contain:
       """
-      wp term create 'category' 'General' --slug='general'
+      fp term create 'category' 'General' --slug='general'
       """
     And STDOUT should contain:
       """

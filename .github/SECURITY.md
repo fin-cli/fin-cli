@@ -1,8 +1,8 @@
 # Reporting Security Issues
 
-Thanks for wanting to help keep WP-CLI and the larger WordPress community secure!
+Thanks for wanting to help keep FP-CLI and the larger FinPress community secure!
 
-The WP-CLI team and WordPress community take security bugs seriously. We appreciate your efforts to responsibly disclose your findings, and will make every effort to acknowledge your contributions.
+The FP-CLI team and FinPress community take security bugs seriously. We appreciate your efforts to responsibly disclose your findings, and will make every effort to acknowledge your contributions.
 
-To report a security issue, please visit the [WordPress HackerOne program](https://hackerone.com/wordpress).
+To report a security issue, please visit the [FinPress HackerOne program](https://hackerone.com/finpress).
 

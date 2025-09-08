@@ -1,15 +1,15 @@
 <?php
 
-namespace WP_CLI;
+namespace FP_CLI;
 
-use WP_CLI\Bootstrap\BootstrapState;
-use WP_CLI\Bootstrap\BootstrapStep;
+use FP_CLI\Bootstrap\BootstrapState;
+use FP_CLI\Bootstrap\BootstrapStep;
 
 /**
- * Get the list of ordered steps that need to be processed to bootstrap WP-CLI.
+ * Get the list of ordered steps that need to be processed to bootstrap FP-CLI.
  *
  * Each entry is a fully qualified class name for a class implementing the
- * `WP_CLI\Bootstrap\BootstrapStep` interface.
+ * `FP_CLI\Bootstrap\BootstrapStep` interface.
  *
  * @return string[]
  */
@@ -45,13 +45,13 @@ function get_bootstrap_steps() {
  * custom autoloader to fetch the bootstrap classes in a flexible way.
  */
 function prepare_bootstrap() {
-	require_once WP_CLI_ROOT . '/php/WP_CLI/Autoloader.php';
+	require_once FP_CLI_ROOT . '/php/FP_CLI/Autoloader.php';
 
 	$autoloader = new Autoloader();
 
 	$autoloader->add_namespace(
-		'WP_CLI\Bootstrap',
-		WP_CLI_ROOT . '/php/WP_CLI/Bootstrap'
+		'FP_CLI\Bootstrap',
+		FP_CLI_ROOT . '/php/FP_CLI/Bootstrap'
 	)->register();
 }
 
@@ -76,8 +76,8 @@ function bootstrap() {
 
 	foreach ( get_bootstrap_steps() as $step ) {
 		/** @var BootstrapStep $step_instance */
-		if ( class_exists( 'WP_CLI' ) ) {
-			\WP_CLI::debug( "Processing bootstrap step: {$step}", 'bootstrap' );
+		if ( class_exists( 'FP_CLI' ) ) {
+			\FP_CLI::debug( "Processing bootstrap step: {$step}", 'bootstrap' );
 		}
 
 		/**

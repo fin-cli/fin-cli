@@ -1,28 +1,28 @@
 {
-    "name": "wp-cli/wp-cli",
-    "description": "WP-CLI framework",
+    "name": "fp-cli/fp-cli",
+    "description": "FP-CLI framework",
     "keywords": [
         "cli",
-        "wordpress"
+        "finpress"
     ],
-    "homepage": "https://wp-cli.org",
+    "homepage": "https://fp-cli.org",
     "license": "MIT",
     "require": {
         "php": ">=7.2.24 || ^8.0",
         "ext-curl": "*",
         "mustache/mustache": "^3.0.0",
         "symfony/finder": ">2.7",
-        "wp-cli/mustangostang-spyc": "^0.6.3",
-        "wp-cli/php-cli-tools": "~0.12.4"
+        "fp-cli/mustangostang-spyc": "^0.6.3",
+        "fp-cli/php-cli-tools": "~0.12.4"
     },
     "require-dev": {
         "justinrainbow/json-schema": "^6.3",
         "roave/security-advisories": "dev-latest",
-        "wp-cli/db-command": "^1.3 || ^2",
-        "wp-cli/entity-command": "^1.2 || ^2",
-        "wp-cli/extension-command": "^1.1 || ^2",
-        "wp-cli/package-command": "^1 || ^2",
-        "wp-cli/wp-cli-tests": "^4"
+        "fp-cli/db-command": "^1.3 || ^2",
+        "fp-cli/entity-command": "^1.2 || ^2",
+        "fp-cli/extension-command": "^1.1 || ^2",
+        "fp-cli/package-command": "^1 || ^2",
+        "fp-cli/fp-cli-tests": "^4"
     },
     "suggest": {
         "ext-readline": "Include for a better --prompt implementation",
@@ -31,7 +31,7 @@
     "config": {
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true,
-            "johnpbloch/wordpress-core-installer": true,
+            "johnpbloch/finpress-core-installer": true,
             "phpstan/extension-installer": true
         },
         "process-timeout": 7200,
@@ -45,18 +45,18 @@
     },
     "autoload": {
         "psr-0": {
-            "WP_CLI\\": "php/"
+            "FP_CLI\\": "php/"
         },
         "classmap": [
-            "php/class-wp-cli.php",
-            "php/class-wp-cli-command.php"
+            "php/class-fp-cli.php",
+            "php/class-fp-cli-command.php"
         ]
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "bin": [
-        "bin/wp",
-        "bin/wp.bat"
+        "bin/fp",
+        "bin/fp.bat"
     ],
     "scripts": {
         "behat": "run-behat-tests",
@@ -76,8 +76,8 @@
         ]
     },
     "support": {
-        "issues": "https://github.com/wp-cli/wp-cli/issues",
-        "source": "https://github.com/wp-cli/wp-cli",
-        "docs": "https://make.wordpress.org/cli/handbook/"
+        "issues": "https://github.com/fp-cli/fp-cli/issues",
+        "source": "https://github.com/fp-cli/fp-cli",
+        "docs": "https://make.finpress.org/cli/handbook/"
     }
 }

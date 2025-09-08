@@ -1,54 +1,54 @@
 <?php
 
 /**
- * Retrieves, sets and updates aliases for WordPress Installations.
+ * Retrieves, sets and updates aliases for FinPress Installations.
  */
 
 use Mustangostang\Spyc;
-use WP_CLI\ExitException;
-use WP_CLI\Utils;
+use FP_CLI\ExitException;
+use FP_CLI\Utils;
 
 /**
- * Retrieves, sets and updates aliases for WordPress Installations.
+ * Retrieves, sets and updates aliases for FinPress Installations.
  *
- * Aliases are shorthand references to WordPress installs. For instance,
+ * Aliases are shorthand references to FinPress installs. For instance,
  * `@dev` could refer to a development install and `@prod` could refer to a production install.
  * This command gives you and option to add, update and delete, the registered aliases you have available.
  *
  * ## EXAMPLES
  *
  *     # List alias information.
- *     $ wp cli alias list
+ *     $ fp cli alias list
  *     list
  *     ---
  *     @all: Run command against every registered alias.
  *     @local:
- *       user: wpcli
- *       path: /Users/wpcli/sites/testsite
+ *       user: fpcli
+ *       path: /Users/fpcli/sites/testsite
  *
  *     # Get alias information.
- *     $ wp cli alias get @dev
+ *     $ fp cli alias get @dev
  *     ssh: dev@somedeve.env:12345/home/dev/
  *
  *     # Add alias.
- *     $ wp cli alias add @prod --set-ssh=login@host --set-path=/path/to/wordpress/install/ --set-user=wpcli
+ *     $ fp cli alias add @prod --set-ssh=login@host --set-path=/path/to/finpress/install/ --set-user=fpcli
  *     Success: Added '@prod' alias.
  *
  *     # Update alias.
- *     $ wp cli alias update @prod --set-user=newuser --set-path=/new/path/to/wordpress/install/
+ *     $ fp cli alias update @prod --set-user=newuser --set-path=/new/path/to/finpress/install/
  *     Success: Updated 'prod' alias.
  *
  *     # Delete alias.
- *     $ wp cli alias delete @prod
+ *     $ fp cli alias delete @prod
  *     Success: Deleted '@prod' alias.
  *
- * @package wp-cli
- * @when    before_wp_load
+ * @package fp-cli
+ * @when    before_fp_load
  */
-class CLI_Alias_Command extends WP_CLI_Command {
+class CLI_Alias_Command extends FP_CLI_Command {
 
 	/**
-	 * Lists available WP-CLI aliases.
+	 * Lists available FP-CLI aliases.
 	 *
 	 * ## OPTIONS
 	 *
@@ -65,7 +65,7 @@ class CLI_Alias_Command extends WP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # List all available aliases.
-	 *     $ wp cli alias list
+	 *     $ fp cli alias list
 	 *     ---
 	 *     @all: Run command against every registered alias.
 	 *     @prod:
@@ -82,7 +82,7 @@ class CLI_Alias_Command extends WP_CLI_Command {
 	 * @param array{format: string} $assoc_args Associative arguments.
 	 */
 	public function list_( $args, $assoc_args ) {
-		WP_CLI::print_value( WP_CLI::get_runner()->aliases, $assoc_args );
+		FP_CLI::print_value( FP_CLI::get_runner()->aliases, $assoc_args );
 	}
 
 	/**
@@ -96,7 +96,7 @@ class CLI_Alias_Command extends WP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # Get alias.
-	 *     $ wp cli alias get @prod
+	 *     $ fp cli alias get @prod
 	 *     ssh: dev@somedeve.env:12345/home/dev/
 	 *
 	 * @param array{string} $args Positional arguments.
@@ -104,14 +104,14 @@ class CLI_Alias_Command extends WP_CLI_Command {
 	public function get( $args ) {
 		list( $alias ) = $args;
 
-		$aliases = WP_CLI::get_runner()->aliases;
+		$aliases = FP_CLI::get_runner()->aliases;
 
 		if ( empty( $aliases[ $alias ] ) ) {
-			WP_CLI::error( "No alias found with key '{$alias}'." );
+			FP_CLI::error( "No alias found with key '{$alias}'." );
 		}
 
 		foreach ( $aliases[ $alias ] as $key => $value ) {
-			WP_CLI::log( "{$key}: {$value}" );
+			FP_CLI::log( "{$key}: {$value}" );
 		}
 	}
 
@@ -153,15 +153,15 @@ class CLI_Alias_Command extends WP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # Add alias to global config.
-	 *     $ wp cli alias add @prod  --set-ssh=login@host --set-path=/path/to/wordpress/install/ --set-user=wpcli
+	 *     $ fp cli alias add @prod  --set-ssh=login@host --set-path=/path/to/finpress/install/ --set-user=fpcli
 	 *     Success: Added '@prod' alias.
 	 *
 	 *     # Add alias to project config.
-	 *     $ wp cli alias add @prod --set-ssh=login@host --set-path=/path/to/wordpress/install/ --set-user=wpcli --config=project
+	 *     $ fp cli alias add @prod --set-ssh=login@host --set-path=/path/to/finpress/install/ --set-user=fpcli --config=project
 	 *     Success: Added '@prod' alias.
 	 *
 	 *     # Add group of aliases.
-	 *     $ wp cli alias add @multiservers --grouping=servera,serverb
+	 *     $ fp cli alias add @multiservers --grouping=servera,serverb
 	 *     Success: Added '@multiservers' alias.
 	 *
 	 * @param array{string} $args Positional arguments.
@@ -185,7 +185,7 @@ class CLI_Alias_Command extends WP_CLI_Command {
 		$this->validate_input( $assoc_args, $grouping );
 
 		if ( isset( $aliases[ $alias ] ) ) {
-			WP_CLI::error( "Key '{$alias}' exists already." );
+			FP_CLI::error( "Key '{$alias}' exists already." );
 		}
 
 		if ( null === $grouping ) {
@@ -216,11 +216,11 @@ class CLI_Alias_Command extends WP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # Delete alias.
-	 *     $ wp cli alias delete @prod
+	 *     $ fp cli alias delete @prod
 	 *     Success: Deleted '@prod' alias.
 	 *
 	 *     # Delete project alias.
-	 *     $ wp cli alias delete @prod --config=project
+	 *     $ fp cli alias delete @prod --config=project
 	 *     Success: Deleted '@prod' alias.
 	 *
 	 * @param array{string}          $args       Positional arguments.
@@ -237,7 +237,7 @@ class CLI_Alias_Command extends WP_CLI_Command {
 		$this->validate_config_file( $config_path );
 
 		if ( empty( $aliases[ $alias ] ) ) {
-			WP_CLI::error( "No alias found with key '{$alias}'." );
+			FP_CLI::error( "No alias found with key '{$alias}'." );
 		}
 
 		unset( $aliases[ $alias ] );
@@ -281,11 +281,11 @@ class CLI_Alias_Command extends WP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # Update alias.
-	 *     $ wp cli alias update @prod --set-user=newuser --set-path=/new/path/to/wordpress/install/
+	 *     $ fp cli alias update @prod --set-user=newuser --set-path=/new/path/to/finpress/install/
 	 *     Success: Updated 'prod' alias.
 	 *
 	 *     # Update project alias.
-	 *     $ wp cli alias update @prod --set-user=newuser --set-path=/new/path/to/wordpress/install/ --config=project
+	 *     $ fp cli alias update @prod --set-user=newuser --set-path=/new/path/to/finpress/install/ --config=project
 	 *     Success: Updated 'prod' alias.
 	 *
 	 * @param array{string} $args Positional arguments.
@@ -308,7 +308,7 @@ class CLI_Alias_Command extends WP_CLI_Command {
 		$this->validate_input( $assoc_args, $grouping );
 
 		if ( empty( $aliases[ $alias ] ) ) {
-			WP_CLI::error( "No alias found with key '{$alias}'." );
+			FP_CLI::error( "No alias found with key '{$alias}'." );
 		}
 
 		if ( null === $grouping ) {
@@ -331,7 +331,7 @@ class CLI_Alias_Command extends WP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # Checks whether the alias is a group; exit status 0 if it is, otherwise 1.
-	 *     $ wp cli alias is-group @prod
+	 *     $ fp cli alias is-group @prod
 	 *     $ echo $?
 	 *     1
 	 *
@@ -340,10 +340,10 @@ class CLI_Alias_Command extends WP_CLI_Command {
 	public function is_group( $args, $assoc_args = array() ) {
 		$alias = $args[0];
 
-		$aliases = WP_CLI::get_runner()->aliases;
+		$aliases = FP_CLI::get_runner()->aliases;
 
 		if ( empty( $aliases[ $alias ] ) ) {
-			WP_CLI::error( "No alias found with key '{$alias}'." );
+			FP_CLI::error( "No alias found with key '{$alias}'." );
 		}
 
 		// how do we know the alias is a group?
@@ -355,9 +355,9 @@ class CLI_Alias_Command extends WP_CLI_Command {
 		$first_item_value = $first_item[ $first_item_key ];
 
 		if ( is_numeric( $first_item_key ) && substr( $first_item_value, 0, 1 ) === '@' ) {
-			WP_CLI::halt( 0 );
+			FP_CLI::halt( 0 );
 		}
-		WP_CLI::halt( 1 );
+		FP_CLI::halt( 1 );
 	}
 
 	/**
@@ -373,10 +373,10 @@ class CLI_Alias_Command extends WP_CLI_Command {
 	 */
 	private function get_aliases_data( $config, $alias, $create_config_file = false ) {
 
-		$global_config_path = WP_CLI::get_runner()->get_global_config_path( $create_config_file );
+		$global_config_path = FP_CLI::get_runner()->get_global_config_path( $create_config_file );
 		$global_aliases     = Spyc::YAMLLoad( $global_config_path );
 
-		$project_config_path = WP_CLI::get_runner()->get_project_config_path();
+		$project_config_path = FP_CLI::get_runner()->get_project_config_path();
 		$project_aliases     = Spyc::YAMLLoad( $project_config_path );
 
 		if ( 'global' === $config ) {
@@ -391,7 +391,7 @@ class CLI_Alias_Command extends WP_CLI_Command {
 			$is_project_alias = array_key_exists( $alias, $project_aliases );
 
 			if ( $is_global_alias && $is_project_alias ) {
-				WP_CLI::error( "Key '{$alias}' found in more than one path. Please pass --config param." );
+				FP_CLI::error( "Key '{$alias}' found in more than one path. Please pass --config param." );
 			} elseif ( $is_global_alias ) {
 				$config_path = $global_config_path;
 				$aliases     = $global_aliases;
@@ -411,7 +411,7 @@ class CLI_Alias_Command extends WP_CLI_Command {
 	 */
 	private function validate_config_file( $config_path ): void {
 		if ( ! file_exists( $config_path ) || ! is_writable( $config_path ) ) {
-			WP_CLI::error( "Config file does not exist: {$config_path}" );
+			FP_CLI::error( "Config file does not exist: {$config_path}" );
 		}
 	}
 
@@ -437,7 +437,7 @@ class CLI_Alias_Command extends WP_CLI_Command {
 			// Check for invalid args.
 			if ( ! empty( $invalid_args ) ) {
 				$args_info = implode( ',', $invalid_args );
-				WP_CLI::error( "--grouping argument works alone. Found invalid arg(s) '$args_info'." );
+				FP_CLI::error( "--grouping argument works alone. Found invalid arg(s) '$args_info'." );
 			}
 		}
 
@@ -484,14 +484,14 @@ class CLI_Alias_Command extends WP_CLI_Command {
 
 		// Verify passed-arguments.
 		if ( empty( $grouping ) && empty( $arg_match ) ) {
-			WP_CLI::error( 'No valid arguments passed.' );
+			FP_CLI::error( 'No valid arguments passed.' );
 		}
 
 		// Check whether passed arguments contain value or not.
 		$assoc_arg_values = array_filter( array_intersect_key( $assoc_args, array_flip( $arg_match ) ) );
 
 		if ( empty( $grouping ) && empty( $assoc_arg_values ) ) {
-			WP_CLI::error( 'No value passed to arguments.' );
+			FP_CLI::error( 'No value passed to arguments.' );
 		}
 	}
 
@@ -513,9 +513,9 @@ class CLI_Alias_Command extends WP_CLI_Command {
 		$arg_match           = preg_grep( '/^set-(\w+)/i', array_keys( $assoc_args ) );
 
 		if ( ! empty( $group_aliases_match ) && ! empty( $arg_match ) ) {
-			WP_CLI::error( 'Trying to update group alias with invalid arguments.' );
+			FP_CLI::error( 'Trying to update group alias with invalid arguments.' );
 		} elseif ( empty( $group_aliases_match ) && ! empty( $grouping ) ) {
-			WP_CLI::error( 'Trying to update simple alias with invalid --grouping argument.' );
+			FP_CLI::error( 'Trying to update simple alias with invalid --grouping argument.' );
 		}
 	}
 
@@ -535,7 +535,7 @@ class CLI_Alias_Command extends WP_CLI_Command {
 
 		// Add data in config file.
 		if ( file_put_contents( $config_path, $yaml_data ) ) {
-			WP_CLI::success( "$operation '{$alias}' alias." );
+			FP_CLI::success( "$operation '{$alias}' alias." );
 		}
 	}
 
@@ -548,7 +548,7 @@ class CLI_Alias_Command extends WP_CLI_Command {
 	 */
 	private function normalize_alias( $alias ) {
 		// Check if the alias starts with the @.
-		// See: https://github.com/wp-cli/wp-cli/issues/5391
+		// See: https://github.com/fp-cli/fp-cli/issues/5391
 		if ( strpos( $alias, '@' ) !== 0 ) {
 			$alias = '@' . ltrim( $alias, '@' );
 		}

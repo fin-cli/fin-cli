@@ -6,9 +6,9 @@
  * ## EXAMPLES
  *
  *     # Foo.
- *     $ wp foo
+ *     $ fp foo
  */
-class CommandFactoryTests_Get_Doc_Comment_1_Command_Win extends WP_CLI_Command {
+class CommandFactoryTests_Get_Doc_Comment_1_Command_Win extends FP_CLI_Command {
 	/**
 	 * Command1 method
 	 *
@@ -16,7 +16,7 @@ class CommandFactoryTests_Get_Doc_Comment_1_Command_Win extends WP_CLI_Command {
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     $ wp foo command1 public
+	 *     $ fp foo command1 public
 	 */
 	function command1() {
 	}
@@ -30,7 +30,7 @@ class CommandFactoryTests_Get_Doc_Comment_1_Command_Win extends WP_CLI_Command {
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     $ wp foo command2 --path=/**a/**b/**c/**
+	 *     $ fp foo command2 --path=/**a/**b/**c/**
 	 */
 
 final
@@ -49,7 +49,7 @@ final
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     $ wp foo command3 --path=/**a/**b/**c/**
+	 *     $ fp foo command3 --path=/**a/**b/**c/**
 	 function*/public function command3( $function ) {}
 
 	function command4() {}
@@ -61,10 +61,10 @@ final
  * ## EXAMPLES
  *
  *     # Foo.
- *     $ wp foo --final abstract
+ *     $ fp foo --final abstract
  class*/abstract class
   CommandFactoryTests_Get_Doc_Comment_2_Command_Win
- extends              WP_CLI_Command
+ extends              FP_CLI_Command
     {
 		function command1() {}
 	}

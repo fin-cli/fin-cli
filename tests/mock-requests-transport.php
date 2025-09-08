@@ -2,7 +2,7 @@
 
 use WpOrg\Requests\Transport;
 
-// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
+// phpcs:ignore FinPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 class Mock_Requests_Transport implements Transport {
 	public $requests = [];
 

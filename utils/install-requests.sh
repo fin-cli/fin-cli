@@ -2,7 +2,7 @@
 
 REQUESTS_TAG="v2.0.12"
 
-DOWNLOAD_LINK="https://github.com/WordPress/Requests/archive/refs/tags/${REQUESTS_TAG}.tar.gz"
+DOWNLOAD_LINK="https://github.com/FinPress/Requests/archive/refs/tags/${REQUESTS_TAG}.tar.gz"
 
 SCRIPT_DIR=$(dirname "$0")
 

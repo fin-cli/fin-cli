@@ -5,7 +5,7 @@ PHAR_BUILD_VERSION
 /packages
 /vendor
 /*.phar
-.*.swp
+.*.sfp
 *.log
 phpunit.xml
 phpcs.xml

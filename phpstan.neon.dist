@@ -2,32 +2,32 @@ parameters:
   level: 9
   paths:
     - php/commands
-    - php/WP_CLI
+    - php/FP_CLI
     - php/boot-fs.php
     - php/bootstrap.php
-    - php/class-wp-cli.php
-    - php/class-wp-cli-command.php
+    - php/class-fp-cli.php
+    - php/class-fp-cli-command.php
     - php/dispatcher.php
     - php/utils.php
-    - php/utils-wp.php
-    - php/wp-cli.php
+    - php/utils-fp.php
+    - php/fp-cli.php
     - tests
   excludePaths:
-     - php/WP_CLI/ComposerIO.php
-     - php/WP_CLI/PackageManagerEventSubscriber.php
+     - php/FP_CLI/ComposerIO.php
+     - php/FP_CLI/PackageManagerEventSubscriber.php
      - tests/data
   scanDirectories:
     - bundle/rmccue/requests
-    - vendor/wp-cli/wp-cli-tests
+    - vendor/fp-cli/fp-cli-tests
   scanFiles:
-    - vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
+    - vendor/php-stubs/finpress-stubs/finpress-stubs.php
     - utils/phpstan/scan-files.php
     - php/boot-fs.php
   treatPhpDocTypesAsCertain: false
   dynamicConstantNames:
-    - WP_DEBUG
-    - WP_DEBUG_LOG
-    - WP_DEBUG_DISPLAY
+    - FP_DEBUG
+    - FP_DEBUG_LOG
+    - FP_DEBUG_DISPLAY
   strictRules:
     uselessCast: true
     closureUsesThis: true

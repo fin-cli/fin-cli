@@ -1,7 +1,7 @@
 <?php
 
-use WP_CLI\Inflector;
-use WP_CLI\Tests\TestCase;
+use FP_CLI\Inflector;
+use FP_CLI\Tests\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 class InflectorTest extends TestCase {

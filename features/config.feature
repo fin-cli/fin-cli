@@ -1,104 +1,104 @@
 Feature: Have a config file
 
   Scenario: No config file
-    Given a WP installation
+    Given a FP installation
 
-    When I run `wp --info`
+    When I run `fp --info`
     Then STDOUT should not contain:
       """
-      wp-cli.yml
+      fp-cli.yml
       """
 
-    When I run `wp core is-installed` from 'wp-content'
+    When I run `fp core is-installed` from 'fp-content'
     Then STDOUT should be empty
 
-  Scenario: Config file in WP Root
-    Given a WP installation
+  Scenario: Config file in FP Root
+    Given a FP installation
     And a sample.php file:
       """
       <?php
       """
-    And a wp-cli.yml file:
+    And a fp-cli.yml file:
       """
       require: sample.php
       """
 
-    When I run `wp --info`
+    When I run `fp --info`
     Then STDOUT should contain:
       """
-      wp-cli.yml
+      fp-cli.yml
       """
 
-    When I run `wp core is-installed`
+    When I run `fp core is-installed`
     Then STDOUT should be empty
 
-    # TODO: Throwing deprecations with PHP 8.1+ and WP < 5.9
-    When I try `wp` from 'wp-content'
+    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
+    When I try `fp` from 'fp-content'
     Then STDOUT should contain:
       """
-      wp <command>
+      fp <command>
       """
 
-  Scenario: WP in a subdirectory
-    Given a WP installation in 'foo'
-    And a wp-cli.yml file:
+  Scenario: FP in a subdirectory
+    Given a FP installation in 'foo'
+    And a fp-cli.yml file:
       """
       path: foo
       """
 
-    When I run `wp --info`
+    When I run `fp --info`
     Then STDOUT should contain:
       """
-      wp-cli.yml
+      fp-cli.yml
       """
 
-    When I run `wp core is-installed`
+    When I run `fp core is-installed`
     Then STDOUT should be empty
 
-    When I run `wp core is-installed` from 'foo/wp-content'
+    When I run `fp core is-installed` from 'foo/fp-content'
     Then STDOUT should be empty
 
     When I run `mkdir -p other/subdir`
-    And I run `wp core is-installed` from 'other/subdir'
+    And I run `fp core is-installed` from 'other/subdir'
     Then STDOUT should be empty
 
-  Scenario: WP in a subdirectory (autodetected)
-    Given a WP installation in 'foo'
+  Scenario: FP in a subdirectory (autodetected)
+    Given a FP installation in 'foo'
 
     And an index.php file:
       """
-      require('./foo/wp-blog-header.php');
+      require('./foo/fp-blog-header.php');
       """
-    When I run `wp core is-installed`
+    When I run `fp core is-installed`
     Then STDOUT should be empty
 
     Given an index.php file:
       """
-      require dirname(__FILE__) . '/foo/wp-blog-header.php';
+      require dirname(__FILE__) . '/foo/fp-blog-header.php';
       """
-    When I run `wp core is-installed`
+    When I run `fp core is-installed`
     Then STDOUT should be empty
 
     When I run `mkdir -p other/subdir`
     And I run `echo '<?php // Silence is golden' > other/subdir/index.php`
-    And I run `wp core is-installed` from 'other/subdir'
+    And I run `fp core is-installed` from 'other/subdir'
     Then STDOUT should be empty
 
   Scenario: Nested installations
-    Given a WP installation
-    And a WP installation in 'foo'
-    And a wp-cli.yml file:
+    Given a FP installation
+    And a FP installation in 'foo'
+    And a fp-cli.yml file:
       """
       """
 
-    When I run `wp --info` from 'foo'
+    When I run `fp --info` from 'foo'
     Then STDOUT should not contain:
       """
-      wp-cli.yml
+      fp-cli.yml
       """
 
   Scenario: Disabled commands
-    Given a WP installation
+    Given a FP installation
     And a config.yml file:
       """
       disabled_commands:
@@ -106,40 +106,40 @@ Feature: Have a config file
         - core multisite-convert
       """
 
-    # TODO: Throwing deprecations with PHP 8.1+ and WP < 5.9
-    When I try `WP_CLI_CONFIG_PATH=config.yml wp`
+    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
+    When I try `FP_CLI_CONFIG_PATH=config.yml fp`
     Then STDOUT should not contain:
       """
       eval-file
       """
 
-    When I try `WP_CLI_CONFIG_PATH=config.yml wp help eval-file`
+    When I try `FP_CLI_CONFIG_PATH=config.yml fp help eval-file`
     Then STDERR should contain:
       """
       Error: The 'eval-file' command has been disabled from the config file.
       """
 
-    # TODO: Throwing deprecations with PHP 8.1+ and WP < 5.9
-    When I try `WP_CLI_CONFIG_PATH=config.yml wp core`
+    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
+    When I try `FP_CLI_CONFIG_PATH=config.yml fp core`
     Then STDOUT should not contain:
       """
-      or: wp core multisite-convert
+      or: fp core multisite-convert
       """
 
-    # TODO: Throwing deprecations with PHP 8.1+ and WP < 5.9
-    When I try `WP_CLI_CONFIG_PATH=config.yml wp help core`
+    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
+    When I try `FP_CLI_CONFIG_PATH=config.yml fp help core`
     Then STDOUT should not contain:
       """
       multisite-convert
       """
 
-    When I try `WP_CLI_CONFIG_PATH=config.yml wp core multisite-convert`
+    When I try `FP_CLI_CONFIG_PATH=config.yml fp core multisite-convert`
     Then STDERR should contain:
       """
       command has been disabled
       """
 
-    When I try `WP_CLI_CONFIG_PATH=config.yml wp help core multisite-convert`
+    When I try `FP_CLI_CONFIG_PATH=config.yml fp help core multisite-convert`
     Then STDERR should contain:
       """
       Error: The 'core multisite-convert' command has been disabled from the config file.
@@ -147,24 +147,24 @@ Feature: Have a config file
 
   Scenario: 'core config' parameters
     Given an empty directory
-    And WP files
-    And a wp-cli.yml file:
+    And FP files
+    And a fp-cli.yml file:
       """
       core config:
-        dbname: wordpress
+        dbname: finpress
         dbuser: root
         extra-php: |
-          define( 'WP_DEBUG', true );
-          define( 'WP_POST_REVISIONS', 50 );
+          define( 'FP_DEBUG', true );
+          define( 'FP_POST_REVISIONS', 50 );
       """
 
-    When I run `wp core config --skip-check`
-    And I run `grep WP_POST_REVISIONS wp-config.php`
+    When I run `fp core config --skip-check`
+    And I run `grep FP_POST_REVISIONS fp-config.php`
     Then STDOUT should not be empty
 
   Scenario: Persist positional parameters when defined in a config
-    Given a WP installation
-    And a wp-cli.yml file:
+    Given a FP installation
+    And a fp-cli.yml file:
       """
       user create:
         - examplejoe
@@ -173,33 +173,33 @@ Feature: Have a config file
         role: administrator
       """
 
-    When I run `wp user create`
+    When I run `fp user create`
     Then STDOUT should not be empty
 
-    When I run `wp user get examplejoe --field=roles`
+    When I run `fp user get examplejoe --field=roles`
     Then STDOUT should contain:
       """
       administrator
       """
 
-    When I try `wp user create examplejane`
+    When I try `fp user create examplejane`
     Then STDERR should be:
       """
       Error: Sorry, that email address is already used!
       """
 
-    When I run `wp user create examplejane jane@example.com`
+    When I run `fp user create examplejane jane@example.com`
     Then STDOUT should not be empty
 
-    When I run `wp user get examplejane --field=roles`
+    When I run `fp user get examplejane --field=roles`
     Then STDOUT should contain:
       """
       administrator
       """
 
   Scenario: Command-specific configs
-    Given a WP installation
-    And a wp-cli.yml file:
+    Given a FP installation
+    And a fp-cli.yml file:
       """
       eval:
         foo: bar
@@ -208,16 +208,16 @@ Feature: Have a config file
       """
 
     # Arbitrary values should be passed, without warnings
-    When I run `wp eval 'echo json_encode( $assoc_args );'`
+    When I run `fp eval 'echo json_encode( $assoc_args );'`
     Then STDOUT should be JSON containing:
       """
       {"foo": "bar"}
       """
 
     # CLI args should trump config values
-    When I run `wp post list`
+    When I run `fp post list`
     Then STDOUT should be a number
-    When I run `wp post list --format=json`
+    When I run `fp post list --format=json`
     Then STDOUT should not be a number
 
   Scenario: Required files should not be loaded twice
@@ -232,19 +232,19 @@ Feature: Have a config file
       require:
         - ../custom-file.php
       """
-    And a wp-cli.yml file:
+    And a fp-cli.yml file:
       """
       require:
         - custom-file.php
       """
 
-    When I run `WP_CLI_CONFIG_PATH=test-dir/config.yml wp help`
+    When I run `FP_CLI_CONFIG_PATH=test-dir/config.yml fp help`
     Then STDERR should be empty
 
-  Scenario: Load WordPress with `--debug`
-    Given a WP installation
+  Scenario: Load FinPress with `--debug`
+    Given a FP installation
 
-    When I try `wp option get home --debug`
+    When I try `fp option get home --debug`
     Then STDERR should contain:
       """
       No readable global config found
@@ -255,15 +255,15 @@ Feature: Have a config file
       """
     And STDERR should contain:
       """
-      Begin WordPress load
+      Begin FinPress load
       """
     And STDERR should contain:
       """
-      wp-config.php path:
+      fp-config.php path:
       """
     And STDERR should contain:
       """
-      Loaded WordPress
+      Loaded FinPress
       """
     And STDERR should contain:
       """
@@ -271,7 +271,7 @@ Feature: Have a config file
       """
     And the return code should be 0
 
-    When I try `wp option get home --debug=bootstrap`
+    When I try `fp option get home --debug=bootstrap`
     Then STDERR should contain:
       """
       No readable global config found
@@ -282,15 +282,15 @@ Feature: Have a config file
       """
     And STDERR should contain:
       """
-      Begin WordPress load
+      Begin FinPress load
       """
     And STDERR should contain:
       """
-      wp-config.php path:
+      fp-config.php path:
       """
     And STDERR should contain:
       """
-      Loaded WordPress
+      Loaded FinPress
       """
     And STDERR should contain:
       """
@@ -298,7 +298,7 @@ Feature: Have a config file
       """
     And the return code should be 0
 
-    When I try `wp option get home --debug=foo`
+    When I try `fp option get home --debug=foo`
     Then STDERR should not contain:
       """
       No readable global config found
@@ -309,15 +309,15 @@ Feature: Have a config file
       """
     And STDERR should not contain:
       """
-      Begin WordPress load
+      Begin FinPress load
       """
     And STDERR should not contain:
       """
-      wp-config.php path:
+      fp-config.php path:
       """
     And STDERR should not contain:
       """
-      Loaded WordPress
+      Loaded FinPress
       """
     And STDERR should not contain:
       """
@@ -325,24 +325,24 @@ Feature: Have a config file
       """
     And the return code should be 0
 
-  Scenario: Missing required files should not fatal WP-CLI
+  Scenario: Missing required files should not fatal FP-CLI
     Given an empty directory
-    And a wp-cli.yml file:
+    And a fp-cli.yml file:
       """
       require:
         - missing-file.php
       """
 
-    When I try `wp help`
+    When I try `fp help`
     Then STDERR should contain:
       """
-      Error: Required file 'missing-file.php' doesn't exist (from project's wp-cli.yml).
+      Error: Required file 'missing-file.php' doesn't exist (from project's fp-cli.yml).
       """
 
-    When I run `wp cli info`
+    When I run `fp cli info`
     Then STDOUT should not be empty
 
-    When I run `wp --info`
+    When I run `fp --info`
     Then STDOUT should not be empty
 
   Scenario: Missing required file in global config
@@ -353,7 +353,7 @@ Feature: Have a config file
         - /foo/baz.php
       """
 
-    When I try `WP_CLI_CONFIG_PATH=config.yml wp help`
+    When I try `FP_CLI_CONFIG_PATH=config.yml fp help`
     Then STDERR should contain:
       """
       Error: Required file 'baz.php' doesn't exist (from global config.yml).
@@ -362,7 +362,7 @@ Feature: Have a config file
   Scenario: Missing required file as runtime argument
     Given an empty directory
 
-    When I try `wp help --require=foo.php`
+    When I try `fp help --require=foo.php`
     Then STDERR should contain:
       """
       Error: Required file 'foo.php' doesn't exist (from runtime argument).
@@ -376,7 +376,7 @@ Feature: Have a config file
       $command = function( $_, $assoc_args ) {
          echo json_encode( $assoc_args );
       };
-      WP_CLI::add_command( 'test-cmd', $command, array( 'when' => 'before_wp_load' ) );
+      FP_CLI::add_command( 'test-cmd', $command, array( 'when' => 'before_fp_load' ) );
       """
     And a config.yml file:
       """
@@ -385,7 +385,7 @@ Feature: Have a config file
         apple: banana
       apple: banana
       """
-    And a wp-cli.yml file:
+    And a fp-cli.yml file:
       """
       _:
         merge: true
@@ -395,18 +395,18 @@ Feature: Have a config file
       apple: apple
       """
 
-    When I run `wp --require=test-cmd.php test-cmd`
+    When I run `fp --require=test-cmd.php test-cmd`
     Then STDOUT should be JSON containing:
       """
       {"bar":"burrito","apple":"apple"}
       """
-    When I run `WP_CLI_CONFIG_PATH=config.yml wp --require=test-cmd.php test-cmd`
+    When I run `FP_CLI_CONFIG_PATH=config.yml fp --require=test-cmd.php test-cmd`
     Then STDOUT should be JSON containing:
       """
       {"foo":"bar","apple":"apple","bar":"burrito"}
       """
 
-    Given a wp-cli.yml file:
+    Given a fp-cli.yml file:
       """
       _:
         merge: false
@@ -415,7 +415,7 @@ Feature: Have a config file
         apple: apple
       apple: apple
       """
-    When I run `WP_CLI_CONFIG_PATH=config.yml wp --require=test-cmd.php test-cmd`
+    When I run `FP_CLI_CONFIG_PATH=config.yml fp --require=test-cmd.php test-cmd`
     Then STDOUT should be JSON containing:
       """
       {"bar":"burrito","apple":"apple"}
@@ -429,9 +429,9 @@ Feature: Have a config file
       $command = function( $_, $assoc_args ) {
          echo json_encode( $assoc_args );
       };
-      WP_CLI::add_command( 'test-cmd', $command, array( 'when' => 'before_wp_load' ) );
+      FP_CLI::add_command( 'test-cmd', $command, array( 'when' => 'before_fp_load' ) );
       """
-    And a wp-cli.yml file:
+    And a fp-cli.yml file:
       """
       test-cmd:
         foo: bar
@@ -439,16 +439,16 @@ Feature: Have a config file
       apple: banana
       """
 
-    When I run `wp --require=test-cmd.php test-cmd`
+    When I run `fp --require=test-cmd.php test-cmd`
     Then STDOUT should be JSON containing:
       """
       {"foo":"bar","apple":"banana"}
       """
 
-    Given a wp-cli.local.yml file:
+    Given a fp-cli.local.yml file:
       """
       _:
-        inherit: wp-cli.yml
+        inherit: fp-cli.yml
         merge: true
       test-cmd:
         bar: burrito
@@ -456,13 +456,13 @@ Feature: Have a config file
       apple: apple
       """
 
-    When I run `wp --require=test-cmd.php test-cmd`
+    When I run `fp --require=test-cmd.php test-cmd`
     Then STDOUT should be JSON containing:
       """
       {"foo":"bar","apple":"apple","bar":"burrito"}
       """
 
-    Given a wp-cli.local.yml file:
+    Given a fp-cli.local.yml file:
       """
       test-cmd:
         bar: burrito
@@ -470,7 +470,7 @@ Feature: Have a config file
       apple: apple
       """
 
-    When I run `wp --require=test-cmd.php test-cmd`
+    When I run `fp --require=test-cmd.php test-cmd`
     Then STDOUT should be JSON containing:
       """
       {"bar":"burrito","apple":"apple"}
@@ -478,16 +478,16 @@ Feature: Have a config file
 
   Scenario: Config inheritance in nested folders
     Given an empty directory
-    And a wp-cli.local.yml file:
+    And a fp-cli.local.yml file:
       """
       @dev:
         ssh: vagrant@example.test/srv/www/example.com/current
-        path: web/wp
+        path: web/fp
       """
-    And a site/wp-cli.yml file:
+    And a site/fp-cli.yml file:
       """
       _:
-        inherit: ../wp-cli.local.yml
+        inherit: ../fp-cli.local.yml
       @otherdev:
         ssh: vagrant@otherexample.test/srv/www/otherexample.com/current
       """
@@ -496,46 +496,46 @@ Feature: Have a config file
       <?php
       """
 
-    When I run `wp cli alias list`
+    When I run `fp cli alias list`
     Then STDOUT should contain:
       """
       @all: Run command against every registered alias.
       @dev:
-        path: web/wp
+        path: web/fp
         ssh: vagrant@example.test/srv/www/example.com/current
       """
 
-    When I run `cd site && wp cli alias list`
+    When I run `cd site && fp cli alias list`
     Then STDOUT should contain:
       """
       @all: Run command against every registered alias.
       @dev:
-        path: web/wp
-        ssh: vagrant@example.test/srv/www/example.com/current
-      @otherdev:
-        ssh: vagrant@otherexample.test/srv/www/otherexample.com/current
-      """
-
-    When I run `cd site/public && wp cli alias list`
-    Then STDOUT should contain:
-      """
-      @all: Run command against every registered alias.
-      @dev:
-        path: web/wp
+        path: web/fp
         ssh: vagrant@example.test/srv/www/example.com/current
       @otherdev:
         ssh: vagrant@otherexample.test/srv/www/otherexample.com/current
       """
 
-  @require-wp-3.9
-  Scenario: WordPress installation with local dev DOMAIN_CURRENT_SITE
-    Given a WP multisite installation
+    When I run `cd site/public && fp cli alias list`
+    Then STDOUT should contain:
+      """
+      @all: Run command against every registered alias.
+      @dev:
+        path: web/fp
+        ssh: vagrant@example.test/srv/www/example.com/current
+      @otherdev:
+        ssh: vagrant@otherexample.test/srv/www/otherexample.com/current
+      """
+
+  @require-fp-3.9
+  Scenario: FinPress installation with local dev DOMAIN_CURRENT_SITE
+    Given a FP multisite installation
     And a local-dev.php file:
       """
       <?php
       define( 'DOMAIN_CURRENT_SITE', 'example.dev' );
       """
-    And a wp-config.php file:
+    And a fp-config.php file:
       """
       <?php
       if ( file_exists( __DIR__ . '/local-dev.php' ) ) {
@@ -543,7 +543,7 @@ Feature: Have a config file
       }
 
       // ** MySQL settings ** //
-      /** The name of the database for WordPress */
+      /** The name of the database for FinPress */
       define('DB_NAME', '{DB_NAME}');
 
       /** MySQL database username */
@@ -561,9 +561,9 @@ Feature: Have a config file
       /** The Database Collate type. Don't change this if in doubt. */
       define('DB_COLLATE', '');
 
-      $table_prefix = 'wp_';
+      $table_prefix = 'fp_';
 
-      define( 'WP_ALLOW_MULTISITE', true );
+      define( 'FP_ALLOW_MULTISITE', true );
       define('MULTISITE', true);
       define('SUBDOMAIN_INSTALL', false);
       $base = '/';
@@ -576,29 +576,29 @@ Feature: Have a config file
 
       /* That's all, stop editing! Happy publishing. */
 
-      /** Absolute path to the WordPress directory. */
+      /** Absolute path to the FinPress directory. */
       if ( !defined('ABSPATH') )
         define('ABSPATH', dirname(__FILE__) . '/');
 
-      /** Sets up WordPress vars and included files. */
-      require_once(ABSPATH . 'wp-settings.php');
+      /** Sets up FinPress vars and included files. */
+      require_once(ABSPATH . 'fp-settings.php');
       """
 
-    When I try `wp option get home`
+    When I try `fp option get home`
     Then STDERR should be:
       """
       Error: Site 'example.dev/' not found. Verify DOMAIN_CURRENT_SITE matches an existing site or use `--url=<url>` to override.
       """
 
-    When I run `wp option get home --url=example.com`
+    When I run `fp option get home --url=example.com`
     Then STDOUT should be:
       """
       https://example.com
       """
 
-  Scenario: BOM found in wp-config.php file
-    Given a WP installation
-    And a wp-config.php file:
+  Scenario: BOM found in fp-config.php file
+    Given a FP installation
+    And a fp-config.php file:
       """
       <?php
       define('DB_NAME', '{DB_NAME}');
@@ -607,28 +607,28 @@ Feature: Have a config file
       define('DB_HOST', '{DB_HOST}');
       define('DB_CHARSET', 'utf8');
       define('DB_COLLATE', '');
-      $table_prefix = 'wp_';
+      $table_prefix = 'fp_';
 
       /* That's all, stop editing! Happy publishing. */
 
-      /** Sets up WordPress vars and included files. */
-      require_once(ABSPATH . 'wp-settings.php');
+      /** Sets up FinPress vars and included files. */
+      require_once(ABSPATH . 'fp-settings.php');
       """
-    And I run `awk 'BEGIN {print "\xef\xbb\xbf"} {print}' wp-config.php > wp-config.php`
+    And I run `awk 'BEGIN {print "\xef\xbb\xbf"} {print}' fp-config.php > fp-config.php`
 
-    When I try `wp core is-installed`
+    When I try `fp core is-installed`
     Then STDERR should not contain:
       """
       PHP Parse error: syntax error, unexpected '?'
       """
     And STDERR should contain:
       """
-      Warning: UTF-8 byte-order mark (BOM) detected in wp-config.php file, stripping it for parsing.
+      Warning: UTF-8 byte-order mark (BOM) detected in fp-config.php file, stripping it for parsing.
       """
 
-  Scenario: Strange wp-config.php file with missing wp-settings.php call
-    Given a WP installation
-    And a wp-config.php file:
+  Scenario: Strange fp-config.php file with missing fp-settings.php call
+    Given a FP installation
+    And a fp-config.php file:
       """
       <?php
       define('DB_NAME', '{DB_NAME}');
@@ -637,20 +637,20 @@ Feature: Have a config file
       define('DB_HOST', '{DB_HOST}');
       define('DB_CHARSET', 'utf8');
       define('DB_COLLATE', '');
-      $table_prefix = 'wp_';
+      $table_prefix = 'fp_';
 
       /* That's all, stop editing! Happy publishing. */
       """
 
-    When I try `wp core is-installed`
+    When I try `fp core is-installed`
     Then STDERR should contain:
       """
-      Error: Strange wp-config.php file: wp-settings.php is not loaded directly.
+      Error: Strange fp-config.php file: fp-settings.php is not loaded directly.
       """
 
-  Scenario: Strange wp-config.php file with multi-line wp-settings.php call
-    Given a WP installation
-    And a wp-config.php file:
+  Scenario: Strange fp-config.php file with multi-line fp-settings.php call
+    Given a FP installation
+    And a fp-config.php file:
       """
       <?php
       if ( 1 === 1 ) {
@@ -663,25 +663,25 @@ Feature: Have a config file
       define('DB_HOST', '{DB_HOST}');
       define('DB_CHARSET', 'utf8');
       define('DB_COLLATE', '');
-      $table_prefix = 'wp_';
+      $table_prefix = 'fp_';
 
       /* That's all, stop editing! Happy publishing. */
 
-      /** Sets up WordPress vars and included files. */
+      /** Sets up FinPress vars and included files. */
       require_once
-        ABSPATH . 'wp-settings.php'
+        ABSPATH . 'fp-settings.php'
       ;
       """
 
-    When I try `wp core is-installed`
+    When I try `fp core is-installed`
     Then STDERR should not contain:
       """
-      Error: Strange wp-config.php file: wp-settings.php is not loaded directly.
+      Error: Strange fp-config.php file: fp-settings.php is not loaded directly.
       """
 
-  Scenario: Code after wp-settings.php call should be loaded
-    Given a WP installation
-    And a wp-config.php file:
+  Scenario: Code after fp-settings.php call should be loaded
+    Given a FP installation
+    And a fp-config.php file:
       """
       <?php
       if ( 1 === 1 ) {
@@ -694,13 +694,13 @@ Feature: Have a config file
       define('DB_HOST', '{DB_HOST}');
       define('DB_CHARSET', 'utf8');
       define('DB_COLLATE', '');
-      $table_prefix = 'wp_';
+      $table_prefix = 'fp_';
 
       /* That's all, stop editing! Happy publishing. */
 
-      /** Sets up WordPress vars and included files. */
+      /** Sets up FinPress vars and included files. */
       require_once
-        ABSPATH . 'wp-settings.php'
+        ABSPATH . 'fp-settings.php'
       ;
 
       require_once ABSPATH . 'includes-file.php';
@@ -716,19 +716,19 @@ Feature: Have a config file
       define( 'MY_OTHER_CONSTANT', true );
       """
 
-    When I try `wp core is-installed`
+    When I try `fp core is-installed`
     Then STDERR should not contain:
       """
-      Error: Strange wp-config.php file: wp-settings.php is not loaded directly.
+      Error: Strange fp-config.php file: fp-settings.php is not loaded directly.
       """
 
-    When I run `wp eval 'var_export( defined("MY_CONSTANT") );'`
+    When I run `fp eval 'var_export( defined("MY_CONSTANT") );'`
     Then STDOUT should be:
       """
       true
       """
 
-    When I run `wp eval 'var_export( defined("MY_OTHER_CONSTANT") );'`
+    When I run `fp eval 'var_export( defined("MY_OTHER_CONSTANT") );'`
     Then STDOUT should be:
       """
       true
@@ -737,5 +737,5 @@ Feature: Have a config file
   Scenario: Be able to create a new global config file (including any new parent folders) when one doesn't exist
     # Delete this folder or else a rerun of the test will fail since the folder/file now exists
     When I run `[ -n "$HOME" ] && rm -rf "$HOME/doesnotexist"`
-    And I try `WP_CLI_CONFIG_PATH=$HOME/doesnotexist/wp-cli.yml wp cli alias add 1 --debug`
-    Then STDERR should match #Default global config does not exist, creating one in.+/doesnotexist/wp-cli.yml#
+    And I try `FP_CLI_CONFIG_PATH=$HOME/doesnotexist/fp-cli.yml fp cli alias add 1 --debug`
+    Then STDERR should match #Default global config does not exist, creating one in.+/doesnotexist/fp-cli.yml#

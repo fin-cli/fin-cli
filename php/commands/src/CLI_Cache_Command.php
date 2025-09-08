@@ -1,42 +1,42 @@
 <?php
 
 /**
- * Manages the internal WP-CLI cache,.
+ * Manages the internal FP-CLI cache,.
  *
  * ## EXAMPLES
  *
  *     # Remove all cached files.
- *     $ wp cli cache clear
+ *     $ fp cli cache clear
  *     Success: Cache cleared.
  *
  *     # Remove all cached files except for the newest version of each one.
- *     $ wp cli cache prune
+ *     $ fp cli cache prune
  *     Success: Cache pruned.
  *
- * @when before_wp_load
+ * @when before_fp_load
  */
-class CLI_Cache_Command extends WP_CLI_Command {
+class CLI_Cache_Command extends FP_CLI_Command {
 
 	/**
 	 * Clears the internal cache.
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     $ wp cli cache clear
+	 *     $ fp cli cache clear
 	 *     Success: Cache cleared.
 	 *
 	 * @subcommand clear
 	 */
 	public function cache_clear() {
-		$cache = WP_CLI::get_cache();
+		$cache = FP_CLI::get_cache();
 
 		if ( ! $cache->is_enabled() ) {
-			WP_CLI::error( 'Cache directory does not exist.' );
+			FP_CLI::error( 'Cache directory does not exist.' );
 		}
 
 		$cache->clear();
 
-		WP_CLI::success( 'Cache cleared.' );
+		FP_CLI::success( 'Cache cleared.' );
 	}
 
 	/**
@@ -46,20 +46,20 @@ class CLI_Cache_Command extends WP_CLI_Command {
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     $ wp cli cache prune
+	 *     $ fp cli cache prune
 	 *     Success: Cache pruned.
 	 *
 	 * @subcommand prune
 	 */
 	public function cache_prune() {
-		$cache = WP_CLI::get_cache();
+		$cache = FP_CLI::get_cache();
 
 		if ( ! $cache->is_enabled() ) {
-			WP_CLI::error( 'Cache directory does not exist.' );
+			FP_CLI::error( 'Cache directory does not exist.' );
 		}
 
 		$cache->prune();
 
-		WP_CLI::success( 'Cache pruned.' );
+		FP_CLI::success( 'Cache pruned.' );
 	}
 }

@@ -9,16 +9,16 @@
 
 date
 
-if [ -z "$WP_CLI_DIR" ]; then
-	echo 'Please set $WP_CLI_DIR'
+if [ -z "$FP_CLI_DIR" ]; then
+	echo 'Please set $FP_CLI_DIR'
 	exit 1
 fi
 
 set -ex
 
-cd $WP_CLI_DIR
+cd $FP_CLI_DIR
 
-# Reset WP-CLI directory to baseline
+# Reset FP-CLI directory to baseline
 git checkout -f master
 git pull origin master
 composer install

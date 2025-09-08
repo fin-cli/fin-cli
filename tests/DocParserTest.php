@@ -1,7 +1,7 @@
 <?php
 
-use WP_CLI\DocParser;
-use WP_CLI\Tests\TestCase;
+use FP_CLI\DocParser;
+use FP_CLI\Tests\TestCase;
 
 class DocParserTest extends TestCase {
 
@@ -67,7 +67,7 @@ EOB
  *
  * ## EXAMPLES
  *
- * wp rock-on --volume=11
+ * fp rock-on --volume=11
  *
  * @synopsis [--volume=<number>]
  * @alias rock-on
@@ -95,7 +95,7 @@ EOB
 
 ## EXAMPLES
 
-wp rock-on --volume=11
+fp rock-on --volume=11
 EOB;
 		$this->assertEquals( $longdesc, $doc->get_longdesc() );
 	}
@@ -106,7 +106,7 @@ Play some music loudly
 
 ```
 # Here's an example of how you might run the command
-wp rock-on electronic --volume=11
+fp rock-on electronic --volume=11
 ```
 
 ## OPTIONS
@@ -131,7 +131,7 @@ default: 10
 
 ## EXAMPLES
 
-wp rock-on electronic --volume=11
+fp rock-on electronic --volume=11
 
 EOB;
 

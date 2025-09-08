@@ -4,7 +4,7 @@
  *
  * Inspired by Requests for Python.
  *
- * Based on concepts from SimplePie_File, RequestCore and WP_Http.
+ * Based on concepts from SimplePie_File, RequestCore and FP_Http.
  *
  * @package Requests
  */
@@ -30,7 +30,7 @@ use WpOrg\Requests\Utility\InputValidator;
  *
  * Inspired by Requests for Python.
  *
- * Based on concepts from SimplePie_File, RequestCore and WP_Http.
+ * Based on concepts from SimplePie_File, RequestCore and FP_Http.
  *
  * @package Requests
  */
@@ -973,10 +973,10 @@ class Requests {
 	 * Warning: Magic numbers within. Due to the potential different formats that the compressed
 	 * data may be returned in, some "magic offsets" are needed to ensure proper decompression
 	 * takes place. For a simple progmatic way to determine the magic offset in use, see:
-	 * https://core.trac.wordpress.org/ticket/18273
+	 * https://core.trac.finpress.org/ticket/18273
 	 *
 	 * @since 1.6.0
-	 * @link https://core.trac.wordpress.org/ticket/18273
+	 * @link https://core.trac.finpress.org/ticket/18273
 	 * @link https://www.php.net/gzinflate#70875
 	 * @link https://www.php.net/gzinflate#77336
 	 *

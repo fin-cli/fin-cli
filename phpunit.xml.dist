@@ -13,7 +13,7 @@
 		 colors="true"
 		 verbose="true">
 	<testsuites>
-		<testsuite name="wp-cli/wp-cli tests">
+		<testsuite name="fp-cli/fp-cli tests">
 			<directory suffix="Test.php">tests</directory>
 		</testsuite>
 	</testsuites>

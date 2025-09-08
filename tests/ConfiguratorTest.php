@@ -1,8 +1,8 @@
 <?php
 
-use WP_CLI\Configurator;
-use WP_CLI\Loggers;
-use WP_CLI\Tests\TestCase;
+use FP_CLI\Configurator;
+use FP_CLI\Loggers;
+use FP_CLI\Tests\TestCase;
 
 class ConfiguratorTest extends TestCase {
 
@@ -37,7 +37,7 @@ class ConfiguratorTest extends TestCase {
 	}
 
 	public function testExtractAssocGlobalLocal(): void {
-		$args = Configurator::extract_assoc( [ '--url=foo.dev', '--path=wp', 'foo', '--bar=', '--baz=text', '--url=bar.dev' ] );
+		$args = Configurator::extract_assoc( [ '--url=foo.dev', '--path=fp', 'foo', '--bar=', '--baz=text', '--url=bar.dev' ] );
 
 		$this->assertCount( 1, $args[0] );
 		$this->assertCount( 5, $args[1] );
@@ -61,27 +61,27 @@ class ConfiguratorTest extends TestCase {
 	}
 
 	/**
-	 * WP_CLI::get_config does not show warnings for null values.
+	 * FP_CLI::get_config does not show warnings for null values.
 	 */
 	public function testNullGetConfig(): void {
 		// Init config so there is a config to check.
-		$runner = WP_CLI::get_runner();
+		$runner = FP_CLI::get_runner();
 		$runner->init_config();
 
 		// Previous.
-		$prev_logger = WP_CLI::get_logger();
+		$prev_logger = FP_CLI::get_logger();
 
 		$logger = new Loggers\Execution();
-		WP_CLI::set_logger( $logger );
+		FP_CLI::set_logger( $logger );
 
-		$has_config = WP_CLI::has_config( 'url' );
-		$get_config = WP_CLI::get_config( 'url' );
+		$has_config = FP_CLI::has_config( 'url' );
+		$get_config = FP_CLI::get_config( 'url' );
 
 		$this->assertTrue( $has_config, 'has_config() is not true' );
 		$this->assertTrue( false === strpos( $logger->stderr, 'Warning' ), 'Logger contains a "Warning"' );
 		$this->assertNull( $get_config, 'get_config() is not null' );
 
 		// Restore.
-		WP_CLI::set_logger( $prev_logger );
+		FP_CLI::set_logger( $prev_logger );
 	}
 }

@@ -1,0 +1,40 @@
+$schema: "./fp-cli-config.json"
+path: fp-core
+url: http://example.com
+user: admin
+color: false
+disabled_commands:
+ - db drop
+ - plugin install
+require:
+ - path-to/command.php
+
+config create:
+  dbuser: root
+  dbpass:
+  extra-php: |
+   define( 'FP_DEBUG', true );
+   define( 'FP_POST_REVISIONS', 50 );
+
+"@foo":
+   bar: "baz"
+
+"@staging":
+  ssh: fpcli@staging.fp-cli.org
+  user: fpcli
+  path: /srv/www/staging.fp-cli.org
+
+"@production":
+  ssh: fpcli@fp-cli.org:2222
+  user: fpcli
+  path: /srv/www/fp-cli.org
+
+# Aliases can reference other aliases to create alias groups
+# Alias groups can be nested
+"@both":
+  - "@staging"
+  - "@production"
+
+_:
+  merge: true
+  inherit: prod.yml

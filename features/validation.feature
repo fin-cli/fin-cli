@@ -4,20 +4,20 @@ Feature: Argument validation
   I need to see warnings and errors when I pass incorrect arguments
 
   Scenario: Passing zero arguments to a variadic command
-    Given a WP installation
+    Given a FP installation
 
-    When I try `wp plugin install`
+    When I try `fp plugin install`
     Then the return code should be 1
     And STDOUT should contain:
       """
-      usage: wp plugin install
+      usage: fp plugin install
       """
 
   Scenario: Validation for early commands
     Given an empty directory
-    And WP files
+    And FP files
 
-    When I try `wp core config`
+    When I try `fp core config`
     Then the return code should be 1
     And STDERR should contain:
       """
@@ -28,7 +28,7 @@ Feature: Argument validation
       missing --dbname parameter
       """
 
-    When I try `wp core config --invalid --other-invalid`
+    When I try `fp core config --invalid --other-invalid`
     Then the return code should be 1
     And STDERR should contain:
       """
@@ -39,7 +39,7 @@ Feature: Argument validation
       unknown --other-invalid parameter
       """
 
-    When I try `wp core version invalid`
+    When I try `fp core version invalid`
     Then the return code should be 1
     And STDERR should contain:
       """

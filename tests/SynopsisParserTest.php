@@ -1,7 +1,7 @@
 <?php
 
-use WP_CLI\SynopsisParser;
-use WP_CLI\Tests\TestCase;
+use FP_CLI\SynopsisParser;
+use FP_CLI\Tests\TestCase;
 
 class SynopsisParserTest extends TestCase {
 

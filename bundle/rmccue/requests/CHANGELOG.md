@@ -7,7 +7,7 @@ Changelog
 ### Overview of changes
 - Update bundled certificates as of 2024-07-02. [#877]
 
-[#877]: https://github.com/WordPress/Requests/pull/877
+[#877]: https://github.com/FinPress/Requests/pull/877
 
 2.0.11
 ------
@@ -21,9 +21,9 @@ Changelog
     Additionally, if code calling the `Cookie::parse_from_headers()` method would be wrapped in a `try - catch` to catch a potential PHP `TypeError` (PHP 7.0+) or `Exception` (PHP < 7.0) for when invalid data was passed as the `$origin` parameter, this code will need to be updated to now also catch a potential `WpOrg\Requests\Exception\InvalidArgumentException`.
     As due diligence could not find any classes which would be affected by this BC-break, we have deemed it acceptable to include this fix in the 2.0.11 release.
 
-[#822]: https://github.com/WordPress/Requests/pull/822
-[#864]: https://github.com/WordPress/Requests/pull/864
-[#865]: https://github.com/WordPress/Requests/pull/865
+[#822]: https://github.com/FinPress/Requests/pull/822
+[#864]: https://github.com/FinPress/Requests/pull/864
+[#865]: https://github.com/FinPress/Requests/pull/865
 
 2.0.10
 ------
@@ -31,7 +31,7 @@ Changelog
 ### Overview of changes
 - Update bundled certificates as of 2023-12-04. [#850]
 
-[#850]: https://github.com/WordPress/Requests/pull/850
+[#850]: https://github.com/FinPress/Requests/pull/850
 
 2.0.9
 -----
@@ -39,7 +39,7 @@ Changelog
 ### Overview of changes
 - Hotfix: Rollback changes from PR [#657]. [#839] Props [@tomsommer][gh-tomsommer] & [@laszlof][gh-laszlof]
 
-[#839]: https://github.com/WordPress/Requests/pull/839
+[#839]: https://github.com/FinPress/Requests/pull/839
 
 2.0.8
 -----
@@ -50,11 +50,11 @@ Changelog
 - Composer: updated list of suggested PHP extensions to enable. [#821]
 - README: add information about the PSR-7/PSR-18 wrapper for Requests. [#827]
 
-[#656]: https://github.com/WordPress/Requests/pull/656
-[#657]: https://github.com/WordPress/Requests/pull/657
-[#821]: https://github.com/WordPress/Requests/pull/821
-[#823]: https://github.com/WordPress/Requests/pull/823
-[#827]: https://github.com/WordPress/Requests/pull/827
+[#656]: https://github.com/FinPress/Requests/pull/656
+[#657]: https://github.com/FinPress/Requests/pull/657
+[#821]: https://github.com/FinPress/Requests/pull/821
+[#823]: https://github.com/FinPress/Requests/pull/823
+[#827]: https://github.com/FinPress/Requests/pull/827
 
 2.0.7
 -----
@@ -62,7 +62,7 @@ Changelog
 ### Overview of changes
 - Update bundled certificates as of 2023-05-30. [#809]
 
-[#809]: https://github.com/WordPress/Requests/pull/809
+[#809]: https://github.com/FinPress/Requests/pull/809
 
 2.0.6
 -----
@@ -75,9 +75,9 @@ Changelog
     No changes were needed, so Request 2.0.1 and higher can be considered compatible with PHP 8.2.
 - Various documentation improvements and other general housekeeping.
 
-[#779]: https://github.com/WordPress/Requests/pull/779
-[#785]: https://github.com/WordPress/Requests/pull/785
-[#791]: https://github.com/WordPress/Requests/pull/791
+[#779]: https://github.com/FinPress/Requests/pull/779
+[#785]: https://github.com/FinPress/Requests/pull/785
+[#791]: https://github.com/FinPress/Requests/pull/791
 
 2.0.5
 -----
@@ -85,7 +85,7 @@ Changelog
 ### Overview of changes
 - Update bundled certificates as of 2022-10-11. [#769]
 
-[#769]: https://github.com/WordPress/Requests/pull/769
+[#769]: https://github.com/FinPress/Requests/pull/769
 
 2.0.4
 -----
@@ -93,7 +93,7 @@ Changelog
 ### Overview of changes
 - Update bundled certificates as of 2022-07-19. [#763]
 
-[#763]: https://github.com/WordPress/Requests/pull/763
+[#763]: https://github.com/FinPress/Requests/pull/763
 
 2.0.3
 -----
@@ -101,7 +101,7 @@ Changelog
 ### Overview of changes
 - Update bundled certificates as of 2022-04-26. [#731]
 
-[#731]: https://github.com/WordPress/Requests/pull/731
+[#731]: https://github.com/FinPress/Requests/pull/731
 
 2.0.2
 -----
@@ -109,7 +109,7 @@ Changelog
 ### Overview of changes
 - Update bundled certificates as of 2022-03-18. [#697]
 
-[#697]: https://github.com/WordPress/Requests/pull/697
+[#697]: https://github.com/FinPress/Requests/pull/697
 
 2.0.1
 -----
@@ -122,23 +122,23 @@ Changelog
 
 Props [@alpipego][gh-alpipego], [@costdev][gh-costdev], [@jegrandet][gh-jegrandet], [@jrfnl][gh-jrfnl], [@schlessera][gh-schlessera]
 
-[#674]: https://github.com/WordPress/Requests/pull/674
-[#672]: https://github.com/WordPress/Requests/pull/672
-[#671]: https://github.com/WordPress/Requests/pull/671
-[#670]: https://github.com/WordPress/Requests/pull/670
-[#669]: https://github.com/WordPress/Requests/pull/669
-[#662]: https://github.com/WordPress/Requests/pull/662
-[#661]: https://github.com/WordPress/Requests/pull/661
-[#660]: https://github.com/WordPress/Requests/pull/660
-[#658]: https://github.com/WordPress/Requests/pull/658
-[#655]: https://github.com/WordPress/Requests/pull/655
-[#653]: https://github.com/WordPress/Requests/pull/653
-[#650]: https://github.com/WordPress/Requests/pull/650
-[#649]: https://github.com/WordPress/Requests/pull/649
-[#647]: https://github.com/WordPress/Requests/pull/647
-[#646]: https://github.com/WordPress/Requests/pull/646
-[#635]: https://github.com/WordPress/Requests/issues/635
-[#452]: https://github.com/WordPress/Requests/issues/452
+[#674]: https://github.com/FinPress/Requests/pull/674
+[#672]: https://github.com/FinPress/Requests/pull/672
+[#671]: https://github.com/FinPress/Requests/pull/671
+[#670]: https://github.com/FinPress/Requests/pull/670
+[#669]: https://github.com/FinPress/Requests/pull/669
+[#662]: https://github.com/FinPress/Requests/pull/662
+[#661]: https://github.com/FinPress/Requests/pull/661
+[#660]: https://github.com/FinPress/Requests/pull/660
+[#658]: https://github.com/FinPress/Requests/pull/658
+[#655]: https://github.com/FinPress/Requests/pull/655
+[#653]: https://github.com/FinPress/Requests/pull/653
+[#650]: https://github.com/FinPress/Requests/pull/650
+[#649]: https://github.com/FinPress/Requests/pull/649
+[#647]: https://github.com/FinPress/Requests/pull/647
+[#646]: https://github.com/FinPress/Requests/pull/646
+[#635]: https://github.com/FinPress/Requests/issues/635
+[#452]: https://github.com/FinPress/Requests/issues/452
 
 
 2.0.0
@@ -196,7 +196,7 @@ setting the value of this constant to `true`.
 
   Marking a class as `final` prohibits extending it.
 
-  These changes were made after researching which classes were being extended in userland code and due diligence has been applied before making these changes. If this change is causing a problem we didn't anticipate, please [open an issue to report it](https://github.com/WordPress/Requests/issues/new/choose).
+  These changes were made after researching which classes were being extended in userland code and due diligence has been applied before making these changes. If this change is causing a problem we didn't anticipate, please [open an issue to report it](https://github.com/FinPress/Requests/issues/new/choose).
 
   (props [@jrfnl][gh-jrfnl], [@schlessera][gh-schlessera], [#514][gh-514], [#534][gh-534])
 
@@ -206,7 +206,7 @@ setting the value of this constant to `true`.
   When an incorrect parameter type is received, a catchable `WpOrg\Requests\Exception\InvalidArgument` exception will be thrown.
 
   The input validation has been set up to be reasonably liberal, so if Requests was being used as per the documentation, this change should not affect you.
-  If you still find the input validation to be too strict and you have a good use-case of why it should be loosened for a particular entry point, please [open an issue to discuss this](https://github.com/WordPress/Requests/issues/new/choose).
+  If you still find the input validation to be too strict and you have a good use-case of why it should be loosened for a particular entry point, please [open an issue to discuss this](https://github.com/FinPress/Requests/issues/new/choose).
 
   The code within Requests itself has also received various improvements to be more type safe.
 
@@ -287,7 +287,7 @@ setting the value of this constant to `true`.
 
   All known PHP 8.1 compatibility issues have been fixed and tests are now running (and passing) against PHP 8.1.
 
-  In case you still run into a PHP 8.1 deprecation notice or other PHP 8.1 related issue, please [open an issue to report it](https://github.com/WordPress/Requests/issues/new/choose).
+  In case you still run into a PHP 8.1 deprecation notice or other PHP 8.1 related issue, please [open an issue to report it](https://github.com/FinPress/Requests/issues/new/choose).
 
   (props [@jrfnl][gh-jrfnl], [@schlessera][gh-schlessera], [#498][gh-498], [#499][gh-499], [#500][gh-500], [#501][gh-501], [#505][gh-505], [#634][gh-634])
 
@@ -323,142 +323,142 @@ setting the value of this constant to `true`.
 
   (props [@jrfnl][gh-jrfnl], [@schlessera][gh-schlessera])
 
-[gh-642]: https://github.com/WordPress/Requests/pull/642
-[gh-640]: https://github.com/WordPress/Requests/pull/640
-[gh-634]: https://github.com/WordPress/Requests/pull/634
-[gh-632]: https://github.com/WordPress/Requests/pull/632
-[gh-630]: https://github.com/WordPress/Requests/pull/630
-[gh-629]: https://github.com/WordPress/Requests/pull/629
-[gh-626]: https://github.com/WordPress/Requests/pull/626
-[gh-625]: https://github.com/WordPress/Requests/pull/625
-[gh-623]: https://github.com/WordPress/Requests/pull/623
-[gh-622]: https://github.com/WordPress/Requests/pull/622
-[gh-621]: https://github.com/WordPress/Requests/pull/621
-[gh-620]: https://github.com/WordPress/Requests/pull/620
-[gh-618]: https://github.com/WordPress/Requests/pull/618
-[gh-617]: https://github.com/WordPress/Requests/pull/617
-[gh-616]: https://github.com/WordPress/Requests/pull/616
-[gh-615]: https://github.com/WordPress/Requests/pull/615
-[gh-614]: https://github.com/WordPress/Requests/pull/614
-[gh-613]: https://github.com/WordPress/Requests/pull/613
-[gh-612]: https://github.com/WordPress/Requests/pull/612
-[gh-611]: https://github.com/WordPress/Requests/pull/611
-[gh-610]: https://github.com/WordPress/Requests/pull/610
-[gh-609]: https://github.com/WordPress/Requests/pull/609
-[gh-608]: https://github.com/WordPress/Requests/pull/608
-[gh-607]: https://github.com/WordPress/Requests/pull/607
-[gh-606]: https://github.com/WordPress/Requests/pull/606
-[gh-605]: https://github.com/WordPress/Requests/pull/605
-[gh-604]: https://github.com/WordPress/Requests/pull/604
-[gh-603]: https://github.com/WordPress/Requests/pull/603
-[gh-602]: https://github.com/WordPress/Requests/pull/602
-[gh-601]: https://github.com/WordPress/Requests/pull/601
-[gh-599]: https://github.com/WordPress/Requests/pull/599
-[gh-595]: https://github.com/WordPress/Requests/pull/595
-[gh-594]: https://github.com/WordPress/Requests/pull/594
-[gh-593]: https://github.com/WordPress/Requests/issues/593
-[gh-592]: https://github.com/WordPress/Requests/pull/592
-[gh-591]: https://github.com/WordPress/Requests/pull/591
-[gh-590]: https://github.com/WordPress/Requests/issues/590
-[gh-588]: https://github.com/WordPress/Requests/pull/588
-[gh-587]: https://github.com/WordPress/Requests/pull/587
-[gh-586]: https://github.com/WordPress/Requests/pull/586
-[gh-583]: https://github.com/WordPress/Requests/pull/583
-[gh-581]: https://github.com/WordPress/Requests/pull/581
-[gh-579]: https://github.com/WordPress/Requests/pull/579
-[gh-578]: https://github.com/WordPress/Requests/pull/578
-[gh-577]: https://github.com/WordPress/Requests/pull/577
-[gh-575]: https://github.com/WordPress/Requests/pull/575
-[gh-574]: https://github.com/WordPress/Requests/pull/574
-[gh-573]: https://github.com/WordPress/Requests/pull/573
-[gh-572]: https://github.com/WordPress/Requests/pull/572
-[gh-571]: https://github.com/WordPress/Requests/pull/571
-[gh-569]: https://github.com/WordPress/Requests/pull/569
-[gh-566]: https://github.com/WordPress/Requests/pull/566
-[gh-563]: https://github.com/WordPress/Requests/pull/563
-[gh-562]: https://github.com/WordPress/Requests/pull/562
-[gh-561]: https://github.com/WordPress/Requests/pull/561
-[gh-560]: https://github.com/WordPress/Requests/pull/560
-[gh-559]: https://github.com/WordPress/Requests/pull/559
-[gh-558]: https://github.com/WordPress/Requests/pull/558
-[gh-557]: https://github.com/WordPress/Requests/pull/557
-[gh-556]: https://github.com/WordPress/Requests/pull/556
-[gh-555]: https://github.com/WordPress/Requests/pull/555
-[gh-554]: https://github.com/WordPress/Requests/pull/554
-[gh-553]: https://github.com/WordPress/Requests/pull/553
-[gh-552]: https://github.com/WordPress/Requests/pull/552
-[gh-551]: https://github.com/WordPress/Requests/pull/551
-[gh-550]: https://github.com/WordPress/Requests/pull/550
-[gh-549]: https://github.com/WordPress/Requests/pull/549
-[gh-548]: https://github.com/WordPress/Requests/pull/548
-[gh-547]: https://github.com/WordPress/Requests/pull/547
-[gh-545]: https://github.com/WordPress/Requests/pull/545
-[gh-544]: https://github.com/WordPress/Requests/pull/544
-[gh-543]: https://github.com/WordPress/Requests/pull/543
-[gh-542]: https://github.com/WordPress/Requests/pull/542
-[gh-541]: https://github.com/WordPress/Requests/pull/541
-[gh-540]: https://github.com/WordPress/Requests/pull/540
-[gh-539]: https://github.com/WordPress/Requests/pull/539
-[gh-538]: https://github.com/WordPress/Requests/pull/538
-[gh-537]: https://github.com/WordPress/Requests/pull/537
-[gh-536]: https://github.com/WordPress/Requests/pull/536
-[gh-535]: https://github.com/WordPress/Requests/pull/535
-[gh-534]: https://github.com/WordPress/Requests/pull/534
-[gh-533]: https://github.com/WordPress/Requests/issues/533
-[gh-532]: https://github.com/WordPress/Requests/pull/532
-[gh-531]: https://github.com/WordPress/Requests/pull/531
-[gh-528]: https://github.com/WordPress/Requests/pull/528
-[gh-526]: https://github.com/WordPress/Requests/pull/526
-[gh-525]: https://github.com/WordPress/Requests/pull/525
-[gh-524]: https://github.com/WordPress/Requests/pull/524
-[gh-523]: https://github.com/WordPress/Requests/pull/523
-[gh-522]: https://github.com/WordPress/Requests/pull/522
-[gh-521]: https://github.com/WordPress/Requests/pull/521
-[gh-520]: https://github.com/WordPress/Requests/pull/520
-[gh-519]: https://github.com/WordPress/Requests/pull/519
-[gh-517]: https://github.com/WordPress/Requests/pull/517
-[gh-516]: https://github.com/WordPress/Requests/pull/516
-[gh-515]: https://github.com/WordPress/Requests/issues/515
-[gh-514]: https://github.com/WordPress/Requests/issues/514
-[gh-513]: https://github.com/WordPress/Requests/issues/513
-[gh-512]: https://github.com/WordPress/Requests/issues/512
-[gh-511]: https://github.com/WordPress/Requests/pull/511
-[gh-510]: https://github.com/WordPress/Requests/pull/510
-[gh-509]: https://github.com/WordPress/Requests/pull/509
-[gh-508]: https://github.com/WordPress/Requests/pull/508
-[gh-506]: https://github.com/WordPress/Requests/pull/506
-[gh-505]: https://github.com/WordPress/Requests/pull/505
-[gh-504]: https://github.com/WordPress/Requests/pull/504
-[gh-503]: https://github.com/WordPress/Requests/pull/503
-[gh-501]: https://github.com/WordPress/Requests/pull/501
-[gh-500]: https://github.com/WordPress/Requests/pull/500
-[gh-499]: https://github.com/WordPress/Requests/pull/499
-[gh-498]: https://github.com/WordPress/Requests/issues/498
-[gh-498]: https://github.com/WordPress/Requests/issues/495
-[gh-492]: https://github.com/WordPress/Requests/pull/492
-[gh-491]: https://github.com/WordPress/Requests/pull/491
-[gh-490]: https://github.com/WordPress/Requests/pull/490
-[gh-489]: https://github.com/WordPress/Requests/pull/489
-[gh-488]: https://github.com/WordPress/Requests/pull/488
-[gh-480]: https://github.com/WordPress/Requests/issues/480
-[gh-476]: https://github.com/WordPress/Requests/issues/476
-[gh-472]: https://github.com/WordPress/Requests/issues/472
-[gh-470]: https://github.com/WordPress/Requests/pull/470
-[gh-466]: https://github.com/WordPress/Requests/issues/466
-[gh-463]: https://github.com/WordPress/Requests/issues/463
-[gh-460]: https://github.com/WordPress/Requests/issues/460
-[gh-459]: https://github.com/WordPress/Requests/issues/459
-[gh-447]: https://github.com/WordPress/Requests/pull/447
-[gh-446]: https://github.com/WordPress/Requests/pull/446
-[gh-444]: https://github.com/WordPress/Requests/pull/444
-[gh-379]: https://github.com/WordPress/Requests/pull/379
-[gh-378]: https://github.com/WordPress/Requests/issues/378
-[gh-309]: https://github.com/WordPress/Requests/pull/309
-[gh-301]: https://github.com/WordPress/Requests/issues/301
-[gh-251]: https://github.com/WordPress/Requests/pull/251
-[gh-250]: https://github.com/WordPress/Requests/issues/250
-[gh-214]: https://github.com/WordPress/Requests/pull/214
-[gh-167]: https://github.com/WordPress/Requests/issues/167
+[gh-642]: https://github.com/FinPress/Requests/pull/642
+[gh-640]: https://github.com/FinPress/Requests/pull/640
+[gh-634]: https://github.com/FinPress/Requests/pull/634
+[gh-632]: https://github.com/FinPress/Requests/pull/632
+[gh-630]: https://github.com/FinPress/Requests/pull/630
+[gh-629]: https://github.com/FinPress/Requests/pull/629
+[gh-626]: https://github.com/FinPress/Requests/pull/626
+[gh-625]: https://github.com/FinPress/Requests/pull/625
+[gh-623]: https://github.com/FinPress/Requests/pull/623
+[gh-622]: https://github.com/FinPress/Requests/pull/622
+[gh-621]: https://github.com/FinPress/Requests/pull/621
+[gh-620]: https://github.com/FinPress/Requests/pull/620
+[gh-618]: https://github.com/FinPress/Requests/pull/618
+[gh-617]: https://github.com/FinPress/Requests/pull/617
+[gh-616]: https://github.com/FinPress/Requests/pull/616
+[gh-615]: https://github.com/FinPress/Requests/pull/615
+[gh-614]: https://github.com/FinPress/Requests/pull/614
+[gh-613]: https://github.com/FinPress/Requests/pull/613
+[gh-612]: https://github.com/FinPress/Requests/pull/612
+[gh-611]: https://github.com/FinPress/Requests/pull/611
+[gh-610]: https://github.com/FinPress/Requests/pull/610
+[gh-609]: https://github.com/FinPress/Requests/pull/609
+[gh-608]: https://github.com/FinPress/Requests/pull/608
+[gh-607]: https://github.com/FinPress/Requests/pull/607
+[gh-606]: https://github.com/FinPress/Requests/pull/606
+[gh-605]: https://github.com/FinPress/Requests/pull/605
+[gh-604]: https://github.com/FinPress/Requests/pull/604
+[gh-603]: https://github.com/FinPress/Requests/pull/603
+[gh-602]: https://github.com/FinPress/Requests/pull/602
+[gh-601]: https://github.com/FinPress/Requests/pull/601
+[gh-599]: https://github.com/FinPress/Requests/pull/599
+[gh-595]: https://github.com/FinPress/Requests/pull/595
+[gh-594]: https://github.com/FinPress/Requests/pull/594
+[gh-593]: https://github.com/FinPress/Requests/issues/593
+[gh-592]: https://github.com/FinPress/Requests/pull/592
+[gh-591]: https://github.com/FinPress/Requests/pull/591
+[gh-590]: https://github.com/FinPress/Requests/issues/590
+[gh-588]: https://github.com/FinPress/Requests/pull/588
+[gh-587]: https://github.com/FinPress/Requests/pull/587
+[gh-586]: https://github.com/FinPress/Requests/pull/586
+[gh-583]: https://github.com/FinPress/Requests/pull/583
+[gh-581]: https://github.com/FinPress/Requests/pull/581
+[gh-579]: https://github.com/FinPress/Requests/pull/579
+[gh-578]: https://github.com/FinPress/Requests/pull/578
+[gh-577]: https://github.com/FinPress/Requests/pull/577
+[gh-575]: https://github.com/FinPress/Requests/pull/575
+[gh-574]: https://github.com/FinPress/Requests/pull/574
+[gh-573]: https://github.com/FinPress/Requests/pull/573
+[gh-572]: https://github.com/FinPress/Requests/pull/572
+[gh-571]: https://github.com/FinPress/Requests/pull/571
+[gh-569]: https://github.com/FinPress/Requests/pull/569
+[gh-566]: https://github.com/FinPress/Requests/pull/566
+[gh-563]: https://github.com/FinPress/Requests/pull/563
+[gh-562]: https://github.com/FinPress/Requests/pull/562
+[gh-561]: https://github.com/FinPress/Requests/pull/561
+[gh-560]: https://github.com/FinPress/Requests/pull/560
+[gh-559]: https://github.com/FinPress/Requests/pull/559
+[gh-558]: https://github.com/FinPress/Requests/pull/558
+[gh-557]: https://github.com/FinPress/Requests/pull/557
+[gh-556]: https://github.com/FinPress/Requests/pull/556
+[gh-555]: https://github.com/FinPress/Requests/pull/555
+[gh-554]: https://github.com/FinPress/Requests/pull/554
+[gh-553]: https://github.com/FinPress/Requests/pull/553
+[gh-552]: https://github.com/FinPress/Requests/pull/552
+[gh-551]: https://github.com/FinPress/Requests/pull/551
+[gh-550]: https://github.com/FinPress/Requests/pull/550
+[gh-549]: https://github.com/FinPress/Requests/pull/549
+[gh-548]: https://github.com/FinPress/Requests/pull/548
+[gh-547]: https://github.com/FinPress/Requests/pull/547
+[gh-545]: https://github.com/FinPress/Requests/pull/545
+[gh-544]: https://github.com/FinPress/Requests/pull/544
+[gh-543]: https://github.com/FinPress/Requests/pull/543
+[gh-542]: https://github.com/FinPress/Requests/pull/542
+[gh-541]: https://github.com/FinPress/Requests/pull/541
+[gh-540]: https://github.com/FinPress/Requests/pull/540
+[gh-539]: https://github.com/FinPress/Requests/pull/539
+[gh-538]: https://github.com/FinPress/Requests/pull/538
+[gh-537]: https://github.com/FinPress/Requests/pull/537
+[gh-536]: https://github.com/FinPress/Requests/pull/536
+[gh-535]: https://github.com/FinPress/Requests/pull/535
+[gh-534]: https://github.com/FinPress/Requests/pull/534
+[gh-533]: https://github.com/FinPress/Requests/issues/533
+[gh-532]: https://github.com/FinPress/Requests/pull/532
+[gh-531]: https://github.com/FinPress/Requests/pull/531
+[gh-528]: https://github.com/FinPress/Requests/pull/528
+[gh-526]: https://github.com/FinPress/Requests/pull/526
+[gh-525]: https://github.com/FinPress/Requests/pull/525
+[gh-524]: https://github.com/FinPress/Requests/pull/524
+[gh-523]: https://github.com/FinPress/Requests/pull/523
+[gh-522]: https://github.com/FinPress/Requests/pull/522
+[gh-521]: https://github.com/FinPress/Requests/pull/521
+[gh-520]: https://github.com/FinPress/Requests/pull/520
+[gh-519]: https://github.com/FinPress/Requests/pull/519
+[gh-517]: https://github.com/FinPress/Requests/pull/517
+[gh-516]: https://github.com/FinPress/Requests/pull/516
+[gh-515]: https://github.com/FinPress/Requests/issues/515
+[gh-514]: https://github.com/FinPress/Requests/issues/514
+[gh-513]: https://github.com/FinPress/Requests/issues/513
+[gh-512]: https://github.com/FinPress/Requests/issues/512
+[gh-511]: https://github.com/FinPress/Requests/pull/511
+[gh-510]: https://github.com/FinPress/Requests/pull/510
+[gh-509]: https://github.com/FinPress/Requests/pull/509
+[gh-508]: https://github.com/FinPress/Requests/pull/508
+[gh-506]: https://github.com/FinPress/Requests/pull/506
+[gh-505]: https://github.com/FinPress/Requests/pull/505
+[gh-504]: https://github.com/FinPress/Requests/pull/504
+[gh-503]: https://github.com/FinPress/Requests/pull/503
+[gh-501]: https://github.com/FinPress/Requests/pull/501
+[gh-500]: https://github.com/FinPress/Requests/pull/500
+[gh-499]: https://github.com/FinPress/Requests/pull/499
+[gh-498]: https://github.com/FinPress/Requests/issues/498
+[gh-498]: https://github.com/FinPress/Requests/issues/495
+[gh-492]: https://github.com/FinPress/Requests/pull/492
+[gh-491]: https://github.com/FinPress/Requests/pull/491
+[gh-490]: https://github.com/FinPress/Requests/pull/490
+[gh-489]: https://github.com/FinPress/Requests/pull/489
+[gh-488]: https://github.com/FinPress/Requests/pull/488
+[gh-480]: https://github.com/FinPress/Requests/issues/480
+[gh-476]: https://github.com/FinPress/Requests/issues/476
+[gh-472]: https://github.com/FinPress/Requests/issues/472
+[gh-470]: https://github.com/FinPress/Requests/pull/470
+[gh-466]: https://github.com/FinPress/Requests/issues/466
+[gh-463]: https://github.com/FinPress/Requests/issues/463
+[gh-460]: https://github.com/FinPress/Requests/issues/460
+[gh-459]: https://github.com/FinPress/Requests/issues/459
+[gh-447]: https://github.com/FinPress/Requests/pull/447
+[gh-446]: https://github.com/FinPress/Requests/pull/446
+[gh-444]: https://github.com/FinPress/Requests/pull/444
+[gh-379]: https://github.com/FinPress/Requests/pull/379
+[gh-378]: https://github.com/FinPress/Requests/issues/378
+[gh-309]: https://github.com/FinPress/Requests/pull/309
+[gh-301]: https://github.com/FinPress/Requests/issues/301
+[gh-251]: https://github.com/FinPress/Requests/pull/251
+[gh-250]: https://github.com/FinPress/Requests/issues/250
+[gh-214]: https://github.com/FinPress/Requests/pull/214
+[gh-167]: https://github.com/FinPress/Requests/issues/167
 
 1.8.1
 -----
@@ -469,14 +469,14 @@ setting the value of this constant to `true`.
 - Added a release checklist. [@jrfnl][gh-jrfnl], [#483][gh-483]
 - Various minor updates to the documentation and the website. [@jrfnl][gh-jrfnl], [@schlessera][gh-schlessera], [#477][gh-477], [#478][gh-478], [#479][gh-479], [#481][gh-481], [#482][gh-482]
 
-[gh-477]: https://github.com/WordPress/Requests/issues/477
-[gh-478]: https://github.com/WordPress/Requests/issues/478
-[gh-479]: https://github.com/WordPress/Requests/issues/479
-[gh-481]: https://github.com/WordPress/Requests/issues/481
-[gh-482]: https://github.com/WordPress/Requests/issues/482
-[gh-483]: https://github.com/WordPress/Requests/issues/483
-[gh-484]: https://github.com/WordPress/Requests/issues/484
-[gh-485]: https://github.com/WordPress/Requests/issues/485
+[gh-477]: https://github.com/FinPress/Requests/issues/477
+[gh-478]: https://github.com/FinPress/Requests/issues/478
+[gh-479]: https://github.com/FinPress/Requests/issues/479
+[gh-481]: https://github.com/FinPress/Requests/issues/481
+[gh-482]: https://github.com/FinPress/Requests/issues/482
+[gh-483]: https://github.com/FinPress/Requests/issues/483
+[gh-484]: https://github.com/FinPress/Requests/issues/484
+[gh-485]: https://github.com/FinPress/Requests/issues/485
 
 
 1.8.0
@@ -498,20 +498,20 @@ setting the value of this constant to `true`.
 
   A `Deserialization of Untrusted Data` weakness was found in the `FilteredIterator` class.
 
-  This security vulnerability was first reported to the WordPress project. The security fix applied to WordPress has been ported back into the library.
+  This security vulnerability was first reported to the FinPress project. The security fix applied to FinPress has been ported back into the library.
 
-  GitHub security advisory: [Insecure Deserialization of untrusted data](https://github.com/WordPress/Requests/security/advisories/GHSA-52qp-jpq7-6c54)
+  GitHub security advisory: [Insecure Deserialization of untrusted data](https://github.com/FinPress/Requests/security/advisories/GHSA-52qp-jpq7-6c54)
 
   CVE: [CVE-2021-29476 - Deserialization of Untrusted Data](https://cve.mitre.org/cgi-bin/cvename.cgi?name=2021-29476)
 
-  Related WordPress CVE: [https://cve.mitre.org/cgi-bin/cvename.cgi?name=2020-28032](https://cve.mitre.org/cgi-bin/cvename.cgi?name=2020-28032)
+  Related FinPress CVE: [https://cve.mitre.org/cgi-bin/cvename.cgi?name=2020-28032](https://cve.mitre.org/cgi-bin/cvename.cgi?name=2020-28032)
 
   (props [@dd32][gh-dd32], [@desrosj][gh-desrosj], [@jrfnl][gh-jrfnl], [@peterwilsoncc][gh-peterwilsoncc], [@SergeyBiryukov][gh-SergeyBiryukov], [@whyisjake][gh-whyisjake], [@xknown][gh-xknown], [#421][gh-421], [#422][gh-422])
 
 
-- **Repository moved to `WordPress\Requests`**
+- **Repository moved to `FinPress\Requests`**
 
-  The `Requests` library has been moved to the WordPress GitHub organization and can now be found under `https://github.com/WordPress/Requests`.
+  The `Requests` library has been moved to the FinPress GitHub organization and can now be found under `https://github.com/FinPress/Requests`.
 
   All links in code and documentation were updated accordingly.
 
@@ -597,9 +597,9 @@ setting the value of this constant to `true`.
 
   The code style has been made consistent across both code and tests and is now enforced via a custom PHPCS rule set.
 
-  The WordPress Coding Standards were chosen as the basis for the code style checks as most contributors to this library originate from the WordPress community and will be familiar with this code style.
+  The FinPress Coding Standards were chosen as the basis for the code style checks as most contributors to this library originate from the FinPress community and will be familiar with this code style.
 
-  Main differences from the WordPress Coding Standards based on discussions and an analysis of the code styles already in use:
+  Main differences from the FinPress Coding Standards based on discussions and an analysis of the code styles already in use:
 
   - No whitespace on the inside of parentheses.
   - No Yoda conditions.
@@ -629,97 +629,97 @@ setting the value of this constant to `true`.
 
   (props [@desrosj][gh-desrosj], [@jrfnl][gh-jrfnl], [@JustinyAhin][gh-JustinyAhin], [@tnorthcutt][gh-tnorthcutt], [#334][gh-334], [#367][gh-367], [#387][gh-387], [#443][gh-443], [#462][gh-462], [#465][gh-465], [#468][gh-468], [#471][gh-471] )
 
-[gh-194]: https://github.com/WordPress/Requests/issues/194
-[gh-238]: https://github.com/WordPress/Requests/issues/238
-[gh-248]: https://github.com/WordPress/Requests/issues/248
-[gh-249]: https://github.com/WordPress/Requests/issues/249
-[gh-263]: https://github.com/WordPress/Requests/issues/263
-[gh-280]: https://github.com/WordPress/Requests/issues/280
-[gh-296]: https://github.com/WordPress/Requests/issues/296
-[gh-298]: https://github.com/WordPress/Requests/issues/298
-[gh-302]: https://github.com/WordPress/Requests/issues/302
-[gh-303]: https://github.com/WordPress/Requests/issues/303
-[gh-310]: https://github.com/WordPress/Requests/issues/310
-[gh-311]: https://github.com/WordPress/Requests/issues/311
-[gh-318]: https://github.com/WordPress/Requests/issues/318
-[gh-328]: https://github.com/WordPress/Requests/issues/328
-[gh-334]: https://github.com/WordPress/Requests/issues/334
-[gh-335]: https://github.com/WordPress/Requests/issues/335
-[gh-339]: https://github.com/WordPress/Requests/issues/339
-[gh-345]: https://github.com/WordPress/Requests/issues/345
-[gh-346]: https://github.com/WordPress/Requests/issues/346
-[gh-351]: https://github.com/WordPress/Requests/issues/351
-[gh-352]: https://github.com/WordPress/Requests/issues/352
-[gh-353]: https://github.com/WordPress/Requests/issues/353
-[gh-354]: https://github.com/WordPress/Requests/issues/354
-[gh-355]: https://github.com/WordPress/Requests/issues/355
-[gh-356]: https://github.com/WordPress/Requests/issues/356
-[gh-358]: https://github.com/WordPress/Requests/issues/358
-[gh-359]: https://github.com/WordPress/Requests/issues/359
-[gh-360]: https://github.com/WordPress/Requests/issues/360
-[gh-361]: https://github.com/WordPress/Requests/issues/361
-[gh-362]: https://github.com/WordPress/Requests/issues/362
-[gh-363]: https://github.com/WordPress/Requests/issues/363
-[gh-364]: https://github.com/WordPress/Requests/issues/364
-[gh-366]: https://github.com/WordPress/Requests/issues/366
-[gh-367]: https://github.com/WordPress/Requests/issues/367
-[gh-367]: https://github.com/WordPress/Requests/issues/367
-[gh-368]: https://github.com/WordPress/Requests/issues/368
-[gh-370]: https://github.com/WordPress/Requests/issues/370
-[gh-385]: https://github.com/WordPress/Requests/issues/385
-[gh-386]: https://github.com/WordPress/Requests/issues/386
-[gh-387]: https://github.com/WordPress/Requests/issues/387
-[gh-388]: https://github.com/WordPress/Requests/issues/388
-[gh-396]: https://github.com/WordPress/Requests/issues/396
-[gh-397]: https://github.com/WordPress/Requests/issues/397
-[gh-398]: https://github.com/WordPress/Requests/issues/398
-[gh-399]: https://github.com/WordPress/Requests/issues/399
-[gh-400]: https://github.com/WordPress/Requests/issues/400
-[gh-401]: https://github.com/WordPress/Requests/issues/401
-[gh-402]: https://github.com/WordPress/Requests/issues/402
-[gh-403]: https://github.com/WordPress/Requests/issues/403
-[gh-404]: https://github.com/WordPress/Requests/issues/404
-[gh-405]: https://github.com/WordPress/Requests/issues/405
-[gh-406]: https://github.com/WordPress/Requests/issues/406
-[gh-408]: https://github.com/WordPress/Requests/issues/408
-[gh-409]: https://github.com/WordPress/Requests/issues/409
-[gh-410]: https://github.com/WordPress/Requests/issues/410
-[gh-411]: https://github.com/WordPress/Requests/issues/411
-[gh-412]: https://github.com/WordPress/Requests/issues/412
-[gh-413]: https://github.com/WordPress/Requests/issues/413
-[gh-414]: https://github.com/WordPress/Requests/issues/414
-[gh-415]: https://github.com/WordPress/Requests/issues/415
-[gh-416]: https://github.com/WordPress/Requests/issues/416
-[gh-417]: https://github.com/WordPress/Requests/issues/417
-[gh-421]: https://github.com/WordPress/Requests/issues/421
-[gh-422]: https://github.com/WordPress/Requests/issues/422
-[gh-423]: https://github.com/WordPress/Requests/issues/423
-[gh-424]: https://github.com/WordPress/Requests/issues/424
-[gh-425]: https://github.com/WordPress/Requests/issues/425
-[gh-426]: https://github.com/WordPress/Requests/issues/426
-[gh-428]: https://github.com/WordPress/Requests/issues/428
-[gh-434]: https://github.com/WordPress/Requests/issues/434
-[gh-436]: https://github.com/WordPress/Requests/issues/436
-[gh-439]: https://github.com/WordPress/Requests/issues/439
-[gh-440]: https://github.com/WordPress/Requests/issues/440
-[gh-441]: https://github.com/WordPress/Requests/issues/441
-[gh-443]: https://github.com/WordPress/Requests/issues/443
-[gh-445]: https://github.com/WordPress/Requests/issues/445
-[gh-448]: https://github.com/WordPress/Requests/issues/448
-[gh-451]: https://github.com/WordPress/Requests/issues/451
-[gh-453]: https://github.com/WordPress/Requests/issues/453
-[gh-454]: https://github.com/WordPress/Requests/issues/454
-[gh-456]: https://github.com/WordPress/Requests/issues/456
-[gh-457]: https://github.com/WordPress/Requests/issues/457
-[gh-458]: https://github.com/WordPress/Requests/issues/458
-[gh-461]: https://github.com/WordPress/Requests/issues/461
-[gh-462]: https://github.com/WordPress/Requests/issues/462
-[gh-464]: https://github.com/WordPress/Requests/issues/464
-[gh-465]: https://github.com/WordPress/Requests/issues/465
-[gh-467]: https://github.com/WordPress/Requests/issues/467
-[gh-468]: https://github.com/WordPress/Requests/issues/468
-[gh-469]: https://github.com/WordPress/Requests/issues/469
-[gh-471]: https://github.com/WordPress/Requests/issues/471
+[gh-194]: https://github.com/FinPress/Requests/issues/194
+[gh-238]: https://github.com/FinPress/Requests/issues/238
+[gh-248]: https://github.com/FinPress/Requests/issues/248
+[gh-249]: https://github.com/FinPress/Requests/issues/249
+[gh-263]: https://github.com/FinPress/Requests/issues/263
+[gh-280]: https://github.com/FinPress/Requests/issues/280
+[gh-296]: https://github.com/FinPress/Requests/issues/296
+[gh-298]: https://github.com/FinPress/Requests/issues/298
+[gh-302]: https://github.com/FinPress/Requests/issues/302
+[gh-303]: https://github.com/FinPress/Requests/issues/303
+[gh-310]: https://github.com/FinPress/Requests/issues/310
+[gh-311]: https://github.com/FinPress/Requests/issues/311
+[gh-318]: https://github.com/FinPress/Requests/issues/318
+[gh-328]: https://github.com/FinPress/Requests/issues/328
+[gh-334]: https://github.com/FinPress/Requests/issues/334
+[gh-335]: https://github.com/FinPress/Requests/issues/335
+[gh-339]: https://github.com/FinPress/Requests/issues/339
+[gh-345]: https://github.com/FinPress/Requests/issues/345
+[gh-346]: https://github.com/FinPress/Requests/issues/346
+[gh-351]: https://github.com/FinPress/Requests/issues/351
+[gh-352]: https://github.com/FinPress/Requests/issues/352
+[gh-353]: https://github.com/FinPress/Requests/issues/353
+[gh-354]: https://github.com/FinPress/Requests/issues/354
+[gh-355]: https://github.com/FinPress/Requests/issues/355
+[gh-356]: https://github.com/FinPress/Requests/issues/356
+[gh-358]: https://github.com/FinPress/Requests/issues/358
+[gh-359]: https://github.com/FinPress/Requests/issues/359
+[gh-360]: https://github.com/FinPress/Requests/issues/360
+[gh-361]: https://github.com/FinPress/Requests/issues/361
+[gh-362]: https://github.com/FinPress/Requests/issues/362
+[gh-363]: https://github.com/FinPress/Requests/issues/363
+[gh-364]: https://github.com/FinPress/Requests/issues/364
+[gh-366]: https://github.com/FinPress/Requests/issues/366
+[gh-367]: https://github.com/FinPress/Requests/issues/367
+[gh-367]: https://github.com/FinPress/Requests/issues/367
+[gh-368]: https://github.com/FinPress/Requests/issues/368
+[gh-370]: https://github.com/FinPress/Requests/issues/370
+[gh-385]: https://github.com/FinPress/Requests/issues/385
+[gh-386]: https://github.com/FinPress/Requests/issues/386
+[gh-387]: https://github.com/FinPress/Requests/issues/387
+[gh-388]: https://github.com/FinPress/Requests/issues/388
+[gh-396]: https://github.com/FinPress/Requests/issues/396
+[gh-397]: https://github.com/FinPress/Requests/issues/397
+[gh-398]: https://github.com/FinPress/Requests/issues/398
+[gh-399]: https://github.com/FinPress/Requests/issues/399
+[gh-400]: https://github.com/FinPress/Requests/issues/400
+[gh-401]: https://github.com/FinPress/Requests/issues/401
+[gh-402]: https://github.com/FinPress/Requests/issues/402
+[gh-403]: https://github.com/FinPress/Requests/issues/403
+[gh-404]: https://github.com/FinPress/Requests/issues/404
+[gh-405]: https://github.com/FinPress/Requests/issues/405
+[gh-406]: https://github.com/FinPress/Requests/issues/406
+[gh-408]: https://github.com/FinPress/Requests/issues/408
+[gh-409]: https://github.com/FinPress/Requests/issues/409
+[gh-410]: https://github.com/FinPress/Requests/issues/410
+[gh-411]: https://github.com/FinPress/Requests/issues/411
+[gh-412]: https://github.com/FinPress/Requests/issues/412
+[gh-413]: https://github.com/FinPress/Requests/issues/413
+[gh-414]: https://github.com/FinPress/Requests/issues/414
+[gh-415]: https://github.com/FinPress/Requests/issues/415
+[gh-416]: https://github.com/FinPress/Requests/issues/416
+[gh-417]: https://github.com/FinPress/Requests/issues/417
+[gh-421]: https://github.com/FinPress/Requests/issues/421
+[gh-422]: https://github.com/FinPress/Requests/issues/422
+[gh-423]: https://github.com/FinPress/Requests/issues/423
+[gh-424]: https://github.com/FinPress/Requests/issues/424
+[gh-425]: https://github.com/FinPress/Requests/issues/425
+[gh-426]: https://github.com/FinPress/Requests/issues/426
+[gh-428]: https://github.com/FinPress/Requests/issues/428
+[gh-434]: https://github.com/FinPress/Requests/issues/434
+[gh-436]: https://github.com/FinPress/Requests/issues/436
+[gh-439]: https://github.com/FinPress/Requests/issues/439
+[gh-440]: https://github.com/FinPress/Requests/issues/440
+[gh-441]: https://github.com/FinPress/Requests/issues/441
+[gh-443]: https://github.com/FinPress/Requests/issues/443
+[gh-445]: https://github.com/FinPress/Requests/issues/445
+[gh-448]: https://github.com/FinPress/Requests/issues/448
+[gh-451]: https://github.com/FinPress/Requests/issues/451
+[gh-453]: https://github.com/FinPress/Requests/issues/453
+[gh-454]: https://github.com/FinPress/Requests/issues/454
+[gh-456]: https://github.com/FinPress/Requests/issues/456
+[gh-457]: https://github.com/FinPress/Requests/issues/457
+[gh-458]: https://github.com/FinPress/Requests/issues/458
+[gh-461]: https://github.com/FinPress/Requests/issues/461
+[gh-462]: https://github.com/FinPress/Requests/issues/462
+[gh-464]: https://github.com/FinPress/Requests/issues/464
+[gh-465]: https://github.com/FinPress/Requests/issues/465
+[gh-467]: https://github.com/FinPress/Requests/issues/467
+[gh-468]: https://github.com/FinPress/Requests/issues/468
+[gh-469]: https://github.com/FinPress/Requests/issues/469
+[gh-471]: https://github.com/FinPress/Requests/issues/471
 
 1.7.0
 -----
@@ -925,68 +925,68 @@ default
 
   (props [@qibinghua][gh-qibinghua], [#219][gh-219])
 
-[gh-3]: https://github.com/WordPress/Requests/issues/3
-[gh-75]: https://github.com/WordPress/Requests/issues/75
-[gh-86]: https://github.com/WordPress/Requests/issues/86
-[gh-92]: https://github.com/WordPress/Requests/issues/92
-[gh-97]: https://github.com/WordPress/Requests/issues/97
-[gh-99]: https://github.com/WordPress/Requests/issues/99
-[gh-101]: https://github.com/WordPress/Requests/issues/101
-[gh-103]: https://github.com/WordPress/Requests/issues/103
-[gh-104]: https://github.com/WordPress/Requests/issues/104
-[gh-106]: https://github.com/WordPress/Requests/issues/106
-[gh-107]: https://github.com/WordPress/Requests/issues/107
-[gh-112]: https://github.com/WordPress/Requests/issues/112
-[gh-113]: https://github.com/WordPress/Requests/issues/113
-[gh-120]: https://github.com/WordPress/Requests/issues/120
-[gh-124]: https://github.com/WordPress/Requests/issues/124
-[gh-128]: https://github.com/WordPress/Requests/issues/128
-[gh-130]: https://github.com/WordPress/Requests/issues/130
-[gh-132]: https://github.com/WordPress/Requests/issues/132
-[gh-136]: https://github.com/WordPress/Requests/issues/136
-[gh-148]: https://github.com/WordPress/Requests/issues/148
-[gh-150]: https://github.com/WordPress/Requests/issues/150
-[gh-156]: https://github.com/WordPress/Requests/issues/156
-[gh-158]: https://github.com/WordPress/Requests/issues/158
-[gh-162]: https://github.com/WordPress/Requests/issues/162
-[gh-164]: https://github.com/WordPress/Requests/issues/164
-[gh-170]: https://github.com/WordPress/Requests/issues/170
-[gh-172]: https://github.com/WordPress/Requests/issues/172
-[gh-174]: https://github.com/WordPress/Requests/issues/174
-[gh-176]: https://github.com/WordPress/Requests/issues/176
-[gh-177]: https://github.com/WordPress/Requests/issues/177
-[gh-179]: https://github.com/WordPress/Requests/issues/179
-[gh-180]: https://github.com/WordPress/Requests/issues/180
-[gh-181]: https://github.com/WordPress/Requests/issues/181
-[gh-183]: https://github.com/WordPress/Requests/issues/183
-[gh-184]: https://github.com/WordPress/Requests/issues/184
-[gh-185]: https://github.com/WordPress/Requests/issues/185
-[gh-186]: https://github.com/WordPress/Requests/issues/186
-[gh-187]: https://github.com/WordPress/Requests/issues/187
-[gh-188]: https://github.com/WordPress/Requests/issues/188
-[gh-194]: https://github.com/WordPress/Requests/issues/194
-[gh-196]: https://github.com/WordPress/Requests/issues/196
-[gh-200]: https://github.com/WordPress/Requests/issues/200
-[gh-202]: https://github.com/WordPress/Requests/issues/202
-[gh-203]: https://github.com/WordPress/Requests/issues/203
-[gh-205]: https://github.com/WordPress/Requests/issues/205
-[gh-206]: https://github.com/WordPress/Requests/issues/206
-[gh-207]: https://github.com/WordPress/Requests/issues/207
-[gh-210]: https://github.com/WordPress/Requests/issues/210
-[gh-211]: https://github.com/WordPress/Requests/issues/211
-[gh-215]: https://github.com/WordPress/Requests/issues/215
-[gh-216]: https://github.com/WordPress/Requests/issues/216
-[gh-217]: https://github.com/WordPress/Requests/issues/217
-[gh-219]: https://github.com/WordPress/Requests/issues/219
-[gh-223]: https://github.com/WordPress/Requests/issues/223
-[gh-224]: https://github.com/WordPress/Requests/issues/224
-[gh-227]: https://github.com/WordPress/Requests/issues/227
-[gh-230]: https://github.com/WordPress/Requests/issues/230
-[gh-236]: https://github.com/WordPress/Requests/issues/236
-[gh-237]: https://github.com/WordPress/Requests/issues/237
-[gh-238]: https://github.com/WordPress/Requests/issues/238
-[gh-239]: https://github.com/WordPress/Requests/issues/239
-[gh-240]: https://github.com/WordPress/Requests/issues/240
+[gh-3]: https://github.com/FinPress/Requests/issues/3
+[gh-75]: https://github.com/FinPress/Requests/issues/75
+[gh-86]: https://github.com/FinPress/Requests/issues/86
+[gh-92]: https://github.com/FinPress/Requests/issues/92
+[gh-97]: https://github.com/FinPress/Requests/issues/97
+[gh-99]: https://github.com/FinPress/Requests/issues/99
+[gh-101]: https://github.com/FinPress/Requests/issues/101
+[gh-103]: https://github.com/FinPress/Requests/issues/103
+[gh-104]: https://github.com/FinPress/Requests/issues/104
+[gh-106]: https://github.com/FinPress/Requests/issues/106
+[gh-107]: https://github.com/FinPress/Requests/issues/107
+[gh-112]: https://github.com/FinPress/Requests/issues/112
+[gh-113]: https://github.com/FinPress/Requests/issues/113
+[gh-120]: https://github.com/FinPress/Requests/issues/120
+[gh-124]: https://github.com/FinPress/Requests/issues/124
+[gh-128]: https://github.com/FinPress/Requests/issues/128
+[gh-130]: https://github.com/FinPress/Requests/issues/130
+[gh-132]: https://github.com/FinPress/Requests/issues/132
+[gh-136]: https://github.com/FinPress/Requests/issues/136
+[gh-148]: https://github.com/FinPress/Requests/issues/148
+[gh-150]: https://github.com/FinPress/Requests/issues/150
+[gh-156]: https://github.com/FinPress/Requests/issues/156
+[gh-158]: https://github.com/FinPress/Requests/issues/158
+[gh-162]: https://github.com/FinPress/Requests/issues/162
+[gh-164]: https://github.com/FinPress/Requests/issues/164
+[gh-170]: https://github.com/FinPress/Requests/issues/170
+[gh-172]: https://github.com/FinPress/Requests/issues/172
+[gh-174]: https://github.com/FinPress/Requests/issues/174
+[gh-176]: https://github.com/FinPress/Requests/issues/176
+[gh-177]: https://github.com/FinPress/Requests/issues/177
+[gh-179]: https://github.com/FinPress/Requests/issues/179
+[gh-180]: https://github.com/FinPress/Requests/issues/180
+[gh-181]: https://github.com/FinPress/Requests/issues/181
+[gh-183]: https://github.com/FinPress/Requests/issues/183
+[gh-184]: https://github.com/FinPress/Requests/issues/184
+[gh-185]: https://github.com/FinPress/Requests/issues/185
+[gh-186]: https://github.com/FinPress/Requests/issues/186
+[gh-187]: https://github.com/FinPress/Requests/issues/187
+[gh-188]: https://github.com/FinPress/Requests/issues/188
+[gh-194]: https://github.com/FinPress/Requests/issues/194
+[gh-196]: https://github.com/FinPress/Requests/issues/196
+[gh-200]: https://github.com/FinPress/Requests/issues/200
+[gh-202]: https://github.com/FinPress/Requests/issues/202
+[gh-203]: https://github.com/FinPress/Requests/issues/203
+[gh-205]: https://github.com/FinPress/Requests/issues/205
+[gh-206]: https://github.com/FinPress/Requests/issues/206
+[gh-207]: https://github.com/FinPress/Requests/issues/207
+[gh-210]: https://github.com/FinPress/Requests/issues/210
+[gh-211]: https://github.com/FinPress/Requests/issues/211
+[gh-215]: https://github.com/FinPress/Requests/issues/215
+[gh-216]: https://github.com/FinPress/Requests/issues/216
+[gh-217]: https://github.com/FinPress/Requests/issues/217
+[gh-219]: https://github.com/FinPress/Requests/issues/219
+[gh-223]: https://github.com/FinPress/Requests/issues/223
+[gh-224]: https://github.com/FinPress/Requests/issues/224
+[gh-227]: https://github.com/FinPress/Requests/issues/227
+[gh-230]: https://github.com/FinPress/Requests/issues/230
+[gh-236]: https://github.com/FinPress/Requests/issues/236
+[gh-237]: https://github.com/FinPress/Requests/issues/237
+[gh-238]: https://github.com/FinPress/Requests/issues/238
+[gh-239]: https://github.com/FinPress/Requests/issues/239
+[gh-240]: https://github.com/FinPress/Requests/issues/240
 
 1.6.0
 -----
@@ -1017,18 +1017,18 @@ default
 [docs/proxy]: https://requests.ryanmccue.info/docs/proxy.html
 [docs/usage-advanced]: https://requests.ryanmccue.info/docs/usage-advanced.html
 
-[#1]: https://github.com/WordPress/Requests/issues/1
-[#2]: https://github.com/WordPress/Requests/issues/2
-[#3]: https://github.com/WordPress/Requests/issues/3
-[#6]: https://github.com/WordPress/Requests/issues/6
-[#9]: https://github.com/WordPress/Requests/issues/9
-[#23]: https://github.com/WordPress/Requests/issues/23
-[#62]: https://github.com/WordPress/Requests/issues/62
-[#63]: https://github.com/WordPress/Requests/issues/63
-[#64]: https://github.com/WordPress/Requests/issues/64
-[#70]: https://github.com/WordPress/Requests/issues/70
+[#1]: https://github.com/FinPress/Requests/issues/1
+[#2]: https://github.com/FinPress/Requests/issues/2
+[#3]: https://github.com/FinPress/Requests/issues/3
+[#6]: https://github.com/FinPress/Requests/issues/6
+[#9]: https://github.com/FinPress/Requests/issues/9
+[#23]: https://github.com/FinPress/Requests/issues/23
+[#62]: https://github.com/FinPress/Requests/issues/62
+[#63]: https://github.com/FinPress/Requests/issues/63
+[#64]: https://github.com/FinPress/Requests/issues/64
+[#70]: https://github.com/FinPress/Requests/issues/70
 
-[View all changes][https://github.com/WordPress/Requests/compare/v1.5.0...v1.6.0]
+[View all changes][https://github.com/FinPress/Requests/compare/v1.5.0...v1.6.0]
 
 1.5.0
 -----

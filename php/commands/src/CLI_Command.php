@@ -1,42 +1,42 @@
 <?php
 
 use Composer\Semver\Comparator;
-use WP_CLI\Completions;
-use WP_CLI\Formatter;
-use WP_CLI\Process;
-use WP_CLI\Utils;
+use FP_CLI\Completions;
+use FP_CLI\Formatter;
+use FP_CLI\Process;
+use FP_CLI\Utils;
 
 /**
- * Reviews current WP-CLI info, checks for updates, or views defined aliases.
+ * Reviews current FP-CLI info, checks for updates, or views defined aliases.
  *
  * ## EXAMPLES
  *
  *     # Display the version currently installed.
- *     $ wp cli version
- *     WP-CLI 0.24.1
+ *     $ fp cli version
+ *     FP-CLI 0.24.1
  *
- *     # Check for updates to WP-CLI.
- *     $ wp cli check-update
- *     Success: WP-CLI is at the latest version.
+ *     # Check for updates to FP-CLI.
+ *     $ fp cli check-update
+ *     Success: FP-CLI is at the latest version.
  *
- *     # Update WP-CLI to the latest stable release.
- *     $ wp cli update
+ *     # Update FP-CLI to the latest stable release.
+ *     $ fp cli update
  *     You have version 0.24.0. Would you like to update to 0.24.1? [y/n] y
- *     Downloading from https://github.com/wp-cli/wp-cli/releases/download/v0.24.1/wp-cli-0.24.1.phar...
+ *     Downloading from https://github.com/fp-cli/fp-cli/releases/download/v0.24.1/fp-cli-0.24.1.phar...
  *     New version works. Proceeding to replace.
- *     Success: Updated WP-CLI to 0.24.1.
+ *     Success: Updated FP-CLI to 0.24.1.
  *
- *     # Clear the internal WP-CLI cache.
- *     $ wp cli cache clear
+ *     # Clear the internal FP-CLI cache.
+ *     $ fp cli cache clear
  *     Success: Cache cleared.
  *
- * @when before_wp_load
+ * @when before_fp_load
  *
  * @phpstan-type GitHubRelease object{tag_name: string, assets: array<object{browser_download_url: string}>}
  *
  * @phpstan-type UpdateOffer array{version: string, update_type: string, package_url: string, status: string, requires_php: string}
  */
-class CLI_Command extends WP_CLI_Command {
+class CLI_Command extends FP_CLI_Command {
 
 	private function command_to_array( $command ) {
 		$dump = [
@@ -58,20 +58,20 @@ class CLI_Command extends WP_CLI_Command {
 	}
 
 	/**
-	 * Prints WP-CLI version.
+	 * Prints FP-CLI version.
 	 *
 	 * ## EXAMPLES
 	 *
 	 *     # Display CLI version.
-	 *     $ wp cli version
-	 *     WP-CLI 0.24.1
+	 *     $ fp cli version
+	 *     FP-CLI 0.24.1
 	 */
 	public function version() {
-		WP_CLI::line( 'WP-CLI ' . WP_CLI_VERSION );
+		FP_CLI::line( 'FP-CLI ' . FP_CLI_VERSION );
 	}
 
 	/**
-	 * Prints various details about the WP-CLI environment.
+	 * Prints various details about the FP-CLI environment.
 	 *
 	 * Helpful for diagnostic purposes, this command shares:
 	 *
@@ -80,12 +80,12 @@ class CLI_Command extends WP_CLI_Command {
 	 * * PHP binary used.
 	 * * PHP binary version.
 	 * * php.ini configuration file used (which is typically different than web).
-	 * * WP-CLI root dir: where WP-CLI is installed (if non-Phar install).
-	 * * WP-CLI global config: where the global config YAML file is located.
-	 * * WP-CLI project config: where the project config YAML file is located.
-	 * * WP-CLI version: currently installed version.
+	 * * FP-CLI root dir: where FP-CLI is installed (if non-Phar install).
+	 * * FP-CLI global config: where the global config YAML file is located.
+	 * * FP-CLI project config: where the project config YAML file is located.
+	 * * FP-CLI version: currently installed version.
 	 *
-	 * See [config docs](https://make.wordpress.org/cli/handbook/references/config/) for more details on global
+	 * See [config docs](https://make.finpress.org/cli/handbook/references/config/) for more details on global
 	 * and project config YAML files.
 	 *
 	 * ## OPTIONS
@@ -102,17 +102,17 @@ class CLI_Command extends WP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # Display various data about the CLI environment.
-	 *     $ wp cli info
+	 *     $ fp cli info
 	 *     OS:  Linux 4.10.0-42-generic #46~16.04.1-Ubuntu SMP Mon Dec 4 15:57:59 UTC 2017 x86_64
 	 *     Shell:   /usr/bin/zsh
 	 *     PHP binary:  /usr/bin/php
 	 *     PHP version: 7.1.12-1+ubuntu16.04.1+deb.sury.org+1
 	 *     php.ini used:    /etc/php/7.1/cli/php.ini
-	 *     WP-CLI root dir:    phar://wp-cli.phar
-	 *     WP-CLI packages dir:    /home/person/.wp-cli/packages/
-	 *     WP-CLI global config:
-	 *     WP-CLI project config:
-	 *     WP-CLI version: 1.5.0
+	 *     FP-CLI root dir:    phar://fp-cli.phar
+	 *     FP-CLI packages dir:    /home/person/.fp-cli/packages/
+	 *     FP-CLI global config:
+	 *     FP-CLI project config:
+	 *     FP-CLI version: 1.5.0
 	 *
 	 * @param array $args                       Positional arguments. Unused.
 	 * @param array $assoc_args{format: string} Associative arguments.
@@ -133,7 +133,7 @@ class CLI_Command extends WP_CLI_Command {
 
 		$php_bin = Utils\get_php_binary();
 
-		$runner = WP_CLI::get_runner();
+		$runner = FP_CLI::get_runner();
 
 		$packages_dir = $runner->get_packages_dir_path();
 		if ( ! is_dir( $packages_dir ) ) {
@@ -150,43 +150,43 @@ class CLI_Command extends WP_CLI_Command {
 				'mysql_binary_path'        => Utils\get_mysql_binary_path(),
 				'mysql_version'            => Utils\get_mysql_version(),
 				'sql_modes'                => Utils\get_sql_modes(),
-				'wp_cli_dir_path'          => WP_CLI_ROOT,
-				'wp_cli_vendor_path'       => WP_CLI_VENDOR_DIR,
-				'wp_cli_phar_path'         => defined( 'WP_CLI_PHAR_PATH' ) ? WP_CLI_PHAR_PATH : '',
-				'wp_cli_packages_dir_path' => $packages_dir,
-				'wp_cli_cache_dir_path'    => Utils\get_cache_dir(),
+				'fp_cli_dir_path'          => FP_CLI_ROOT,
+				'fp_cli_vendor_path'       => FP_CLI_VENDOR_DIR,
+				'fp_cli_phar_path'         => defined( 'FP_CLI_PHAR_PATH' ) ? FP_CLI_PHAR_PATH : '',
+				'fp_cli_packages_dir_path' => $packages_dir,
+				'fp_cli_cache_dir_path'    => Utils\get_cache_dir(),
 				'global_config_path'       => $runner->global_config_path,
 				'project_config_path'      => $runner->project_config_path,
-				'wp_cli_version'           => WP_CLI_VERSION,
+				'fp_cli_version'           => FP_CLI_VERSION,
 			];
 
-			WP_CLI::line( (string) json_encode( $info ) );
+			FP_CLI::line( (string) json_encode( $info ) );
 		} else {
 			/**
 			 * @var string $cfg_file_path
 			 */
 			$cfg_file_path = get_cfg_var( 'cfg_file_path' );
-			WP_CLI::line( "OS:\t" . $system_os );
-			WP_CLI::line( "Shell:\t" . $shell );
-			WP_CLI::line( "PHP binary:\t" . $php_bin );
-			WP_CLI::line( "PHP version:\t" . PHP_VERSION );
-			WP_CLI::line( "php.ini used:\t" . $cfg_file_path );
-			WP_CLI::line( "MySQL binary:\t" . Utils\get_mysql_binary_path() );
-			WP_CLI::line( "MySQL version:\t" . Utils\get_mysql_version() );
-			WP_CLI::line( "SQL modes:\t" . implode( ',', Utils\get_sql_modes() ) );
-			WP_CLI::line( "WP-CLI root dir:\t" . WP_CLI_ROOT );
-			WP_CLI::line( "WP-CLI vendor dir:\t" . WP_CLI_VENDOR_DIR );
-			WP_CLI::line( "WP_CLI phar path:\t" . ( defined( 'WP_CLI_PHAR_PATH' ) ? WP_CLI_PHAR_PATH : '' ) );
-			WP_CLI::line( "WP-CLI packages dir:\t" . $packages_dir );
-			WP_CLI::line( "WP-CLI cache dir:\t" . Utils\get_cache_dir() );
-			WP_CLI::line( "WP-CLI global config:\t" . $runner->global_config_path );
-			WP_CLI::line( "WP-CLI project config:\t" . $runner->project_config_path );
-			WP_CLI::line( "WP-CLI version:\t" . WP_CLI_VERSION );
+			FP_CLI::line( "OS:\t" . $system_os );
+			FP_CLI::line( "Shell:\t" . $shell );
+			FP_CLI::line( "PHP binary:\t" . $php_bin );
+			FP_CLI::line( "PHP version:\t" . PHP_VERSION );
+			FP_CLI::line( "php.ini used:\t" . $cfg_file_path );
+			FP_CLI::line( "MySQL binary:\t" . Utils\get_mysql_binary_path() );
+			FP_CLI::line( "MySQL version:\t" . Utils\get_mysql_version() );
+			FP_CLI::line( "SQL modes:\t" . implode( ',', Utils\get_sql_modes() ) );
+			FP_CLI::line( "FP-CLI root dir:\t" . FP_CLI_ROOT );
+			FP_CLI::line( "FP-CLI vendor dir:\t" . FP_CLI_VENDOR_DIR );
+			FP_CLI::line( "FP_CLI phar path:\t" . ( defined( 'FP_CLI_PHAR_PATH' ) ? FP_CLI_PHAR_PATH : '' ) );
+			FP_CLI::line( "FP-CLI packages dir:\t" . $packages_dir );
+			FP_CLI::line( "FP-CLI cache dir:\t" . Utils\get_cache_dir() );
+			FP_CLI::line( "FP-CLI global config:\t" . $runner->global_config_path );
+			FP_CLI::line( "FP-CLI project config:\t" . $runner->project_config_path );
+			FP_CLI::line( "FP-CLI version:\t" . FP_CLI_VERSION );
 		}
 	}
 
 	/**
-	 * Checks to see if there is a newer version of WP-CLI available.
+	 * Checks to see if there is a newer version of FP-CLI available.
 	 *
 	 * Queries the GitHub releases API. Returns available versions if there are
 	 * updates available, or success message if using the latest release.
@@ -223,15 +223,15 @@ class CLI_Command extends WP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # Check for update.
-	 *     $ wp cli check-update
-	 *     Success: WP-CLI is at the latest version.
+	 *     $ fp cli check-update
+	 *     Success: FP-CLI is at the latest version.
 	 *
 	 *     # Check for update and new version is available.
-	 *     $ wp cli check-update
+	 *     $ fp cli check-update
 	 *     +---------+-------------+-------------------------------------------------------------------------------+
 	 *     | version | update_type | package_url                                                                   |
 	 *     +---------+-------------+-------------------------------------------------------------------------------+
-	 *     | 0.24.1  | patch       | https://github.com/wp-cli/wp-cli/releases/download/v0.24.1/wp-cli-0.24.1.phar |
+	 *     | 0.24.1  | patch       | https://github.com/fp-cli/fp-cli/releases/download/v0.24.1/fp-cli-0.24.1.phar |
 	 *     +---------+-------------+-------------------------------------------------------------------------------+
 	 *
 	 * @subcommand check-update
@@ -250,12 +250,12 @@ class CLI_Command extends WP_CLI_Command {
 			$formatter->display_items( $updates );
 		} elseif ( empty( $assoc_args['format'] ) || 'table' === $assoc_args['format'] ) {
 			$update_type = $this->get_update_type_str( $assoc_args );
-			WP_CLI::success( "WP-CLI is at the latest{$update_type}version." );
+			FP_CLI::success( "FP-CLI is at the latest{$update_type}version." );
 		}
 	}
 
 	/**
-	 * Updates WP-CLI to the latest release.
+	 * Updates FP-CLI to the latest release.
 	 *
 	 * Default behavior is to check the releases API for the newest stable
 	 * version, and prompt if one is available.
@@ -295,38 +295,38 @@ class CLI_Command extends WP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # Update CLI.
-	 *     $ wp cli update
-	 *     You are currently using WP-CLI version 0.24.0. Would you like to update to 0.24.1? [y/n] y
-	 *     Downloading from https://github.com/wp-cli/wp-cli/releases/download/v0.24.1/wp-cli-0.24.1.phar...
+	 *     $ fp cli update
+	 *     You are currently using FP-CLI version 0.24.0. Would you like to update to 0.24.1? [y/n] y
+	 *     Downloading from https://github.com/fp-cli/fp-cli/releases/download/v0.24.1/fp-cli-0.24.1.phar...
 	 *     New version works. Proceeding to replace.
-	 *     Success: Updated WP-CLI to 0.24.1.
+	 *     Success: Updated FP-CLI to 0.24.1.
 	 *
 	 * @param array $args Positional arguments. Unused.
 	 * @param array $assoc_args{patch?: bool, minor?: bool, major?: bool, stable?: bool, nightly?: bool, yes?: bool, insecure?: bool} Associative arguments.
 	 */
 	public function update( $args, $assoc_args ) {
 		if ( ! Utils\inside_phar() ) {
-			WP_CLI::error( 'You can only self-update Phar files.' );
+			FP_CLI::error( 'You can only self-update Phar files.' );
 		}
 
 		$old_phar = (string) realpath( $_SERVER['argv'][0] );
 
 		if ( ! is_writable( $old_phar ) ) {
-			WP_CLI::error( sprintf( '%s is not writable by current user.', $old_phar ) );
+			FP_CLI::error( sprintf( '%s is not writable by current user.', $old_phar ) );
 		} elseif ( ! is_writable( dirname( $old_phar ) ) ) {
-			WP_CLI::error( sprintf( '%s is not writable by current user.', dirname( $old_phar ) ) );
+			FP_CLI::error( sprintf( '%s is not writable by current user.', dirname( $old_phar ) ) );
 		}
 
 		if ( Utils\get_flag_value( $assoc_args, 'nightly' ) ) {
-			WP_CLI::confirm( sprintf( 'You are currently using WP-CLI version %s. Would you like to update to the latest nightly version?', WP_CLI_VERSION ), $assoc_args );
-			$download_url = 'https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli-nightly.phar';
-			$md5_url      = 'https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli-nightly.phar.md5';
-			$sha512_url   = 'https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli-nightly.phar.sha512';
+			FP_CLI::confirm( sprintf( 'You are currently using FP-CLI version %s. Would you like to update to the latest nightly version?', FP_CLI_VERSION ), $assoc_args );
+			$download_url = 'https://raw.githubusercontent.com/fp-cli/builds/gh-pages/phar/fp-cli-nightly.phar';
+			$md5_url      = 'https://raw.githubusercontent.com/fp-cli/builds/gh-pages/phar/fp-cli-nightly.phar.md5';
+			$sha512_url   = 'https://raw.githubusercontent.com/fp-cli/builds/gh-pages/phar/fp-cli-nightly.phar.sha512';
 		} elseif ( Utils\get_flag_value( $assoc_args, 'stable' ) ) {
-			WP_CLI::confirm( sprintf( 'You are currently using WP-CLI version %s. Would you like to update to the latest stable release?', WP_CLI_VERSION ), $assoc_args );
-			$download_url = 'https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar';
-			$md5_url      = 'https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar.md5';
-			$sha512_url   = 'https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar.sha512';
+			FP_CLI::confirm( sprintf( 'You are currently using FP-CLI version %s. Would you like to update to the latest stable release?', FP_CLI_VERSION ), $assoc_args );
+			$download_url = 'https://raw.githubusercontent.com/fp-cli/builds/gh-pages/phar/fp-cli.phar';
+			$md5_url      = 'https://raw.githubusercontent.com/fp-cli/builds/gh-pages/phar/fp-cli.phar.md5';
+			$sha512_url   = 'https://raw.githubusercontent.com/fp-cli/builds/gh-pages/phar/fp-cli.phar.sha512';
 		} else {
 
 			$updates = $this->get_updates( $assoc_args );
@@ -343,20 +343,20 @@ class CLI_Command extends WP_CLI_Command {
 
 			if ( ! $newest ) {
 				$update_type = $this->get_update_type_str( $assoc_args );
-				WP_CLI::success( "WP-CLI is at the latest{$update_type}version." );
+				FP_CLI::success( "FP-CLI is at the latest{$update_type}version." );
 				return;
 			}
 
-			WP_CLI::confirm( sprintf( 'You have version %s. Would you like to update to %s?', WP_CLI_VERSION, $newest['version'] ), $assoc_args );
+			FP_CLI::confirm( sprintf( 'You have version %s. Would you like to update to %s?', FP_CLI_VERSION, $newest['version'] ), $assoc_args );
 
 			$download_url = $newest['package_url'];
 			$md5_url      = str_replace( '.phar', '.phar.md5', $download_url );
 			$sha512_url   = str_replace( '.phar', '.phar.sha512', $download_url );
 		}
 
-		WP_CLI::log( sprintf( 'Downloading from %s...', $download_url ) );
+		FP_CLI::log( sprintf( 'Downloading from %s...', $download_url ) );
 
-		$temp = Utils\get_temp_dir() . uniqid( 'wp_', true ) . '.phar';
+		$temp = Utils\get_temp_dir() . uniqid( 'fp_', true ) . '.phar';
 
 		$headers = [];
 		$options = [
@@ -371,28 +371,28 @@ class CLI_Command extends WP_CLI_Command {
 
 		$this->validate_hashes( $temp, $sha512_url, $md5_url );
 
-		$allow_root = WP_CLI::get_runner()->config['allow-root'] ? '--allow-root' : '';
+		$allow_root = FP_CLI::get_runner()->config['allow-root'] ? '--allow-root' : '';
 		$php_binary = Utils\get_php_binary();
 		$process    = Process::create( "{$php_binary} $temp --info {$allow_root}" );
 		$result     = $process->run();
-		if ( 0 !== $result->return_code || false === stripos( $result->stdout, 'WP-CLI version' ) ) {
+		if ( 0 !== $result->return_code || false === stripos( $result->stdout, 'FP-CLI version' ) ) {
 			$multi_line = explode( PHP_EOL, $result->stderr );
-			WP_CLI::error_multi_line( $multi_line );
-			WP_CLI::error( 'The downloaded PHAR is broken, try running wp cli update again.' );
+			FP_CLI::error_multi_line( $multi_line );
+			FP_CLI::error( 'The downloaded PHAR is broken, try running fp cli update again.' );
 		}
 
-		WP_CLI::log( 'New version works. Proceeding to replace.' );
+		FP_CLI::log( 'New version works. Proceeding to replace.' );
 
 		$mode = fileperms( $old_phar ) & 511;
 
 		if ( false === chmod( $temp, $mode ) ) {
-			WP_CLI::error( sprintf( 'Cannot chmod %s.', $temp ) );
+			FP_CLI::error( sprintf( 'Cannot chmod %s.', $temp ) );
 		}
 
 		class_exists( '\cli\Colors' ); // This autoloads \cli\Colors - after we move the file we no longer have access to this class.
 
 		if ( false === rename( $temp, $old_phar ) ) {
-			WP_CLI::error( sprintf( 'Cannot move %s to %s', $temp, $old_phar ) );
+			FP_CLI::error( sprintf( 'Cannot move %s to %s', $temp, $old_phar ) );
 		}
 
 		if ( Utils\get_flag_value( $assoc_args, 'nightly', false ) ) {
@@ -402,7 +402,7 @@ class CLI_Command extends WP_CLI_Command {
 		} else {
 			$updated_version = isset( $newest['version'] ) ? $newest['version'] : '<not provided>';
 		}
-		WP_CLI::success( sprintf( 'Updated WP-CLI to %s.', $updated_version ) );
+		FP_CLI::success( sprintf( 'Updated FP-CLI to %s.', $updated_version ) );
 	}
 
 	/**
@@ -410,7 +410,7 @@ class CLI_Command extends WP_CLI_Command {
 	 * @param string $sha512_url URL to sha512 hash.
 	 * @param string $md5_url    URL to md5 hash.
 	 *
-	 * @throws \WP_CLI\ExitException
+	 * @throws \FP_CLI\ExitException
 	 */
 	private function validate_hashes( $file, $sha512_url, $md5_url ): void {
 		$algos = [
@@ -421,7 +421,7 @@ class CLI_Command extends WP_CLI_Command {
 		foreach ( $algos as $algo => $url ) {
 			$response = Utils\http_request( 'GET', $url );
 			if ( '20' !== substr( (string) $response->status_code, 0, 2 ) ) {
-				WP_CLI::log( "Couldn't access $algo hash for release (HTTP code {$response->status_code})." );
+				FP_CLI::log( "Couldn't access $algo hash for release (HTTP code {$response->status_code})." );
 				continue;
 			}
 
@@ -429,21 +429,21 @@ class CLI_Command extends WP_CLI_Command {
 
 			$release_hash = trim( $response->body );
 			if ( $file_hash === $release_hash ) {
-				WP_CLI::log( "$algo hash verified: $release_hash" );
+				FP_CLI::log( "$algo hash verified: $release_hash" );
 				return;
 			} else {
-				WP_CLI::error( "$algo hash for download ($file_hash) is different than the release hash ($release_hash)." );
+				FP_CLI::error( "$algo hash for download ($file_hash) is different than the release hash ($release_hash)." );
 			}
 		}
 
-		WP_CLI::error( 'Release hash verification failed.' );
+		FP_CLI::error( 'Release hash verification failed.' );
 	}
 
 	/**
 	 * Returns update information.
 	 */
 	private function get_updates( $assoc_args ) {
-		$url = 'https://api.github.com/repos/wp-cli/wp-cli/releases?per_page=100';
+		$url = 'https://api.github.com/repos/fp-cli/fp-cli/releases?per_page=100';
 
 		$options = [
 			'timeout'  => 30,
@@ -462,7 +462,7 @@ class CLI_Command extends WP_CLI_Command {
 		$response = Utils\http_request( 'GET', $url, null, $headers, $options );
 
 		if ( ! $response->success || 200 !== $response->status_code ) {
-			WP_CLI::error( sprintf( 'Failed to get latest version (HTTP code %d).', $response->status_code ) );
+			FP_CLI::error( sprintf( 'Failed to get latest version (HTTP code %d).', $response->status_code ) );
 		}
 
 		/**
@@ -486,7 +486,7 @@ class CLI_Command extends WP_CLI_Command {
 				$release_version = ltrim( $release_version, 'v' );
 			}
 
-			$update_type = Utils\get_named_sem_ver( $release_version, WP_CLI_VERSION );
+			$update_type = Utils\get_named_sem_ver( $release_version, FP_CLI_VERSION );
 
 			if ( ! $update_type ) {
 				continue;
@@ -500,7 +500,7 @@ class CLI_Command extends WP_CLI_Command {
 			$package_url = null;
 
 			/**
-			 * WP-CLI manifest.json data.
+			 * FP-CLI manifest.json data.
 			 *
 			 * @var object{requires_php?: string}|null $manifest_data
 			 */
@@ -521,7 +521,7 @@ class CLI_Command extends WP_CLI_Command {
 
 					if ( $response->success ) {
 						/**
-						 * WP-CLI manifest.json data.
+						 * FP-CLI manifest.json data.
 						 *
 						 * @var object{requires_php?: string}|null $manifest_data
 						 */
@@ -569,23 +569,23 @@ class CLI_Command extends WP_CLI_Command {
 			}
 		}
 
-		if ( empty( $updates ) && preg_match( '#-alpha-(.+)$#', WP_CLI_VERSION, $matches ) ) {
-			$version_url = 'https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/NIGHTLY_VERSION';
+		if ( empty( $updates ) && preg_match( '#-alpha-(.+)$#', FP_CLI_VERSION, $matches ) ) {
+			$version_url = 'https://raw.githubusercontent.com/fp-cli/builds/gh-pages/phar/NIGHTLY_VERSION';
 			$response    = Utils\http_request( 'GET', $version_url, null, [], $options );
 			if ( ! $response->success || 200 !== $response->status_code ) {
-				WP_CLI::error( sprintf( 'Failed to get current nightly version (HTTP code %d)', $response->status_code ) );
+				FP_CLI::error( sprintf( 'Failed to get current nightly version (HTTP code %d)', $response->status_code ) );
 			}
 			$nightly_version = trim( $response->body );
 
-			if ( WP_CLI_VERSION !== $nightly_version ) {
+			if ( FP_CLI_VERSION !== $nightly_version ) {
 				$manifest_data = null;
 
 				// The manifest.json file, if it exists, contains information about PHP version requirements and similar.
-				$response = Utils\http_request( 'GET', 'https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli-nightly.manifest.json', null, $headers, $options );
+				$response = Utils\http_request( 'GET', 'https://raw.githubusercontent.com/fp-cli/builds/gh-pages/phar/fp-cli-nightly.manifest.json', null, $headers, $options );
 
 				if ( $response->success ) {
 					/**
-					 * WP-CLI manifest.json data.
+					 * FP-CLI manifest.json data.
 					 *
 					 * @var object{requires_php?: string}|null $manifest_data
 					 */
@@ -600,7 +600,7 @@ class CLI_Command extends WP_CLI_Command {
 					$updates_unavailable[] = [
 						'version'      => $nightly_version,
 						'update_type'  => 'nightly',
-						'package_url'  => 'https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli-nightly.phar',
+						'package_url'  => 'https://raw.githubusercontent.com/fp-cli/builds/gh-pages/phar/fp-cli-nightly.phar',
 						'status'       => 'unvailable',
 						'requires_php' => $manifest_data->requires_php,
 					];
@@ -608,7 +608,7 @@ class CLI_Command extends WP_CLI_Command {
 					$updates['nightly'] = [
 						'version'      => $nightly_version,
 						'update_type'  => 'nightly',
-						'package_url'  => 'https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli-nightly.phar',
+						'package_url'  => 'https://raw.githubusercontent.com/fp-cli/builds/gh-pages/phar/fp-cli-nightly.phar',
 						'status'       => 'available',
 						'requires_php' => isset( $manifest_data->requires_php ) ? $manifest_data->requires_php : '',
 					];
@@ -664,7 +664,7 @@ class CLI_Command extends WP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # Dump the list of global parameters.
-	 *     $ wp cli param-dump --format=var_export
+	 *     $ fp cli param-dump --format=var_export
 	 *     array (
 	 *       'path' =>
 	 *       array (
@@ -673,7 +673,7 @@ class CLI_Command extends WP_CLI_Command {
 	 *         'synopsis' => '',
 	 *         'default' => NULL,
 	 *         'multiple' => false,
-	 *         'desc' => 'Path to the WordPress files.',
+	 *         'desc' => 'Path to the FinPress files.',
 	 *       ),
 	 *       'url' =>
 	 *       array (
@@ -681,10 +681,10 @@ class CLI_Command extends WP_CLI_Command {
 	 * @subcommand param-dump
 	 */
 	public function param_dump( $_, $assoc_args ) {
-		$spec = WP_CLI::get_configurator()->get_spec();
+		$spec = FP_CLI::get_configurator()->get_spec();
 
 		if ( Utils\get_flag_value( $assoc_args, 'with-values' ) ) {
-			$config = WP_CLI::get_configurator()->to_array();
+			$config = FP_CLI::get_configurator()->to_array();
 			// Copy current config values to $spec.
 			foreach ( $spec as $key => $value ) {
 				$current = null;
@@ -708,13 +708,13 @@ class CLI_Command extends WP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # Dump the list of installed commands.
-	 *     $ wp cli cmd-dump
-	 *     {"name":"wp","description":"Manage WordPress through the command-line.","longdesc":"\n\n## GLOBAL PARAMETERS\n\n  --path=<path>\n      Path to the WordPress files.\n\n  --ssh=<ssh>\n      Perform operation against a remote server over SSH (or a container using scheme of "docker" or "docker-compose").\n\n  --url=<url>\n      Pretend request came from given URL. In multisite, this argument is how the target site is specified. \n\n  --user=<id|login|email>\n
+	 *     $ fp cli cmd-dump
+	 *     {"name":"fp","description":"Manage FinPress through the command-line.","longdesc":"\n\n## GLOBAL PARAMETERS\n\n  --path=<path>\n      Path to the FinPress files.\n\n  --ssh=<ssh>\n      Perform operation against a remote server over SSH (or a container using scheme of "docker" or "docker-compose").\n\n  --url=<url>\n      Pretend request came from given URL. In multisite, this argument is how the target site is specified. \n\n  --user=<id|login|email>\n
 	 *
 	 * @subcommand cmd-dump
 	 */
 	public function cmd_dump() {
-		echo json_encode( $this->command_to_array( WP_CLI::get_root_command() ) );
+		echo json_encode( $this->command_to_array( FP_CLI::get_root_command() ) );
 	}
 
 	/**
@@ -731,7 +731,7 @@ class CLI_Command extends WP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # Generate tab completion strings.
-	 *     $ wp cli completions --line='wp eva' --point=100
+	 *     $ fp cli completions --line='fp eva' --point=100
 	 *     eval
 	 *     eval-file
 	 */
@@ -758,7 +758,7 @@ class CLI_Command extends WP_CLI_Command {
 	/**
 	 * Detects if a command exists
 	 *
-	 * This commands checks if a command is registered with WP-CLI.
+	 * This commands checks if a command is registered with FP-CLI.
 	 * If the command is found then it returns with exit status 0.
 	 * If the command doesn't exist, then it will exit with status 1.
 	 *
@@ -769,32 +769,32 @@ class CLI_Command extends WP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # The "site delete" command is registered.
-	 *     $ wp cli has-command "site delete"
+	 *     $ fp cli has-command "site delete"
 	 *     $ echo $?
 	 *     0
 	 *
 	 *     # The "foo bar" command is not registered.
-	 *     $ wp cli has-command "foo bar"
+	 *     $ fp cli has-command "foo bar"
 	 *     $ echo $?
 	 *     1
 	 *
-	 *     # Install a WP-CLI package if not already installed
-	 *     $ if ! $(wp cli has-command doctor); then wp package install wp-cli/doctor-command; fi
-	 *     Installing package wp-cli/doctor-command (dev-main || dev-master || dev-trunk)
-	 *     Updating /home/person/.wp-cli/packages/composer.json to require the package...
+	 *     # Install a FP-CLI package if not already installed
+	 *     $ if ! $(fp cli has-command doctor); then fp package install fp-cli/doctor-command; fi
+	 *     Installing package fp-cli/doctor-command (dev-main || dev-master || dev-trunk)
+	 *     Updating /home/person/.fp-cli/packages/composer.json to require the package...
 	 *     Using Composer to install the package...
 	 *     ---
 	 *     Success: Package installed.
 	 *
 	 * @subcommand has-command
 	 *
-	 * @when after_wp_load
+	 * @when after_fp_load
 	 */
 	public function has_command( $_, $assoc_args ) {
 
 		// If command is input as a string, then explode it into array.
 		$command = explode( ' ', implode( ' ', $_ ) );
 
-		WP_CLI::halt( is_array( WP_CLI::get_runner()->find_command_to_run( $command ) ) ? 0 : 1 );
+		FP_CLI::halt( is_array( FP_CLI::get_runner()->find_command_to_run( $command ) ) ? 0 : 1 );
 	}
 }

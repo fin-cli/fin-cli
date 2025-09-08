@@ -1,8 +1,8 @@
 <?php
 
-// Utilities that do NOT depend on WordPress code.
+// Utilities that do NOT depend on FinPress code.
 
-namespace WP_CLI\Utils;
+namespace FP_CLI\Utils;
 
 use ArrayIterator;
 use cli;
@@ -16,14 +16,14 @@ use Iterator;
 use Mustache\Engine as Mustache_Engine;
 use ReflectionFunction;
 use RuntimeException;
-use WP_CLI;
-use WP_CLI\ExitException;
-use WP_CLI\Formatter;
-use WP_CLI\Inflector;
-use WP_CLI\Iterators\Transform;
-use WP_CLI\NoOp;
-use WP_CLI\Process;
-use WP_CLI\RequestsLibrary;
+use FP_CLI;
+use FP_CLI\ExitException;
+use FP_CLI\Formatter;
+use FP_CLI\Inflector;
+use FP_CLI\Iterators\Transform;
+use FP_CLI\NoOp;
+use FP_CLI\Process;
+use FP_CLI\RequestsLibrary;
 use WpOrg\Requests\Response;
 
 /**
@@ -49,19 +49,19 @@ const FILE_DIR_PATTERN = '%(?>#.*?$)|(?>//.*?$)|(?>/\*.*?\*/)|(?>\'(?:(?=(\\\\?)
 /**
  * Check if a certain path is within a Phar archive.
  *
- * If no path is provided, the function checks whether the current WP_CLI instance is
+ * If no path is provided, the function checks whether the current FP_CLI instance is
  * running from within a Phar archive.
  *
- * @param string|null $path Optional. Path to check. Defaults to null, which checks WP_CLI_ROOT.
+ * @param string|null $path Optional. Path to check. Defaults to null, which checks FP_CLI_ROOT.
  * @return bool Whether path is within a Phar archive.
  */
 function inside_phar( $path = null ) {
 	if ( null === $path ) {
-		if ( ! defined( 'WP_CLI_ROOT' ) ) {
+		if ( ! defined( 'FP_CLI_ROOT' ) ) {
 			return false;
 		}
 
-		$path = WP_CLI_ROOT;
+		$path = FP_CLI_ROOT;
 	}
 
 	return 0 === strpos( $path, PHAR_STREAM_PREFIX );
@@ -83,7 +83,7 @@ function extract_from_phar( $path ) {
 
 	$fname = basename( $path );
 
-	$tmp_path = get_temp_dir() . uniqid( 'wp-cli-extract-from-phar-', true ) . "-$fname";
+	$tmp_path = get_temp_dir() . uniqid( 'fp-cli-extract-from-phar-', true ) . "-$fname";
 
 	copy( $path, $tmp_path );
 
@@ -105,10 +105,10 @@ function extract_from_phar( $path ) {
  */
 function load_dependencies() {
 	if ( inside_phar() ) {
-		if ( file_exists( WP_CLI_ROOT . '/vendor/autoload.php' ) ) {
-			require WP_CLI_ROOT . '/vendor/autoload.php';
-		} elseif ( file_exists( dirname( dirname( WP_CLI_ROOT ) ) . '/autoload.php' ) ) {
-			require dirname( dirname( WP_CLI_ROOT ) ) . '/autoload.php';
+		if ( file_exists( FP_CLI_ROOT . '/vendor/autoload.php' ) ) {
+			require FP_CLI_ROOT . '/vendor/autoload.php';
+		} elseif ( file_exists( dirname( dirname( FP_CLI_ROOT ) ) . '/autoload.php' ) ) {
+			require dirname( dirname( FP_CLI_ROOT ) ) . '/autoload.php';
 		}
 		return;
 	}
@@ -136,17 +136,17 @@ function load_dependencies() {
  */
 function get_vendor_paths() {
 	$vendor_paths        = [
-		WP_CLI_ROOT . '/../../../vendor',  // Part of a larger project / installed via Composer (preferred).
-		WP_CLI_ROOT . '/vendor',           // Top-level project / installed as Git clone.
+		FP_CLI_ROOT . '/../../../vendor',  // Part of a larger project / installed via Composer (preferred).
+		FP_CLI_ROOT . '/vendor',           // Top-level project / installed as Git clone.
 	];
-	$maybe_composer_json = WP_CLI_ROOT . '/../../../composer.json';
+	$maybe_composer_json = FP_CLI_ROOT . '/../../../composer.json';
 	if ( file_exists( $maybe_composer_json ) && is_readable( $maybe_composer_json ) ) {
 		/**
 		 * @var object{config: object{'vendor-dir': string}} $composer
 		 */
 		$composer = json_decode( (string) file_get_contents( $maybe_composer_json ), false );
 		if ( ! empty( $composer->config ) && ! empty( $composer->config->{'vendor-dir'} ) ) {
-			array_unshift( $vendor_paths, WP_CLI_ROOT . '/../../../' . $composer->config->{'vendor-dir'} );
+			array_unshift( $vendor_paths, FP_CLI_ROOT . '/../../../' . $composer->config->{'vendor-dir'} );
 		}
 	}
 	return $vendor_paths;
@@ -172,7 +172,7 @@ function load_file( $path ) {
  * @return void
  */
 function load_command( $name ) {
-	$path = WP_CLI_ROOT . "/php/commands/$name.php";
+	$path = FP_CLI_ROOT . "/php/commands/$name.php";
 
 	if ( is_readable( $path ) ) {
 		include_once $path;
@@ -320,24 +320,24 @@ function esc_cmd( $cmd, ...$args ) {
 }
 
 /**
- * Gets path to WordPress configuration.
+ * Gets path to FinPress configuration.
  *
  * @return string
  */
-function locate_wp_config() {
+function locate_fp_config() {
 	static $path;
 
 	if ( null === $path ) {
 		$path = false;
 
-		$config_path = (string) getenv( 'WP_CONFIG_PATH' );
+		$config_path = (string) getenv( 'FP_CONFIG_PATH' );
 
 		if ( $config_path && file_exists( $config_path ) ) {
 			$path = $config_path;
-		} elseif ( file_exists( ABSPATH . 'wp-config.php' ) ) {
-			$path = ABSPATH . 'wp-config.php';
-		} elseif ( file_exists( dirname( ABSPATH ) . '/wp-config.php' ) && ! file_exists( dirname( ABSPATH ) . '/wp-settings.php' ) ) {
-			$path = dirname( ABSPATH ) . '/wp-config.php';
+		} elseif ( file_exists( ABSPATH . 'fp-config.php' ) ) {
+			$path = ABSPATH . 'fp-config.php';
+		} elseif ( file_exists( dirname( ABSPATH ) . '/fp-config.php' ) && ! file_exists( dirname( ABSPATH ) . '/fp-settings.php' ) ) {
+			$path = dirname( ABSPATH ) . '/fp-config.php';
 		}
 
 		if ( $path ) {
@@ -349,16 +349,16 @@ function locate_wp_config() {
 }
 
 /**
- * Compare a WordPress version.
+ * Compare a FinPress version.
  *
  * @param string $since
  * @param string $operator
  * @return bool
  */
-function wp_version_compare( $since, $operator ) {
-	$wp_version = str_replace( '-src', '', $GLOBALS['wp_version'] );
+function fp_version_compare( $since, $operator ) {
+	$fp_version = str_replace( '-src', '', $GLOBALS['fp_version'] );
 	$since      = str_replace( '-src', '', $since );
-	return version_compare( $wp_version, $since, $operator );
+	return version_compare( $fp_version, $since, $operator );
 }
 
 /**
@@ -378,7 +378,7 @@ function wp_version_compare( $since, $operator ) {
  * Render `$items` as an ASCII table:
  *
  * ```
- * WP_CLI\Utils\format_items( 'table', $items, array( 'key', 'value' ) );
+ * FP_CLI\Utils\format_items( 'table', $items, array( 'key', 'value' ) );
  *
  * # +-----+-------+
  * # | key | value |
@@ -390,7 +390,7 @@ function wp_version_compare( $since, $operator ) {
  * Or render `$items` as YAML:
  *
  * ```
- * WP_CLI\Utils\format_items( 'yaml', $items, array( 'key', 'value' ) );
+ * FP_CLI\Utils\format_items( 'yaml', $items, array( 'key', 'value' ) );
  *
  * # ---
  * # -
@@ -482,7 +482,7 @@ function pick_fields( $item, $fields ) {
  * @param string $ext   Extension to use with the temp file.
  * @return string|bool  Edited text, if file is saved from editor; false, if no change to file.
  */
-function launch_editor_for_input( $input, $title = 'WP-CLI', $ext = 'tmp' ) {
+function launch_editor_for_input( $input, $title = 'FP-CLI', $ext = 'tmp' ) {
 
 	check_proc_available( 'launch_editor_for_input' );
 
@@ -491,7 +491,7 @@ function launch_editor_for_input( $input, $title = 'WP-CLI', $ext = 'tmp' ) {
 	do {
 		$tmpfile  = basename( $title );
 		$tmpfile  = preg_replace( '|\.[^.]*$|', '', $tmpfile );
-		$tmpfile .= '-' . substr( md5( (string) mt_rand() ), 0, 6 ); // phpcs:ignore WordPress.WP.AlternativeFunctions.rand_mt_rand -- no crypto and WP not loaded.
+		$tmpfile .= '-' . substr( md5( (string) mt_rand() ), 0, 6 ); // phpcs:ignore FinPress.FP.AlternativeFunctions.rand_mt_rand -- no crypto and FP not loaded.
 		$tmpfile  = $tmpdir . $tmpfile . '.' . $ext;
 		$fp       = fopen( $tmpfile, 'xb' );
 		if ( ! $fp && is_writable( $tmpdir ) && file_exists( $tmpfile ) ) {
@@ -505,7 +505,7 @@ function launch_editor_for_input( $input, $title = 'WP-CLI', $ext = 'tmp' ) {
 
 	// @phpstan-ignore booleanNot.alwaysFalse
 	if ( ! $tmpfile ) {
-		WP_CLI::error( 'Error creating temporary file.' );
+		FP_CLI::error( 'Error creating temporary file.' );
 	}
 
 	file_put_contents( $tmpfile, $input );
@@ -536,7 +536,7 @@ function launch_editor_for_input( $input, $title = 'WP-CLI', $ext = 'tmp' ) {
 }
 
 /**
- * @param string $raw_host MySQL host string, as defined in wp-config.php.
+ * @param string $raw_host MySQL host string, as defined in fp-config.php.
  *
  * @return array<string, string|int>
  */
@@ -617,7 +617,7 @@ function run_mysql_command( $cmd, $assoc_args, $_ = null, $send_to_shell = true,
 	$pipes = [];
 
 	if ( isset( $assoc_args['host'] ) ) {
-		// phpcs:ignore WordPress.DB.RestrictedFunctions.mysql_mysql_host_to_cli_args -- Misidentified as PHP native MySQL function.
+		// phpcs:ignore FinPress.DB.RestrictedFunctions.mysql_mysql_host_to_cli_args -- Misidentified as PHP native MySQL function.
 		$assoc_args = array_merge( $assoc_args, mysql_host_to_cli_args( $assoc_args['host'] ) );
 	}
 
@@ -629,7 +629,7 @@ function run_mysql_command( $cmd, $assoc_args, $_ = null, $send_to_shell = true,
 
 	$final_cmd = force_env_on_nix_systems( $cmd ) . assoc_args_to_str( $assoc_args );
 
-	WP_CLI::debug( 'Final MySQL command: ' . $final_cmd, 'db' );
+	FP_CLI::debug( 'Final MySQL command: ' . $final_cmd, 'db' );
 	$process = proc_open_compat( $final_cmd, $descriptors, $pipes );
 
 	if ( isset( $old_password ) ) {
@@ -637,7 +637,7 @@ function run_mysql_command( $cmd, $assoc_args, $_ = null, $send_to_shell = true,
 	}
 
 	if ( ! $process ) {
-		WP_CLI::debug( 'Failed to create a valid process using proc_open_compat()', 'db' );
+		FP_CLI::debug( 'Failed to create a valid process using proc_open_compat()', 'db' );
 		exit( 1 );
 	}
 
@@ -672,7 +672,7 @@ function run_mysql_command( $cmd, $assoc_args, $_ = null, $send_to_shell = true,
  */
 function mustache_render( $template_name, $data = [] ) {
 	if ( ! file_exists( $template_name ) ) {
-		$template_name = WP_CLI_ROOT . "/templates/$template_name";
+		$template_name = FP_CLI_ROOT . "/templates/$template_name";
 	}
 
 	$template = (string) file_get_contents( $template_name );
@@ -695,14 +695,14 @@ function mustache_render( $template_name, $data = [] ) {
  * Process bar also indicates elapsed time and expected total time.
  *
  * ```
- * # `wp user generate` ticks progress bar each time a new user is created.
+ * # `fp user generate` ticks progress bar each time a new user is created.
  * #
- * # $ wp user generate --count=500
+ * # $ fp user generate --count=500
  * # Generating users  22 % [=======>                             ] 0:05 / 0:23
  *
- * $progress = \WP_CLI\Utils\make_progress_bar( 'Generating users', $count );
+ * $progress = \FP_CLI\Utils\make_progress_bar( 'Generating users', $count );
  * for ( $i = 0; $i < $count; $i++ ) {
- *     // uses wp_insert_user() to insert the user
+ *     // uses fp_insert_user() to insert the user
  *     $progress->tick();
  * }
  * $progress->finish();
@@ -714,7 +714,7 @@ function mustache_render( $template_name, $data = [] ) {
  * @param string  $message  Text to display before the progress bar.
  * @param integer $count    Total number of ticks to be performed.
  * @param int     $interval Optional. The interval in milliseconds between updates. Default 100.
- * @return \cli\progress\Bar|\WP_CLI\NoOp
+ * @return \cli\progress\Bar|\FP_CLI\NoOp
  */
 function make_progress_bar( $message, $count, $interval = 100 ) {
 	if ( Shell::isPiped() ) {
@@ -725,7 +725,7 @@ function make_progress_bar( $message, $count, $interval = 100 ) {
 }
 
 /**
- * Helper function to use wp_parse_url when available or fall back to PHP's
+ * Helper function to use fp_parse_url when available or fall back to PHP's
  * parse_url if not.
  *
  * Additionally, this adds 'http://' to the URL if no scheme was found.
@@ -746,16 +746,16 @@ function make_progress_bar( $message, $count, $interval = 100 ) {
  * @phpstan-return ($component is non-negative-int ? string|null|int|false : array{scheme?: string, host?: string, port?: int, user?: string, pass?: string, query?: string, path?: string, fragment?: string})
  */
 function parse_url( $url, $component = - 1, $auto_add_scheme = true ) {
-	if ( function_exists( 'wp_parse_url' ) ) {
-		$url_parts = wp_parse_url( $url, $component );
+	if ( function_exists( 'fp_parse_url' ) ) {
+		$url_parts = fp_parse_url( $url, $component );
 	} else {
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url -- Fallback.
+		// phpcs:ignore FinPress.FP.AlternativeFunctions.parse_url_parse_url -- Fallback.
 		$url_parts = \parse_url( $url, $component );
 	}
 
-	// phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url -- Own version based on WP one.
+	// phpcs:ignore FinPress.FP.AlternativeFunctions.parse_url_parse_url -- Own version based on FP one.
 	if ( $auto_add_scheme && ! parse_url( $url, PHP_URL_SCHEME, false ) ) {
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.parse_url_parse_url -- Own version based on WP one.
+		// phpcs:ignore FinPress.FP.AlternativeFunctions.parse_url_parse_url -- Own version based on FP one.
 		$url_parts = parse_url( 'http://' . $url, $component, false );
 	}
 
@@ -768,7 +768,7 @@ function parse_url( $url, $component = - 1, $auto_add_scheme = true ) {
  * @return bool
  */
 function is_windows() {
-	$test_is_windows = getenv( 'WP_CLI_TEST_IS_WINDOWS' );
+	$test_is_windows = getenv( 'FP_CLI_TEST_IS_WINDOWS' );
 	return false !== $test_is_windows ? (bool) $test_is_windows : strtoupper( substr( PHP_OS, 0, 3 ) ) === 'WIN';
 }
 
@@ -816,11 +816,11 @@ function replace_path_consts( $source, $path ) {
  * Wraps the Requests HTTP library to ensure every request includes a cert.
  *
  * ```
- * # `wp core download` verifies the hash for a downloaded WordPress archive
+ * # `fp core download` verifies the hash for a downloaded FinPress archive
  *
  * $md5_response = Utils\http_request( 'GET', $download_url . '.md5' );
  * if ( 20 != substr( $md5_response->status_code, 0, 2 ) ) {
- *      WP_CLI::error( "Couldn't access md5 hash for release (HTTP code {$response->status_code})" );
+ *      FP_CLI::error( "Couldn't access md5 hash for release (HTTP code {$response->status_code})" );
  * }
  * ```
  *
@@ -859,7 +859,7 @@ function http_request( $method, $url, $data = null, $headers = [], $options = []
 	/**
 	 * @var array{halt_on_error?: bool, verify: bool|string, insecure?: bool} $options
 	 */
-	$options = WP_CLI::do_hook( 'http_request_options', $options );
+	$options = FP_CLI::do_hook( 'http_request_options', $options );
 
 	RequestsLibrary::register_autoloader();
 
@@ -902,7 +902,7 @@ function http_request( $method, $url, $data = null, $headers = [], $options = []
 		) {
 			$error_msg = sprintf( "Failed to get url '%s': %s.", $url, $exception->getMessage() );
 			if ( $halt_on_error ) {
-				WP_CLI::error( $error_msg );
+				FP_CLI::error( $error_msg );
 			}
 			throw new RuntimeException( $error_msg, 0, $exception );
 		}
@@ -912,7 +912,7 @@ function http_request( $method, $url, $data = null, $headers = [], $options = []
 			$url,
 			$exception->getMessage()
 		);
-		WP_CLI::warning( $warning );
+		FP_CLI::warning( $warning );
 
 		// Disable certificate validation for the next try.
 		$options['verify'] = false;
@@ -922,7 +922,7 @@ function http_request( $method, $url, $data = null, $headers = [], $options = []
 		} catch ( \Requests_Exception | \WpOrg\Requests\Exception $exception ) {
 			$error_msg = sprintf( "Failed to get non-verified url '%s' %s.", $url, $exception->getMessage() );
 			if ( $halt_on_error ) {
-				WP_CLI::error( $error_msg );
+				FP_CLI::error( $error_msg );
 			}
 			throw new RuntimeException( $error_msg, 0, $exception );
 		}
@@ -951,7 +951,7 @@ function get_default_cacert( $halt_on_error = false ) {
 	}
 
 	if ( $halt_on_error ) {
-		WP_CLI::error( $error_msg );
+		FP_CLI::error( $error_msg );
 	}
 
 	throw new RuntimeException( $error_msg );
@@ -1163,7 +1163,7 @@ function get_temp_dir() {
 	$temp = trailingslashit( sys_get_temp_dir() );
 
 	if ( ! is_writable( $temp ) ) {
-		WP_CLI::warning( "Temp directory isn't writable: {$temp}" );
+		FP_CLI::warning( "Temp directory isn't writable: {$temp}" );
 	}
 
 	return $temp;
@@ -1175,7 +1175,7 @@ function get_temp_dir() {
  * Similar to parse_url(), but adds support for defined SSH aliases.
  *
  * ```
- * host OR host/path/to/wordpress OR host:port/path/to/wordpress
+ * host OR host/path/to/finpress OR host:port/path/to/finpress
  * ```
  *
  * @access public
@@ -1246,17 +1246,17 @@ function report_batch_operation_results( $noun, $verb, $total, $successes, $fail
 	if ( $failures ) {
 		$failed_skipped_message = null === $skips ? '' : " ({$failures} failed" . ( $skips ? ", {$skips} skipped" : '' ) . ')';
 		if ( $successes ) {
-			WP_CLI::error( "Only {$past_tense_verb} {$successes} of {$total} {$plural_noun}{$failed_skipped_message}." );
+			FP_CLI::error( "Only {$past_tense_verb} {$successes} of {$total} {$plural_noun}{$failed_skipped_message}." );
 		} else {
-			WP_CLI::error( "No {$plural_noun} {$past_tense_verb}{$failed_skipped_message}." );
+			FP_CLI::error( "No {$plural_noun} {$past_tense_verb}{$failed_skipped_message}." );
 		}
 	} else {
 		$skipped_message = $skips ? " ({$skips} skipped)" : '';
 		if ( $successes || $skips ) {
-			WP_CLI::success( "{$past_tense_verb_upper} {$successes} of {$total} {$plural_noun}{$skipped_message}." );
+			FP_CLI::success( "{$past_tense_verb_upper} {$successes} of {$total} {$plural_noun}{$skipped_message}." );
 		} else {
 			$message = $total > 1 ? ucfirst( $plural_noun ) : ucfirst( $noun );
-			WP_CLI::success( "{$message} already {$past_tense_verb}." );
+			FP_CLI::success( "{$message} already {$past_tense_verb}." );
 		}
 	}
 }
@@ -1297,7 +1297,7 @@ function parse_str_to_argv( $arguments ) {
  * @return string
  */
 function basename( $path, $suffix = '' ) {
-	// phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.urlencode_urlencode -- Format required by wordpress.org API.
+	// phpcs:ignore FinPress.PHP.DiscouragedPHPFunctions.urlencode_urlencode -- Format required by finpress.org API.
 	return urldecode( \basename( str_replace( [ '%2F', '%5C' ], '/', urlencode( $path ) ), $suffix ) );
 }
 
@@ -1313,20 +1313,20 @@ function basename( $path, $suffix = '' ) {
  * To enable ASCII formatting even when the shell is piped, use the
  * ENV variable `SHELL_PIPE=0`.
  * ```
- * SHELL_PIPE=0 wp plugin list | cat
+ * SHELL_PIPE=0 fp plugin list | cat
  * ```
  *
  * Note that the db command forwards to the mysql client, which is unaware of the env
  * variable. For db commands, pass the `--table` option instead.
  * ```
- * wp db query --table "SELECT 1" | cat
+ * fp db query --table "SELECT 1" | cat
  * ```
  *
  * @access public
  *
  * @return bool
  */
-function isPiped() { // phpcs:ignore WordPress.NamingConventions.ValidFunctionName.FunctionNameInvalid -- Renaming would break BC.
+function isPiped() { // phpcs:ignore FinPress.NamingConventions.ValidFunctionName.FunctionNameInvalid -- Renaming would break BC.
 	$shell_pipe = getenv( 'SHELL_PIPE' );
 
 	if ( false !== $shell_pipe ) {
@@ -1349,8 +1349,8 @@ function expand_globs( $paths, $flags = 'default' ) {
 	// Compatibility for systems without GLOB_BRACE.
 	$glob_func = 'glob';
 	if ( 'default' === $flags ) {
-		if ( ! defined( 'GLOB_BRACE' ) || getenv( 'WP_CLI_TEST_EXPAND_GLOBS_NO_GLOB_BRACE' ) ) {
-			$glob_func = 'WP_CLI\Utils\glob_brace';
+		if ( ! defined( 'GLOB_BRACE' ) || getenv( 'FP_CLI_TEST_EXPAND_GLOBS_NO_GLOB_BRACE' ) ) {
+			$glob_func = 'FP_CLI\Utils\glob_brace';
 		} else {
 			$flags = GLOB_BRACE;
 		}
@@ -1560,7 +1560,7 @@ function phar_safe_path( $path ) {
 	}
 
 	return str_replace(
-		PHAR_STREAM_PREFIX . rtrim( WP_CLI_PHAR_PATH, '/' ) . '/',
+		PHAR_STREAM_PREFIX . rtrim( FP_CLI_PHAR_PATH, '/' ) . '/',
 		PHAR_STREAM_PREFIX,
 		$path
 	);
@@ -1600,9 +1600,9 @@ function check_proc_available( $context = null, $return = false ) {
 		}
 		$msg = 'The PHP functions `proc_open()` and/or `proc_close()` are disabled. Please check your PHP ini directive `disable_functions` or suhosin settings.';
 		if ( $context ) {
-			WP_CLI::error( sprintf( "Cannot do '%s': %s", $context, $msg ) );
+			FP_CLI::error( sprintf( "Cannot do '%s': %s", $context, $msg ) );
 		} else {
-			WP_CLI::error( $msg );
+			FP_CLI::error( $msg );
 		}
 	}
 	return true;
@@ -1634,7 +1634,7 @@ function past_tense_verb( $verb ) {
 }
 
 /**
- * Get the path to the PHP binary used when executing WP-CLI.
+ * Get the path to the PHP binary used when executing FP-CLI.
  *
  * Environment values permit specific binaries to be indicated.
  *
@@ -1649,14 +1649,14 @@ function get_php_binary() {
 		return PHP_BINARY;
 	}
 
-	$wp_cli_php_used = getenv( 'WP_CLI_PHP_USED' );
-	if ( false !== $wp_cli_php_used ) {
-		return $wp_cli_php_used;
+	$fp_cli_php_used = getenv( 'FP_CLI_PHP_USED' );
+	if ( false !== $fp_cli_php_used ) {
+		return $fp_cli_php_used;
 	}
 
-	$wp_cli_php = getenv( 'WP_CLI_PHP' );
-	if ( false !== $wp_cli_php ) {
-		return $wp_cli_php;
+	$fp_cli_php = getenv( 'FP_CLI_PHP' );
+	if ( false !== $fp_cli_php ) {
+		return $fp_cli_php;
 	}
 
 	return PHP_BINARY;
@@ -1712,28 +1712,28 @@ function _proc_open_compat_win_env( $cmd, &$env ) {
 /**
  * First half of escaping for LIKE special characters % and _ before preparing for MySQL.
  *
- * Use this only before wpdb::prepare() or esc_sql().  Reversing the order is very bad for security.
+ * Use this only before fpdb::prepare() or esc_sql().  Reversing the order is very bad for security.
  *
- * Copied from core "wp-includes/wp-db.php". Avoids dependency on WP 4.4 wpdb.
+ * Copied from core "fp-includes/fp-db.php". Avoids dependency on FP 4.4 fpdb.
  *
  * @access public
  *
  * @param string $text The raw text to be escaped. The input typed by the user should have no
  *                     extra or deleted slashes.
- * @return string Text in the form of a LIKE phrase. The output is not SQL safe. Call $wpdb::prepare()
+ * @return string Text in the form of a LIKE phrase. The output is not SQL safe. Call $fpdb::prepare()
  *                or real_escape next.
  */
 function esc_like( $text ) {
 	/**
-	 * @var null|\wpdb $wpdb
+	 * @var null|\fpdb $fpdb
 	 */
-	global $wpdb;
+	global $fpdb;
 
-	// Check if the esc_like() method exists on the global $wpdb object.
+	// Check if the esc_like() method exists on the global $fpdb object.
 	// We need to do this because to ensure compatibility layers like the
 	// SQLite integration plugin still work.
-	if ( null !== $wpdb && method_exists( $wpdb, 'esc_like' ) ) {
-		return $wpdb->esc_like( $text );
+	if ( null !== $fpdb && method_exists( $fpdb, 'esc_like' ) ) {
+		return $fpdb->esc_like( $text );
 	}
 
 	return addcslashes( $text, '_%\\' );
@@ -1887,7 +1887,7 @@ function pluralize( $noun, $count = null ) {
 /**
  * Return the detected database type.
  *
- * Can be either 'sqlite' (if in a WordPress installation with the SQLite drop-in),
+ * Can be either 'sqlite' (if in a FinPress installation with the SQLite drop-in),
  * 'mysql', or 'mariadb'.
  *
  * @return string Database type.
@@ -2044,13 +2044,13 @@ function get_sql_modes() {
 }
 
 /**
- * Get the WP-CLI cache directory.
+ * Get the FP-CLI cache directory.
  *
  * @return string
  */
 function get_cache_dir() {
 	$home = get_home_dir();
-	return getenv( 'WP_CLI_CACHE_DIR' ) ? : "$home/.wp-cli/cache";
+	return getenv( 'FP_CLI_CACHE_DIR' ) ? : "$home/.fp-cli/cache";
 }
 
 /**
@@ -2075,20 +2075,20 @@ function has_stdin() {
 }
 
 /**
- * Return description of WP_CLI hooks used in @when tag
+ * Return description of FP_CLI hooks used in @when tag
  *
- *  @param string $hook Name of WP_CLI hook
+ *  @param string $hook Name of FP_CLI hook
  *
  * @return string|null
  */
 function get_hook_description( $hook ) {
 	$events = [
-		'find_command_to_run_pre'     => 'just before WP-CLI finds the command to run.',
+		'find_command_to_run_pre'     => 'just before FP-CLI finds the command to run.',
 		'before_registering_contexts' => 'before the contexts are registered.',
-		'before_wp_load'              => 'just before the WP load process begins.',
-		'before_wp_config_load'       => 'after wp-config.php has been located.',
-		'after_wp_config_load'        => 'after wp-config.php has been loaded into scope.',
-		'after_wp_load'               => 'just after the WP load process has completed.',
+		'before_fp_load'              => 'just before the FP load process begins.',
+		'before_fp_config_load'       => 'after fp-config.php has been located.',
+		'after_fp_config_load'        => 'after fp-config.php has been loaded into scope.',
+		'after_fp_load'               => 'just after the FP load process has completed.',
 	];
 
 	if ( array_key_exists( $hook, $events ) ) {

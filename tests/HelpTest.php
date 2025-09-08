@@ -1,12 +1,12 @@
 <?php
 
-use WP_CLI\Tests\TestCase;
+use FP_CLI\Tests\TestCase;
 
 class HelpTest extends TestCase {
 
 	public static function set_up_before_class() {
-		require_once dirname( __DIR__ ) . '/php/class-wp-cli.php';
-		require_once dirname( __DIR__ ) . '/php/class-wp-cli-command.php';
+		require_once dirname( __DIR__ ) . '/php/class-fp-cli.php';
+		require_once dirname( __DIR__ ) . '/php/class-fp-cli-command.php';
 		require_once dirname( __DIR__ ) . '/php/commands/help.php';
 	}
 
@@ -17,31 +17,31 @@ class HelpTest extends TestCase {
 			$method->setAccessible( true );
 		}
 
-		$desc   = 'This is a [reference link](https://wordpress.org/). It should be displayed very nice!';
+		$desc   = 'This is a [reference link](https://finpress.org/). It should be displayed very nice!';
 		$result = $method->invokeArgs( null, [ $desc ] );
 
 		$expected = <<<'EOL'
 This is a [reference link][1]. It should be displayed very nice!
 
 ---
-[1] https://wordpress.org/
+[1] https://finpress.org/
 EOL;
 		$this->assertSame( $expected, $result );
 
-		$desc   = 'This is a [reference link](https://wordpress.org/) and [second link](http://wp-cli.org/). It should be displayed very nice!';
+		$desc   = 'This is a [reference link](https://finpress.org/) and [second link](http://fp-cli.org/). It should be displayed very nice!';
 		$result = $method->invokeArgs( null, [ $desc ] );
 
 		$expected = <<<'EOL'
 This is a [reference link][1] and [second link][2]. It should be displayed very nice!
 
 ---
-[1] https://wordpress.org/
-[2] http://wp-cli.org/
+[1] https://finpress.org/
+[2] http://fp-cli.org/
 EOL;
 		$this->assertSame( $expected, $result );
 
 		$desc   = <<<'EOL'
-This is a [reference link](https://wordpress.org/) and [second link](http://wp-cli.org/).
+This is a [reference link](https://finpress.org/) and [second link](http://fp-cli.org/).
 It should be displayed very nice!
 EOL;
 		$result = $method->invokeArgs( null, [ $desc ] );
@@ -51,19 +51,19 @@ This is a [reference link][1] and [second link][2].
 It should be displayed very nice!
 
 ---
-[1] https://wordpress.org/
-[2] http://wp-cli.org/
+[1] https://finpress.org/
+[2] http://fp-cli.org/
 EOL;
 
 		$this->assertSame( $expected, $result );
 
 		$desc   = <<<'EOL'
-This is a [reference link](https://wordpress.org/) and [second link](http://wp-cli.org/).
+This is a [reference link](https://finpress.org/) and [second link](http://fp-cli.org/).
 It should be displayed very nice!
 
 ## Example
 
-It doesn't expect to be link here like [reference link](https://wordpress.org/).
+It doesn't expect to be link here like [reference link](https://finpress.org/).
 EOL;
 		$result = $method->invokeArgs( null, [ $desc ] );
 
@@ -72,12 +72,12 @@ This is a [reference link][1] and [second link][2].
 It should be displayed very nice!
 
 ---
-[1] https://wordpress.org/
-[2] http://wp-cli.org/
+[1] https://finpress.org/
+[2] http://fp-cli.org/
 
 ## Example
 
-It doesn't expect to be link here like [reference link](https://wordpress.org/).
+It doesn't expect to be link here like [reference link](https://finpress.org/).
 EOL;
 
 		$this->assertSame( $expected, $result );
@@ -85,14 +85,14 @@ EOL;
 		$desc   = <<<'EOL'
 ## Example
 
-It doesn't expect to be link here like [reference link](https://wordpress.org/).
+It doesn't expect to be link here like [reference link](https://finpress.org/).
 EOL;
 		$result = $method->invokeArgs( null, [ $desc ] );
 
 		$expected = <<<'EOL'
 ## Example
 
-It doesn't expect to be link here like [reference link](https://wordpress.org/).
+It doesn't expect to be link here like [reference link](https://finpress.org/).
 EOL;
 
 		$this->assertSame( $expected, $result );
@@ -103,7 +103,7 @@ It doesn't have any link.
 
 ## Example
 
-It doesn't expect to be link here like [reference link](https://wordpress.org/).
+It doesn't expect to be link here like [reference link](https://finpress.org/).
 EOL;
 		$result = $method->invokeArgs( null, [ $desc ] );
 
@@ -113,7 +113,7 @@ It doesn't have any link.
 
 ## Example
 
-It doesn't expect to be link here like [reference link](https://wordpress.org/).
+It doesn't expect to be link here like [reference link](https://finpress.org/).
 EOL;
 
 		$this->assertSame( $expected, $result );
