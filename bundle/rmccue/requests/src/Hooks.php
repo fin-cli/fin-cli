@@ -5,11 +5,11 @@
  * @package Requests\EventDispatcher
  */
 
-namespace FpOrg\Requests;
+namespace FinOrg\Requests;
 
-use FpOrg\Requests\Exception\InvalidArgument;
-use FpOrg\Requests\HookManager;
-use FpOrg\Requests\Utility\InputValidator;
+use FinOrg\Requests\Exception\InvalidArgument;
+use FinOrg\Requests\HookManager;
+use FinOrg\Requests\Utility\InputValidator;
 
 /**
  * Handles adding and dispatching events
@@ -30,9 +30,9 @@ class Hooks implements HookManager {
 	 * @param string $hook Hook name
 	 * @param callable $callback Function/method to call on event
 	 * @param int $priority Priority number. <0 is executed earlier, >0 is executed later
-	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $hook argument is not a string.
-	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $callback argument is not callable.
-	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $priority argument is not an integer.
+	 * @throws \FinOrg\Requests\Exception\InvalidArgument When the passed $hook argument is not a string.
+	 * @throws \FinOrg\Requests\Exception\InvalidArgument When the passed $callback argument is not callable.
+	 * @throws \FinOrg\Requests\Exception\InvalidArgument When the passed $priority argument is not an integer.
 	 */
 	public function register($hook, $callback, $priority = 0) {
 		if (is_string($hook) === false) {
@@ -64,8 +64,8 @@ class Hooks implements HookManager {
 	 * @param string $hook Hook name
 	 * @param array $parameters Parameters to pass to callbacks
 	 * @return boolean Successfulness
-	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $hook argument is not a string.
-	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $parameters argument is not an array.
+	 * @throws \FinOrg\Requests\Exception\InvalidArgument When the passed $hook argument is not a string.
+	 * @throws \FinOrg\Requests\Exception\InvalidArgument When the passed $parameters argument is not an array.
 	 */
 	public function dispatch($hook, $parameters = []) {
 		if (is_string($hook) === false) {

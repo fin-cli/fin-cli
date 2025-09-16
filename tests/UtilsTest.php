@@ -1,15 +1,15 @@
 <?php
 
-use FP_CLI\ExitException;
-use FP_CLI\Loggers;
-use FP_CLI\Tests\TestCase;
-use FP_CLI\Utils;
+use FIN_CLI\ExitException;
+use FIN_CLI\Loggers;
+use FIN_CLI\Tests\TestCase;
+use FIN_CLI\Utils;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 class UtilsTest extends TestCase {
 
 	public static function set_up_before_class() {
-		require_once dirname( __DIR__ ) . '/php/class-fp-cli.php';
+		require_once dirname( __DIR__ ) . '/php/class-fin-cli.php';
 		require_once __DIR__ . '/mock-requests-transport.php';
 	}
 
@@ -59,7 +59,7 @@ class UtilsTest extends TestCase {
 		$this->assertEquals( 'major', Utils\get_named_sem_ver( '1.1.1', $original_version ) );
 	}
 
-	public function testGetSemVerFP(): void {
+	public function testGetSemVerFIN(): void {
 		$original_version = '3.0';
 		$this->assertEmpty( Utils\get_named_sem_ver( '2.8', $original_version ) );
 		$this->assertEmpty( Utils\get_named_sem_ver( '2.9.1', $original_version ) );
@@ -280,13 +280,13 @@ class UtilsTest extends TestCase {
 			[ [], '' ],
 			[ [ 'option', 'get', 'home' ], 'option get home' ],
 			[ [ 'core', 'download', '--path=/var/www/' ], 'core download --path=/var/www/' ],
-			[ [ 'eval', 'echo fp_get_current_user()->user_login;' ], 'eval "echo fp_get_current_user()->user_login;"' ],
+			[ [ 'eval', 'echo fin_get_current_user()->user_login;' ], 'eval "echo fin_get_current_user()->user_login;"' ],
 			[ [ 'post', 'create', '--post_title="Hello world!"' ], 'post create --post_title="Hello world!"' ],
 			[ [ 'post', 'create', '--post_title=\'Mixed "quotes are working" hopefully\'' ], 'post create --post_title=\'Mixed "quotes are working" hopefully\'' ],
 			[ [ 'post', 'create', '--post_title="Escaped \"double \"quotes!"' ], 'post create --post_title="Escaped \"double \"quotes!"' ],
 			[ [ 'post', 'create', "--post_title='Escaped \'single \'quotes!'" ], "post create --post_title='Escaped \'single \'quotes!'" ],
 			[ [ 'search-replace', '//old-domain.com', '//new-domain.com', 'specifictable', '--all-tables' ], 'search-replace "//old-domain.com" "//new-domain.com" "specifictable" --all-tables' ],
-			[ [ 'i18n', 'make-pot', '/home/fporgdev/co/finpress/trunk', '/home/fporgdev/co/fp-pot/trunk/finpress-continents-cities.pot', '--include="fp-admin/includes/continents-cities.php"', "--package-name='FinPress'", '--headers=\'{"Report-Msgid-Bugs-To":"https://core.trac.finpress.org/"}\'', "--file-comment='Copyright (C) 2019 by the contributors\nThis file is distributed under the same license as the FinPress package.'", '--skip-js', '--skip-audit', '--ignore-domain' ], "i18n make-pot '/home/fporgdev/co/finpress/trunk' '/home/fporgdev/co/fp-pot/trunk/finpress-continents-cities.pot' --include=\"fp-admin/includes/continents-cities.php\" --package-name='FinPress' --headers='{\"Report-Msgid-Bugs-To\":\"https://core.trac.finpress.org/\"}' --file-comment='Copyright (C) 2019 by the contributors\nThis file is distributed under the same license as the FinPress package.' --skip-js --skip-audit --ignore-domain" ],
+			[ [ 'i18n', 'make-pot', '/home/finorgdev/co/finpress/trunk', '/home/finorgdev/co/fin-pot/trunk/finpress-continents-cities.pot', '--include="fin-admin/includes/continents-cities.php"', "--package-name='FinPress'", '--headers=\'{"Report-Msgid-Bugs-To":"https://core.trac.finpress.org/"}\'', "--file-comment='Copyright (C) 2019 by the contributors\nThis file is distributed under the same license as the FinPress package.'", '--skip-js', '--skip-audit', '--ignore-domain' ], "i18n make-pot '/home/finorgdev/co/finpress/trunk' '/home/finorgdev/co/fin-pot/trunk/finpress-continents-cities.pot' --include=\"fin-admin/includes/continents-cities.php\" --package-name='FinPress' --headers='{\"Report-Msgid-Bugs-To\":\"https://core.trac.finpress.org/\"}' --file-comment='Copyright (C) 2019 by the contributors\nThis file is distributed under the same license as the FinPress package.' --skip-js --skip-audit --ignore-domain" ],
 		];
 	}
 
@@ -363,17 +363,17 @@ class UtilsTest extends TestCase {
 	}
 
 	public function testForceEnvOnNixSystems(): void {
-		$env_is_windows = getenv( 'FP_CLI_TEST_IS_WINDOWS' );
+		$env_is_windows = getenv( 'FIN_CLI_TEST_IS_WINDOWS' );
 
-		putenv( 'FP_CLI_TEST_IS_WINDOWS=0' );
+		putenv( 'FIN_CLI_TEST_IS_WINDOWS=0' );
 		$this->assertSame( '/usr/bin/env cmd', Utils\force_env_on_nix_systems( 'cmd' ) );
 		$this->assertSame( '/usr/bin/env cmd', Utils\force_env_on_nix_systems( '/usr/bin/env cmd' ) );
 
-		putenv( 'FP_CLI_TEST_IS_WINDOWS=1' );
+		putenv( 'FIN_CLI_TEST_IS_WINDOWS=1' );
 		$this->assertSame( 'cmd', Utils\force_env_on_nix_systems( 'cmd' ) );
 		$this->assertSame( 'cmd', Utils\force_env_on_nix_systems( '/usr/bin/env cmd' ) );
 
-		putenv( false === $env_is_windows ? 'FP_CLI_TEST_IS_WINDOWS' : "FP_CLI_TEST_IS_WINDOWS=$env_is_windows" );
+		putenv( false === $env_is_windows ? 'FIN_CLI_TEST_IS_WINDOWS' : "FIN_CLI_TEST_IS_WINDOWS=$env_is_windows" );
 	}
 
 	public function testGetHomeDir(): void {
@@ -451,20 +451,20 @@ class UtilsTest extends TestCase {
 	}
 
 	public function testHttpRequestBadAddress(): void {
-		// Save FP_CLI state.
-		$class_fp_cli_capture_exit = new \ReflectionProperty( 'FP_CLI', 'capture_exit' );
+		// Save FIN_CLI state.
+		$class_fin_cli_capture_exit = new \ReflectionProperty( 'FIN_CLI', 'capture_exit' );
 		if ( PHP_VERSION_ID < 80100 ) {
-			$class_fp_cli_capture_exit->setAccessible( true );
+			$class_fin_cli_capture_exit->setAccessible( true );
 		}
-		$prev_capture_exit = $class_fp_cli_capture_exit->getValue();
+		$prev_capture_exit = $class_fin_cli_capture_exit->getValue();
 
-		$prev_logger = FP_CLI::get_logger();
+		$prev_logger = FIN_CLI::get_logger();
 
 		// Enable exit exception.
-		$class_fp_cli_capture_exit->setValue( null, true );
+		$class_fin_cli_capture_exit->setValue( null, true );
 
 		$logger = new Loggers\Execution();
-		FP_CLI::set_logger( $logger );
+		FIN_CLI::set_logger( $logger );
 
 		$exception = null;
 		try {
@@ -479,8 +479,8 @@ class UtilsTest extends TestCase {
 		$this->assertTrue( 0 === strpos( $logger->stderr, 'Error: Failed to get url' ) );
 
 		// Restore.
-		$class_fp_cli_capture_exit->setValue( null, $prev_capture_exit );
-		FP_CLI::set_logger( $prev_logger );
+		$class_fin_cli_capture_exit->setValue( null, $prev_capture_exit );
+		FIN_CLI::set_logger( $prev_logger );
 	}
 
 	public static function dataHttpRequestBadCAcert(): array {
@@ -516,11 +516,11 @@ class UtilsTest extends TestCase {
 			$this->markTestSkipped( 'curl not available' );
 		}
 
-		// Save FP_CLI state.
-		$prev_logger = FP_CLI::get_logger();
+		// Save FIN_CLI state.
+		$prev_logger = FIN_CLI::get_logger();
 
 		// Create temporary file to use as a bad certificate file.
-		$bad_cacert_path = tempnam( sys_get_temp_dir(), 'fp-cli-badcacert-pem-' );
+		$bad_cacert_path = tempnam( sys_get_temp_dir(), 'fin-cli-badcacert-pem-' );
 		file_put_contents( $bad_cacert_path, "-----BEGIN CERTIFICATE-----\nasdfasdf\n-----END CERTIFICATE-----\n" );
 
 		$options = array_merge(
@@ -537,12 +537,12 @@ class UtilsTest extends TestCase {
 		}
 
 		$logger = new Loggers\Execution();
-		FP_CLI::set_logger( $logger );
+		FIN_CLI::set_logger( $logger );
 
 		Utils\http_request( 'GET', 'https://example.com', null, [], $options );
 
 		// Restore.
-		FP_CLI::set_logger( $prev_logger );
+		FIN_CLI::set_logger( $prev_logger );
 
 		$this->assertTrue( empty( $logger->stdout ) );
 		$this->assertNotFalse( strpos( $logger->stderr, $exception_message ) );
@@ -635,7 +635,7 @@ class UtilsTest extends TestCase {
 	 */
 	#[DataProvider( 'dataExpandGlobs' )] // phpcs:ignore PHPCompatibility.Attributes.NewAttributes.PHPUnitAttributeFound
 	public function testExpandGlobs( $path, $expected ): void {
-		$expand_globs_no_glob_brace = getenv( 'FP_CLI_TEST_EXPAND_GLOBS_NO_GLOB_BRACE' );
+		$expand_globs_no_glob_brace = getenv( 'FIN_CLI_TEST_EXPAND_GLOBS_NO_GLOB_BRACE' );
 
 		$dir      = __DIR__ . '/data/expand_globs/';
 		$concat   = function ( $v ) use ( $dir ) {
@@ -644,17 +644,17 @@ class UtilsTest extends TestCase {
 		$expected = array_map( $concat, $expected );
 		sort( $expected );
 
-		putenv( 'FP_CLI_TEST_EXPAND_GLOBS_NO_GLOB_BRACE=0' );
+		putenv( 'FIN_CLI_TEST_EXPAND_GLOBS_NO_GLOB_BRACE=0' );
 		$out = Utils\expand_globs( $dir . $path );
 		sort( $out );
 		$this->assertSame( $expected, $out );
 
-		putenv( 'FP_CLI_TEST_EXPAND_GLOBS_NO_GLOB_BRACE=1' );
+		putenv( 'FIN_CLI_TEST_EXPAND_GLOBS_NO_GLOB_BRACE=1' );
 		$out = Utils\expand_globs( $dir . $path );
 		sort( $out );
 		$this->assertSame( $expected, $out );
 
-		putenv( false === $expand_globs_no_glob_brace ? 'FP_CLI_TEST_EXPAND_GLOBS_NO_GLOB_BRACE' : "FP_CLI_TEST_EXPAND_GLOBS_NO_GLOB_BRACE=$expand_globs_no_glob_brace" );
+		putenv( false === $expand_globs_no_glob_brace ? 'FIN_CLI_TEST_EXPAND_GLOBS_NO_GLOB_BRACE' : "FIN_CLI_TEST_EXPAND_GLOBS_NO_GLOB_BRACE=$expand_globs_no_glob_brace" );
 	}
 
 	public static function dataExpandGlobs(): array {
@@ -680,20 +680,20 @@ class UtilsTest extends TestCase {
 	 */
 	#[DataProvider( 'dataReportBatchOperationResults' )] // phpcs:ignore PHPCompatibility.Attributes.NewAttributes.PHPUnitAttributeFound
 	public function testReportBatchOperationResults( $stdout, $stderr, $noun, $verb, $total, $successes, $failures, $skips ): void {
-		// Save FP_CLI state.
-		$class_fp_cli_capture_exit = new \ReflectionProperty( 'FP_CLI', 'capture_exit' );
+		// Save FIN_CLI state.
+		$class_fin_cli_capture_exit = new \ReflectionProperty( 'FIN_CLI', 'capture_exit' );
 		if ( PHP_VERSION_ID < 80100 ) {
-			$class_fp_cli_capture_exit->setAccessible( true );
+			$class_fin_cli_capture_exit->setAccessible( true );
 		}
-		$prev_capture_exit = $class_fp_cli_capture_exit->getValue();
+		$prev_capture_exit = $class_fin_cli_capture_exit->getValue();
 
-		$prev_logger = FP_CLI::get_logger();
+		$prev_logger = FIN_CLI::get_logger();
 
 		// Enable exit exception.
-		$class_fp_cli_capture_exit->setValue( null, true );
+		$class_fin_cli_capture_exit->setValue( null, true );
 
 		$logger = new Loggers\Execution();
-		FP_CLI::set_logger( $logger );
+		FIN_CLI::set_logger( $logger );
 
 		$exception = null;
 
@@ -706,8 +706,8 @@ class UtilsTest extends TestCase {
 		$this->assertSame( $stderr, $logger->stderr );
 
 		// Restore.
-		$class_fp_cli_capture_exit->setValue( null, $prev_capture_exit );
-		FP_CLI::set_logger( $prev_logger );
+		$class_fin_cli_capture_exit->setValue( null, $prev_capture_exit );
+		FIN_CLI::set_logger( $prev_logger );
 	}
 
 	public static function dataReportBatchOperationResults(): array {
@@ -729,29 +729,29 @@ class UtilsTest extends TestCase {
 	}
 
 	public function testGetPHPBinary(): void {
-		$env_php_used = getenv( 'FP_CLI_PHP_USED' );
-		$env_php      = getenv( 'FP_CLI_PHP' );
+		$env_php_used = getenv( 'FIN_CLI_PHP_USED' );
+		$env_php      = getenv( 'FIN_CLI_PHP' );
 
-		putenv( 'FP_CLI_PHP_USED' );
-		putenv( 'FP_CLI_PHP' );
+		putenv( 'FIN_CLI_PHP_USED' );
+		putenv( 'FIN_CLI_PHP' );
 		$get_php_binary = Utils\get_php_binary();
 		$this->assertTrue( is_executable( $get_php_binary ) );
 
-		putenv( 'FP_CLI_PHP_USED=/my-php-5.3' );
-		putenv( 'FP_CLI_PHP' );
+		putenv( 'FIN_CLI_PHP_USED=/my-php-5.3' );
+		putenv( 'FIN_CLI_PHP' );
 		$get_php_binary = Utils\get_php_binary();
 		$this->assertSame( $get_php_binary, '/my-php-5.3' );
 
-		putenv( 'FP_CLI_PHP=/my-php-7.3' );
+		putenv( 'FIN_CLI_PHP=/my-php-7.3' );
 		$get_php_binary = Utils\get_php_binary();
-		$this->assertSame( $get_php_binary, '/my-php-5.3' ); // FP_CLI_PHP_USED wins.
+		$this->assertSame( $get_php_binary, '/my-php-5.3' ); // FIN_CLI_PHP_USED wins.
 
-		putenv( 'FP_CLI_PHP_USED' );
+		putenv( 'FIN_CLI_PHP_USED' );
 		$get_php_binary = Utils\get_php_binary();
 		$this->assertSame( $get_php_binary, '/my-php-7.3' );
 
-		putenv( false === $env_php_used ? 'FP_CLI_PHP_USED' : "FP_CLI_PHP_USED=$env_php_used" );
-		putenv( false === $env_php ? 'FP_CLI_PHP' : "FP_CLI_PHP=$env_php" );
+		putenv( false === $env_php_used ? 'FIN_CLI_PHP_USED' : "FIN_CLI_PHP_USED=$env_php_used" );
+		putenv( false === $env_php ? 'FIN_CLI_PHP' : "FIN_CLI_PHP=$env_php" );
 	}
 
 	/**
@@ -759,15 +759,15 @@ class UtilsTest extends TestCase {
 	 */
 	#[DataProvider( 'dataProcOpenCompatWinEnv' )] // phpcs:ignore PHPCompatibility.Attributes.NewAttributes.PHPUnitAttributeFound
 	public function testProcOpenCompatWinEnv( $cmd, $env, $expected_cmd, $expected_env ): void {
-		$env_is_windows = getenv( 'FP_CLI_TEST_IS_WINDOWS' );
+		$env_is_windows = getenv( 'FIN_CLI_TEST_IS_WINDOWS' );
 
-		putenv( 'FP_CLI_TEST_IS_WINDOWS=1' );
+		putenv( 'FIN_CLI_TEST_IS_WINDOWS=1' );
 
 		$cmd = Utils\_proc_open_compat_win_env( $cmd, $env );
 		$this->assertSame( $expected_cmd, $cmd );
 		$this->assertSame( $expected_env, $env );
 
-		putenv( false === $env_is_windows ? 'FP_CLI_TEST_IS_WINDOWS' : "FP_CLI_TEST_IS_WINDOWS=$env_is_windows" );
+		putenv( false === $env_is_windows ? 'FIN_CLI_TEST_IS_WINDOWS' : "FIN_CLI_TEST_IS_WINDOWS=$env_is_windows" );
 	}
 
 	public static function dataProcOpenCompatWinEnv(): array {
@@ -813,11 +813,11 @@ class UtilsTest extends TestCase {
 	 * @dataProvider dataEscLike
 	 */
 	#[DataProvider( 'dataEscLike' )] // phpcs:ignore PHPCompatibility.Attributes.NewAttributes.PHPUnitAttributeFound
-	public function test_esc_like_with_fpdb( $input, $expected ): void {
-		global $fpdb;
+	public function test_esc_like_with_findb( $input, $expected ): void {
+		global $findb;
 
 		// @phpstan-ignore class.notFound
-		$fpdb = $this->createMock( FP_CLI_Mock_FPDB::class )
+		$findb = $this->createMock( FIN_CLI_Mock_FINDB::class )
 			->expects( $this->any() )
 			->method( 'esc_like' )
 			->willReturn( addcslashes( $input, '_%\\' ) );
@@ -830,9 +830,9 @@ class UtilsTest extends TestCase {
 	 * @dataProvider dataEscLike
 	 */
 	#[DataProvider( 'dataEscLike' )] // phpcs:ignore PHPCompatibility.Attributes.NewAttributes.PHPUnitAttributeFound
-	public function test_esc_like_with_fpdb_being_null( $input, $expected ): void {
-		global $fpdb;
-		$fpdb = null;
+	public function test_esc_like_with_findb_being_null( $input, $expected ): void {
+		global $findb;
+		$findb = null;
 		$this->assertEquals( $expected, Utils\esc_like( $input ) );
 	}
 
@@ -1105,11 +1105,11 @@ class UtilsTest extends TestCase {
 		return [
 			[ 'string', false ],
 			[ [], false ],
-			[ [ 'FP_CLI' ], false ],
+			[ [ 'FIN_CLI' ], false ],
 			[ [ true, false ], false ],
-			[ [ 'FP_CLI', 'invalid_method' ], false ],
+			[ [ 'FIN_CLI', 'invalid_method' ], false ],
 			[ [ 'Invalid_Class', 'invalid_method' ], false ],
-			[ [ 'FP_CLI', 'add_command' ], true ],
+			[ [ 'FIN_CLI', 'add_command' ], true ],
 			[ [ 'Exception', 'getMessage' ], true ],
 		];
 	}

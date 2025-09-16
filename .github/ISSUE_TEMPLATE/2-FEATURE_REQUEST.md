@@ -17,37 +17,37 @@ If yes, make sure you are in the correct repository that contains the command yo
 
 Here's a quick overview of where to find the different commands:
 
-* `fp (cache|transient) *` https://github.com/fp-cli/cache-command
-* `fp checksum` https://github.com/fp-cli/checksum-command
-* `fp config *` https://github.com/fp-cli/config-command
-* `fp core *` https://github.com/fp-cli/core-command
-* `fp cron *` https://github.com/fp-cli/cron-command
-* `fp db *` https://github.com/fp-cli/db-command
-* `fp embed *` https://github.com/fp-cli/embed-command
-* `fp (eval|eval-file)` https://github.com/fp-cli/eval-command
-* `fp export` https://github.com/fp-cli/export-command
-* `fp (option|post|comment|user|term|site) *` https://github.com/fp-cli/entity-command
-* `fp i18n` https://github.com/fp-cli/i18n-command
-* `fp import` https://github.com/fp-cli/import-command
-* `fp language` https://github.com/fp-cli/language-command
-* `fp maintenance-mode *` https://github.com/fp-cli/maintenance-mode-command
-* `fp media *` https://github.com/fp-cli/media-command
-* `fp package *` https://github.com/fp-cli/package-command
-* `fp (plugin|theme) *` https://github.com/fp-cli/extension-command
-* `fp rewrite` https://github.com/fp-cli/rewrite-command
-* `fp (role|cap) *` https://github.com/fp-cli/role-command
-* `fp scaffold *` https://github.com/fp-cli/scaffold-command
-* `fp search-replace` https://github.com/fp-cli/search-replace-command
-* `fp server` https://github.com/fp-cli/server-command
-* `fp shell` https://github.com/fp-cli/shell-command
-* `fp super-admin *` https://github.com/fp-cli/super-admin-command
-* `fp (widget|sidebar) *` https://github.com/fp-cli/widget-command
+* `fin (cache|transient) *` https://github.com/fin-cli/cache-command
+* `fin checksum` https://github.com/fin-cli/checksum-command
+* `fin config *` https://github.com/fin-cli/config-command
+* `fin core *` https://github.com/fin-cli/core-command
+* `fin cron *` https://github.com/fin-cli/cron-command
+* `fin db *` https://github.com/fin-cli/db-command
+* `fin embed *` https://github.com/fin-cli/embed-command
+* `fin (eval|eval-file)` https://github.com/fin-cli/eval-command
+* `fin export` https://github.com/fin-cli/export-command
+* `fin (option|post|comment|user|term|site) *` https://github.com/fin-cli/entity-command
+* `fin i18n` https://github.com/fin-cli/i18n-command
+* `fin import` https://github.com/fin-cli/import-command
+* `fin language` https://github.com/fin-cli/language-command
+* `fin maintenance-mode *` https://github.com/fin-cli/maintenance-mode-command
+* `fin media *` https://github.com/fin-cli/media-command
+* `fin package *` https://github.com/fin-cli/package-command
+* `fin (plugin|theme) *` https://github.com/fin-cli/extension-command
+* `fin rewrite` https://github.com/fin-cli/rewrite-command
+* `fin (role|cap) *` https://github.com/fin-cli/role-command
+* `fin scaffold *` https://github.com/fin-cli/scaffold-command
+* `fin search-replace` https://github.com/fin-cli/search-replace-command
+* `fin server` https://github.com/fin-cli/server-command
+* `fin shell` https://github.com/fin-cli/shell-command
+* `fin super-admin *` https://github.com/fin-cli/super-admin-command
+* `fin (widget|sidebar) *` https://github.com/fin-cli/widget-command
 
 If you are not in the correct repository right now, you can just close this issue/window without submitting and click through to the correct one.
 
 **Is your feature request about a new command, or a more general idea?**
 
-If your feature request is not about making a change to one or more existing commands, but rather about adding functionality that doesn't naturally fit one of the existing commands, head over to the [`fp-cli/ideas`](https://github.com/fp-cli/ideas) repository and [create a new issue in that repository](https://github.com/fp-cli/ideas/issues/new).
+If your feature request is not about making a change to one or more existing commands, but rather about adding functionality that doesn't naturally fit one of the existing commands, head over to the [`fin-cli/ideas`](https://github.com/fin-cli/ideas) repository and [create a new issue in that repository](https://github.com/fin-cli/ideas/issues/new).
 
 The issue tracker in that repository will collect ideas that are still vague and need fleshing out and/or preparatory work (like creating a new repository) before the actual development work can begin.
 
@@ -57,7 +57,7 @@ The issue tracker in that repository will collect ideas that are still vague and
 
 **Describe your use case and the problem you are facing**
 
-A clear and concise description of what you are actually trying to do, and in what way the current version of FP-CLI is not up to the task.
+A clear and concise description of what you are actually trying to do, and in what way the current version of FIN-CLI is not up to the task.
 
 **Describe the solution you'd like**
 

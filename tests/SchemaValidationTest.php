@@ -9,7 +9,7 @@ class SchemaValidationTest extends TestCase {
 	 */
 	public function testExampleYamlFilesValidateAgainstSchema(): void {
 		$schemas_dir = dirname( __DIR__ ) . '/schemas';
-		$schema_path = $schemas_dir . '/fp-cli-config.json';
+		$schema_path = $schemas_dir . '/fin-cli-config.json';
 
 		// Load schema once
 		$schema_content = file_get_contents( $schema_path );

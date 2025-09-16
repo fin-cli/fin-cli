@@ -18,7 +18,7 @@ Changelog
 - Fixed: PHP 8.4 deprecation of implicitly nullable parameter. [#865] Props [@Ayesh][gh-ayesh], [@jrfnl][gh-jrfnl]
     Note: this fix constitutes an, albeit small, breaking change to the signature of the `Cookie::parse_from_headers()` method.
     Classes which extend the `Cookie` class and overload the `parse_from_headers()` method should be updated for the new method signature.
-    Additionally, if code calling the `Cookie::parse_from_headers()` method would be wrapped in a `try - catch` to catch a potential PHP `TypeError` (PHP 7.0+) or `Exception` (PHP < 7.0) for when invalid data was passed as the `$origin` parameter, this code will need to be updated to now also catch a potential `FpOrg\Requests\Exception\InvalidArgumentException`.
+    Additionally, if code calling the `Cookie::parse_from_headers()` method would be wrapped in a `try - catch` to catch a potential PHP `TypeError` (PHP 7.0+) or `Exception` (PHP < 7.0) for when invalid data was passed as the `$origin` parameter, this code will need to be updated to now also catch a potential `FinOrg\Requests\Exception\InvalidArgumentException`.
     As due diligence could not find any classes which would be affected by this BC-break, we have deemed it acceptable to include this fix in the 2.0.11 release.
 
 [#822]: https://github.com/FinPress/Requests/pull/822
@@ -167,7 +167,7 @@ As Requests 2.0.0 is a major release, this version contains breaking changes. Th
 
 - **All code is now namespaced (PSR-4)**
 
-  The code within the Requests library has all been namespaced and now lives in the `FpOrg\Requests` namespace.
+  The code within the Requests library has all been namespaced and now lives in the `FinOrg\Requests` namespace.
 
   The namespaced classes can be found in the `src` directory. The old `library` directory and the files within are deprecated.
 
@@ -187,7 +187,7 @@ setting the value of this constant to `true`.
 
   // NEW: Using the custom autoloader in Requests 2.x.
   require_once 'path/to/Requests/src/Autoload.php';
-  FpOrg\Requests\Autoload::register();
+  FinOrg\Requests\Autoload::register();
   ```
 
   (props [@jrfnl][gh-jrfnl], [@schlessera][gh-schlessera], [#503][gh-503], [#519][gh-519], [#586][gh-586], [#587][gh-587], [#594][gh-594])
@@ -203,7 +203,7 @@ setting the value of this constant to `true`.
 - **Input validation**
 
   All typical entry point methods in Requests will now, directly or indirectly, validate the received input parameters for being of the correct type.
-  When an incorrect parameter type is received, a catchable `FpOrg\Requests\Exception\InvalidArgument` exception will be thrown.
+  When an incorrect parameter type is received, a catchable `FinOrg\Requests\Exception\InvalidArgument` exception will be thrown.
 
   The input validation has been set up to be reasonably liberal, so if Requests was being used as per the documentation, this change should not affect you.
   If you still find the input validation to be too strict and you have a good use-case of why it should be loosened for a particular entry point, please [open an issue to discuss this](https://github.com/FinPress/Requests/issues/new/choose).
@@ -234,41 +234,41 @@ setting the value of this constant to `true`.
 - **New functionality**
 
   The following new functionality has been added:
-  - A `public static` `FpOrg\Requests\Requests::has_capabilities($capabilities = array())` method is now available to check whether there is a transport available which supports the requested capabilities.
-  - A `public` `FpOrg\Requests\Response::decode_body($associative = true, $depth = 512, $options = 0)` method is now available to handle JSON-decoding a response body.
+  - A `public static` `FinOrg\Requests\Requests::has_capabilities($capabilities = array())` method is now available to check whether there is a transport available which supports the requested capabilities.
+  - A `public` `FinOrg\Requests\Response::decode_body($associative = true, $depth = 512, $options = 0)` method is now available to handle JSON-decoding a response body.
     The method parameters correspond to the parameters of the PHP native [`json_decode()`](https://php.net/json-decode) function.
-    The method will throw an `FpOrg\Requests\Exception` when the response body is not valid JSON.
-  - A `FpOrg\Requests\Capability` interface. This interface provides constants for the known capabilities. Transports can be tested whether or not they support these capabilities.
+    The method will throw an `FinOrg\Requests\Exception` when the response body is not valid JSON.
+  - A `FinOrg\Requests\Capability` interface. This interface provides constants for the known capabilities. Transports can be tested whether or not they support these capabilities.
     Currently, the only capability supported is `Capability::SSL`.
-  - A `FpOrg\Requests\Port` class. This class encapsulates typical port numbers as constants and offers a `static` `Port::get($type)` method to retrieve a port number based on a request type.
+  - A `FinOrg\Requests\Port` class. This class encapsulates typical port numbers as constants and offers a `static` `Port::get($type)` method to retrieve a port number based on a request type.
     Using this class when referring to port numbers is recommended.
-  - An `FpOrg\Requests\Exceptions\InvalidArgument` class. This class is intended for internal use only.
-  - An `FpOrg\Requests\Utility\InputValidator` class with helper methods for input validation. This class is intended for internal use only.
+  - An `FinOrg\Requests\Exceptions\InvalidArgument` class. This class is intended for internal use only.
+  - An `FinOrg\Requests\Utility\InputValidator` class with helper methods for input validation. This class is intended for internal use only.
 
   (props [@ccrims0n][gh-ccrims0n], [@dd32][gh-dd32], [@jrfnl][gh-jrfnl], [@schlessera][gh-schlessera], [#167][gh-167], [#214][gh-214], [#250][gh-250], [#251][gh-251], [#492][gh-492], [#499][gh-499], [#538][gh-538], [#542][gh-542], [#547][gh-547], [#559][gh-559])
 
 - **Changed functionality**
 
-  - The `FpOrg\Requests\Requests::decompress()` method has been fixed to recognize more compression levels and handle these correctly.
-  - The method signature of the `FpOrg\Requests\Transport::test()` interface method has been adjusted to enforce support for an optional `$capabilities` parameter.
-    The Request native `FpOrg\Requests\Transport\Curl::test()` and `FpOrg\Requests\Transport\Fsockopen::test()` methods both already supported this parameter.
-  - The `FpOrg\Requests\Transport\Curl::request()` and the `FpOrg\Requests\Transport\Fsockopen::request()` methods will now throw an `FpOrg\Requests\Exception` when the `$options['filename']` contains an invalid path.
-  - The `FpOrg\Requests\Transport\Curl::request()` method will no longer set the `CURLOPT_REFERER` option.
-  - The default value of the `$key` parameter in the `FpOrg\Requests\Cookie\Jar::normalize_cookie()` method has been changed from `null` to an empty string.
+  - The `FinOrg\Requests\Requests::decompress()` method has been fixed to recognize more compression levels and handle these correctly.
+  - The method signature of the `FinOrg\Requests\Transport::test()` interface method has been adjusted to enforce support for an optional `$capabilities` parameter.
+    The Request native `FinOrg\Requests\Transport\Curl::test()` and `FinOrg\Requests\Transport\Fsockopen::test()` methods both already supported this parameter.
+  - The `FinOrg\Requests\Transport\Curl::request()` and the `FinOrg\Requests\Transport\Fsockopen::request()` methods will now throw an `FinOrg\Requests\Exception` when the `$options['filename']` contains an invalid path.
+  - The `FinOrg\Requests\Transport\Curl::request()` method will no longer set the `CURLOPT_REFERER` option.
+  - The default value of the `$key` parameter in the `FinOrg\Requests\Cookie\Jar::normalize_cookie()` method has been changed from `null` to an empty string.
 
   (props [@datagutten][gh-datagutten], [@dustinrue][gh-dustinrue], [@jrfnl][gh-jrfnl], [@schlessera][gh-schlessera], [@soulseekah][gh-soulseekah], [@twdnhfr][gh-twdnhfr], [#301][gh-301], [#309][gh-309], [#379][gh-379], [#444][gh-444], [#492][gh-492], [#610][gh-610])
 
 - **Removed functionality**
 
   The following methods, which were deprecated during the 1.x cycle, have now been removed:
-  - `Requests::flattern()`, use `FpOrg\Requests\Requests::flatten()` instead.
-  - `Requests_Cookie::formatForHeader()`, use `FpOrg\Requests\Cookie::format_for_header()` instead.
-  - `Requests_Cookie::formatForSetCookie()`, use `FpOrg\Requests\Cookie::format_for_set_cookie()` instead.
-  - `Requests_Cookie::parseFromHeaders()`, use `FpOrg\Requests\Cookie::parse_from_headers()` instead.
-  - `Requests_Cookie_Jar::normalizeCookie()`, use `FpOrg\Requests\Cookie\Jar::normalize_cookie()` instead
+  - `Requests::flattern()`, use `FinOrg\Requests\Requests::flatten()` instead.
+  - `Requests_Cookie::formatForHeader()`, use `FinOrg\Requests\Cookie::format_for_header()` instead.
+  - `Requests_Cookie::formatForSetCookie()`, use `FinOrg\Requests\Cookie::format_for_set_cookie()` instead.
+  - `Requests_Cookie::parseFromHeaders()`, use `FinOrg\Requests\Cookie::parse_from_headers()` instead.
+  - `Requests_Cookie_Jar::normalizeCookie()`, use `FinOrg\Requests\Cookie\Jar::normalize_cookie()` instead
 
   A duplicate method has been removed:
-  - `Requests::match_domain()`, use `FpOrg\Requests\Ssl::match_domain()` instead.
+  - `Requests::match_domain()`, use `FinOrg\Requests\Ssl::match_domain()` instead.
 
   A redundant method has been removed:
   - `Hooks::__construct()`.
@@ -921,7 +921,7 @@ default
 
   (props [@stephenharris][gh-stephenharris], [#236][gh-236], [#3][gh-3])
 
-- CURLOPT_HTTPHEADER在php7接受空数组导致php-fpm奔溃
+- CURLOPT_HTTPHEADER在php7接受空数组导致php-finm奔溃
 
   (props [@qibinghua][gh-qibinghua], [#219][gh-219])
 

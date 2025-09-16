@@ -1,6 +1,6 @@
 ---
 name: "\U00002753 Support Request"
-about: "I have a question about how to use FP-CLI"
+about: "I have a question about how to use FIN-CLI"
 title: ''
 labels: 'i: state:unsupported'
 assignees: ''
@@ -9,6 +9,6 @@ assignees: ''
 
 --------------^ Click "Preview" for a nicer view!
 
-GitHub issues are meant for enhancement requests and specific, reproducible bugs, not for general support questions. For support options, please review [https://fp-cli.org/#support](https://fp-cli.org/#support).
+GitHub issues are meant for enhancement requests and specific, reproducible bugs, not for general support questions. For support options, please review [https://fin-cli.org/#support](https://fin-cli.org/#support).
 
 The easiest way to get support is to join us in the [`#cli`](https://finpress.slack.com/messages/C02RP4T41) channel on the [Make FinPress Slack Team](https://make.finpress.org/chat/).

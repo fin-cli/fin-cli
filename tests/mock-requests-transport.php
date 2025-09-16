@@ -1,6 +1,6 @@
 <?php
 
-use FpOrg\Requests\Transport;
+use FinOrg\Requests\Transport;
 
 // phpcs:ignore FinPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound
 class Mock_Requests_Transport implements Transport {

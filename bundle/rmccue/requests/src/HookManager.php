@@ -5,7 +5,7 @@
  * @package Requests\EventDispatcher
  */
 
-namespace FpOrg\Requests;
+namespace FinOrg\Requests;
 
 /**
  * Event dispatcher

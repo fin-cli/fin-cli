@@ -13,7 +13,7 @@
 		 colors="true"
 		 verbose="true">
 	<testsuites>
-		<testsuite name="fp-cli/fp-cli tests">
+		<testsuite name="fin-cli/fin-cli tests">
 			<directory suffix="Test.php">tests</directory>
 		</testsuite>
 	</testsuites>

@@ -5,13 +5,13 @@
  * @package Requests\Utilities
  */
 
-namespace FpOrg\Requests;
+namespace FinOrg\Requests;
 
-use FpOrg\Requests\Exception;
-use FpOrg\Requests\Exception\InvalidArgument;
-use FpOrg\Requests\Ipv6;
-use FpOrg\Requests\Port;
-use FpOrg\Requests\Utility\InputValidator;
+use FinOrg\Requests\Exception;
+use FinOrg\Requests\Exception\InvalidArgument;
+use FinOrg\Requests\Ipv6;
+use FinOrg\Requests\Port;
+use FinOrg\Requests\Utility\InputValidator;
 
 /**
  * IRI parser/serialiser/normaliser
@@ -53,7 +53,7 @@ use FpOrg\Requests\Utility\InputValidator;
  * @link http://hg.gsnedders.com/iri/
  *
  * @property string $iri IRI we're working with
- * @property-read string $uri IRI in URI form, {@see \FpOrg\Requests\Iri::to_uri()}
+ * @property-read string $uri IRI in URI form, {@see \FinOrg\Requests\Iri::to_uri()}
  * @property string $scheme Scheme part of the IRI
  * @property string $authority Authority part, formatted for a URI (userinfo + host + port)
  * @property string $iauthority Authority part of the IRI (userinfo + host + port)
@@ -248,7 +248,7 @@ class Iri {
 	 *
 	 * @param string|Stringable|null $iri
 	 *
-	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $iri argument is not a string, Stringable or null.
+	 * @throws \FinOrg\Requests\Exception\InvalidArgument When the passed $iri argument is not a string, Stringable or null.
 	 */
 	public function __construct($iri = null) {
 		if ($iri !== null && InputValidator::is_string_or_stringable($iri) === false) {
@@ -263,9 +263,9 @@ class Iri {
 	 *
 	 * Returns false if $base is not absolute, otherwise an IRI.
 	 *
-	 * @param \FpOrg\Requests\Iri|string $base (Absolute) Base IRI
-	 * @param \FpOrg\Requests\Iri|string $relative Relative IRI
-	 * @return \FpOrg\Requests\Iri|false
+	 * @param \FinOrg\Requests\Iri|string $base (Absolute) Base IRI
+	 * @param \FinOrg\Requests\Iri|string $relative Relative IRI
+	 * @return \FinOrg\Requests\Iri|false
 	 */
 	public static function absolutize($base, $relative) {
 		if (!($relative instanceof self)) {
@@ -1001,7 +1001,7 @@ class Iri {
 	/**
 	 * Convert an IRI to a URI (or parts thereof)
 	 *
-	 * @param string|bool $iri IRI to convert (or false from {@see \FpOrg\Requests\Iri::get_iri()})
+	 * @param string|bool $iri IRI to convert (or false from {@see \FinOrg\Requests\Iri::get_iri()})
 	 * @return string|false URI if IRI is valid, false otherwise.
 	 */
 	protected function to_uri($iri) {

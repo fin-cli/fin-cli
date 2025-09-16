@@ -5,12 +5,12 @@
  * @package Requests
  */
 
-namespace FpOrg\Requests\Response;
+namespace FinOrg\Requests\Response;
 
-use FpOrg\Requests\Exception;
-use FpOrg\Requests\Exception\InvalidArgument;
-use FpOrg\Requests\Utility\CaseInsensitiveDictionary;
-use FpOrg\Requests\Utility\FilteredIterator;
+use FinOrg\Requests\Exception;
+use FinOrg\Requests\Exception\InvalidArgument;
+use FinOrg\Requests\Utility\CaseInsensitiveDictionary;
+use FinOrg\Requests\Utility\FilteredIterator;
 
 /**
  * Case-insensitive dictionary, suitable for HTTP headers
@@ -21,7 +21,7 @@ class Headers extends CaseInsensitiveDictionary {
 	/**
 	 * Get the given header
 	 *
-	 * Unlike {@see \FpOrg\Requests\Response\Headers::getValues()}, this returns a string. If there are
+	 * Unlike {@see \FinOrg\Requests\Response\Headers::getValues()}, this returns a string. If there are
 	 * multiple values, it concatenates them with a comma as per RFC2616.
 	 *
 	 * Avoid using this where commas may be used unquoted in values, such as
@@ -48,7 +48,7 @@ class Headers extends CaseInsensitiveDictionary {
 	 * @param string $offset Item name
 	 * @param string $value Item value
 	 *
-	 * @throws \FpOrg\Requests\Exception On attempting to use dictionary as list (`invalidset`)
+	 * @throws \FinOrg\Requests\Exception On attempting to use dictionary as list (`invalidset`)
 	 */
 	public function offsetSet($offset, $value) {
 		if ($offset === null) {
@@ -72,7 +72,7 @@ class Headers extends CaseInsensitiveDictionary {
 	 * @param string $offset Name of the header to retrieve.
 	 * @return array|null Header values
 	 *
-	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed argument is not valid as an array key.
+	 * @throws \FinOrg\Requests\Exception\InvalidArgument When the passed argument is not valid as an array key.
 	 */
 	public function getValues($offset) {
 		if (!is_string($offset) && !is_int($offset)) {
@@ -99,7 +99,7 @@ class Headers extends CaseInsensitiveDictionary {
 	 * @param string|array $value Value to flatten
 	 * @return string Flattened value
 	 *
-	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed argument is not a string or an array.
+	 * @throws \FinOrg\Requests\Exception\InvalidArgument When the passed argument is not a string or an array.
 	 */
 	public function flatten($value) {
 		if (is_string($value)) {

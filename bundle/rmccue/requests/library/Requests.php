@@ -4,7 +4,7 @@
  *
  * Inspired by Requests for Python.
  *
- * Based on concepts from SimplePie_File, RequestCore and FP_Http.
+ * Based on concepts from SimplePie_File, RequestCore and FIN_Http.
  *
  * @package Requests
  *
@@ -20,7 +20,7 @@ if (!defined('REQUESTS_SILENCE_PSR0_DEPRECATIONS') || REQUESTS_SILENCE_PSR0_DEPR
 	// phpcs:ignore FinPress.PHP.DevelopmentFunctions.error_log_trigger_error
 	trigger_error(
 		'The PSR-0 `Requests_...` class names in the Requests library are deprecated.'
-		. ' Switch to the PSR-4 `FpOrg\Requests\...` class names at your earliest convenience.',
+		. ' Switch to the PSR-4 `FinOrg\Requests\...` class names at your earliest convenience.',
 		E_USER_DEPRECATED
 	);
 
@@ -37,42 +37,42 @@ require_once dirname(__DIR__) . '/src/Requests.php';
  *
  * Inspired by Requests for Python.
  *
- * Based on concepts from SimplePie_File, RequestCore and FP_Http.
+ * Based on concepts from SimplePie_File, RequestCore and FIN_Http.
  *
  * @package Requests
  *
- * @deprecated 2.0.0 Use `FpOrg\Requests\Requests` instead for the actual functionality and
- *                   use `FpOrg\Requests\Autoload` for the autoloading.
+ * @deprecated 2.0.0 Use `FinOrg\Requests\Requests` instead for the actual functionality and
+ *                   use `FinOrg\Requests\Autoload` for the autoloading.
  */
-class Requests extends FpOrg\Requests\Requests {
+class Requests extends FinOrg\Requests\Requests {
 
 	/**
 	 * Deprecated autoloader for Requests.
 	 *
-	 * @deprecated 2.0.0 Use the `FpOrg\Requests\Autoload::load()` method instead.
+	 * @deprecated 2.0.0 Use the `FinOrg\Requests\Autoload::load()` method instead.
 	 *
 	 * @codeCoverageIgnore
 	 *
 	 * @param string $class Class name to load
 	 */
 	public static function autoloader($class) {
-		if (class_exists('FpOrg\Requests\Autoload') === false) {
+		if (class_exists('FinOrg\Requests\Autoload') === false) {
 			require_once dirname(__DIR__) . '/src/Autoload.php';
 		}
 
-		return FpOrg\Requests\Autoload::load($class);
+		return FinOrg\Requests\Autoload::load($class);
 	}
 
 	/**
 	 * Register the built-in autoloader
 	 *
-	 * @deprecated 2.0.0 Include the `FpOrg\Requests\Autoload` class and
-	 *                   call `FpOrg\Requests\Autoload::register()` instead.
+	 * @deprecated 2.0.0 Include the `FinOrg\Requests\Autoload` class and
+	 *                   call `FinOrg\Requests\Autoload::register()` instead.
 	 *
 	 * @codeCoverageIgnore
 	 */
 	public static function register_autoloader() {
 		require_once dirname(__DIR__) . '/src/Autoload.php';
-		FpOrg\Requests\Autoload::register();
+		FinOrg\Requests\Autoload::register();
 	}
 }

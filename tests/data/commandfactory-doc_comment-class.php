@@ -6,9 +6,9 @@
  * ## EXAMPLES
  *
  *     # Foo.
- *     $ fp foo
+ *     $ fin foo
  */
-class CommandFactoryTests_Get_Doc_Comment_1_Command extends FP_CLI_Command {
+class CommandFactoryTests_Get_Doc_Comment_1_Command extends FIN_CLI_Command {
 	/**
 	 * Command1 method
 	 *
@@ -16,7 +16,7 @@ class CommandFactoryTests_Get_Doc_Comment_1_Command extends FP_CLI_Command {
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     $ fp foo command1 public
+	 *     $ fin foo command1 public
 	 */
 	function command1() {
 	}
@@ -30,7 +30,7 @@ class CommandFactoryTests_Get_Doc_Comment_1_Command extends FP_CLI_Command {
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     $ fp foo command2 --path=/**a/**b/**c/**
+	 *     $ fin foo command2 --path=/**a/**b/**c/**
 	 */
 
 final
@@ -49,7 +49,7 @@ final
 	 *
 	 * ## EXAMPLES
 	 *
-	 *     $ fp foo command3 --path=/**a/**b/**c/**
+	 *     $ fin foo command3 --path=/**a/**b/**c/**
 	 function*/public function command3( $function ) {}
 
 	function command4() {}
@@ -61,10 +61,10 @@ final
  * ## EXAMPLES
  *
  *     # Foo.
- *     $ fp foo --final abstract
+ *     $ fin foo --final abstract
  class*/abstract class
   CommandFactoryTests_Get_Doc_Comment_2_Command
- extends              FP_CLI_Command
+ extends              FIN_CLI_Command
     {
 		function command1() {}
 	}

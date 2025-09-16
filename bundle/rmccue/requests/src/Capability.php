@@ -5,7 +5,7 @@
  * @package Requests\Utilities
  */
 
-namespace FpOrg\Requests;
+namespace FinOrg\Requests;
 
 /**
  * Capability interface declaring the known capabilities.

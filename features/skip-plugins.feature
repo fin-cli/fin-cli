@@ -1,84 +1,84 @@
 Feature: Skipping plugins
 
   Scenario: Skipping plugins via global flag
-    Given a FP installation
-    And I run `fp plugin activate hello akismet`
+    Given a FIN installation
+    And I run `fin plugin activate hello akismet`
 
-    When I run `fp eval 'var_export( defined("AKISMET_VERSION") );var_export( function_exists( "hello_dolly" ) );'`
+    When I run `fin eval 'var_export( defined("AKISMET_VERSION") );var_export( function_exists( "hello_dolly" ) );'`
     Then STDOUT should be:
       """
       truetrue
       """
 
     # The specified plugin should be skipped
-    When I run `fp --skip-plugins=akismet eval 'var_export( defined("AKISMET_VERSION") );'`
+    When I run `fin --skip-plugins=akismet eval 'var_export( defined("AKISMET_VERSION") );'`
     Then STDOUT should be:
       """
       false
       """
 
     # The specified plugin should still show up as an active plugin
-    When I run `fp --skip-plugins=akismet plugin status akismet`
+    When I run `fin --skip-plugins=akismet plugin status akismet`
     Then STDOUT should contain:
       """
       Status: Active
       """
 
     # The un-specified plugin should continue to be loaded
-    When I run `fp --skip-plugins=akismet eval 'var_export( defined("AKISMET_VERSION") );var_export( function_exists( "hello_dolly" ) );'`
+    When I run `fin --skip-plugins=akismet eval 'var_export( defined("AKISMET_VERSION") );var_export( function_exists( "hello_dolly" ) );'`
     Then STDOUT should be:
       """
       falsetrue
       """
 
     # Can specify multiple plugins to skip
-    When I try `fp eval --skip-plugins=hello,akismet 'echo hello_dolly();'`
+    When I try `fin eval --skip-plugins=hello,akismet 'echo hello_dolly();'`
     Then STDERR should contain:
       """
       Call to undefined function hello_dolly()
       """
 
     # No plugins should be loaded when --skip-plugins doesn't have a value
-    When I run `fp --skip-plugins eval 'var_export( defined("AKISMET_VERSION") );var_export( function_exists( "hello_dolly" ) );'`
+    When I run `fin --skip-plugins eval 'var_export( defined("AKISMET_VERSION") );var_export( function_exists( "hello_dolly" ) );'`
     Then STDOUT should be:
       """
       falsefalse
       """
 
   Scenario: Skipping multiple plugins via config file
-    Given a FP installation
-    And a fp-cli.yml file:
+    Given a FIN installation
+    And a fin-cli.yml file:
       """
       skip-plugins:
         - hello
         - akismet
       """
 
-    When I run `fp plugin activate hello`
-    And I try `fp eval 'echo hello_dolly();'`
+    When I run `fin plugin activate hello`
+    And I try `fin eval 'echo hello_dolly();'`
     Then STDERR should contain:
       """
       Call to undefined function hello_dolly()
       """
 
   Scenario: Skipping all plugins via config file
-    Given a FP installation
-    And a fp-cli.yml file:
+    Given a FIN installation
+    And a fin-cli.yml file:
       """
       skip-plugins: true
       """
 
-    When I run `fp plugin activate hello`
-    And I try `fp eval 'echo hello_dolly();'`
+    When I run `fin plugin activate hello`
+    And I try `fin eval 'echo hello_dolly();'`
     Then STDERR should contain:
       """
       Call to undefined function hello_dolly()
       """
 
   Scenario: Skip network active plugins
-    Given a FP multisite installation
+    Given a FIN multisite installation
 
-    When I try `fp plugin deactivate akismet hello`
+    When I try `fin plugin deactivate akismet hello`
     Then STDERR should be:
       """
       Warning: Plugin 'akismet' isn't active.
@@ -90,26 +90,26 @@ Feature: Skipping plugins
       """
     And the return code should be 0
 
-    When I run `fp plugin activate --network akismet hello`
-    And I run `fp eval 'var_export( defined("AKISMET_VERSION") );var_export( function_exists( "hello_dolly" ) );'`
+    When I run `fin plugin activate --network akismet hello`
+    And I run `fin eval 'var_export( defined("AKISMET_VERSION") );var_export( function_exists( "hello_dolly" ) );'`
     Then STDOUT should be:
       """
       truetrue
       """
 
-    When I run `fp --skip-plugins eval 'var_export( defined("AKISMET_VERSION") );var_export( function_exists( "hello_dolly" ) );'`
+    When I run `fin --skip-plugins eval 'var_export( defined("AKISMET_VERSION") );var_export( function_exists( "hello_dolly" ) );'`
     Then STDOUT should be:
       """
       falsefalse
       """
 
-    When I run `fp --skip-plugins=akismet eval 'var_export( defined("AKISMET_VERSION") );var_export( function_exists( "hello_dolly" ) );'`
+    When I run `fin --skip-plugins=akismet eval 'var_export( defined("AKISMET_VERSION") );var_export( function_exists( "hello_dolly" ) );'`
     Then STDOUT should be:
       """
       falsetrue
       """
 
-    When I run `fp --skip-plugins=hello eval 'var_export( defined("AKISMET_VERSION") );var_export( function_exists( "hello_dolly" ) );'`
+    When I run `fin --skip-plugins=hello eval 'var_export( defined("AKISMET_VERSION") );var_export( function_exists( "hello_dolly" ) );'`
     Then STDOUT should be:
       """
       truefalse

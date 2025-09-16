@@ -4,20 +4,20 @@ Feature: Argument validation
   I need to see warnings and errors when I pass incorrect arguments
 
   Scenario: Passing zero arguments to a variadic command
-    Given a FP installation
+    Given a FIN installation
 
-    When I try `fp plugin install`
+    When I try `fin plugin install`
     Then the return code should be 1
     And STDOUT should contain:
       """
-      usage: fp plugin install
+      usage: fin plugin install
       """
 
   Scenario: Validation for early commands
     Given an empty directory
-    And FP files
+    And FIN files
 
-    When I try `fp core config`
+    When I try `fin core config`
     Then the return code should be 1
     And STDERR should contain:
       """
@@ -28,7 +28,7 @@ Feature: Argument validation
       missing --dbname parameter
       """
 
-    When I try `fp core config --invalid --other-invalid`
+    When I try `fin core config --invalid --other-invalid`
     Then the return code should be 1
     And STDERR should contain:
       """
@@ -39,7 +39,7 @@ Feature: Argument validation
       unknown --other-invalid parameter
       """
 
-    When I try `fp core version invalid`
+    When I try `fin core version invalid`
     Then the return code should be 1
     And STDERR should contain:
       """

@@ -5,9 +5,9 @@
  * @package Requests\Exceptions
  */
 
-namespace FpOrg\Requests\Exception\Http;
+namespace FinOrg\Requests\Exception\Http;
 
-use FpOrg\Requests\Exception\Http;
+use FinOrg\Requests\Exception\Http;
 
 /**
  * Exception for 304 Not Modified responses

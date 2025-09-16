@@ -1,13 +1,13 @@
 <?php
 
 use cli\Shell;
-use FP_CLI\Dispatcher;
-use FP_CLI\Utils;
+use FIN_CLI\Dispatcher;
+use FIN_CLI\Utils;
 
-class Help_Command extends FP_CLI_Command {
+class Help_Command extends FIN_CLI_Command {
 
 	/**
-	 * Gets help on FP-CLI, or on a specific command.
+	 * Gets help on FIN-CLI, or on a specific command.
 	 *
 	 * ## OPTIONS
 	 *
@@ -17,15 +17,15 @@ class Help_Command extends FP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # get help for `core` command
-	 *     fp help core
+	 *     fin help core
 	 *
 	 *     # get help for `core download` subcommand
-	 *     fp help core download
+	 *     fin help core download
 	 *
 	 * @param string[] $args
 	 */
 	public function __invoke( $args ) {
-		$r = FP_CLI::get_runner()->find_command_to_run( $args );
+		$r = FIN_CLI::get_runner()->find_command_to_run( $args );
 
 		if ( is_array( $r ) ) {
 			list( $command ) = $r;
@@ -91,7 +91,7 @@ class Help_Command extends FP_CLI_Command {
 		}
 
 		// Section headers.
-		$out = (string) preg_replace( '/^## ([A-Z ]+)/m', FP_CLI::colorize( '%9\1%n' ), $out );
+		$out = (string) preg_replace( '/^## ([A-Z ]+)/m', FIN_CLI::colorize( '%9\1%n' ), $out );
 
 		self::pass_through_pager( $out );
 	}
@@ -113,8 +113,8 @@ class Help_Command extends FP_CLI_Command {
 	private static function pass_through_pager( $out ) {
 
 		if ( ! Utils\check_proc_available( null /*context*/, true /*return*/ ) ) {
-			FP_CLI::line( $out );
-			FP_CLI::debug( 'Warning: check_proc_available() failed in pass_through_pager().', 'help' );
+			FIN_CLI::line( $out );
+			FIN_CLI::debug( 'Warning: check_proc_available() failed in pass_through_pager().', 'help' );
 			return -1;
 		}
 
@@ -126,7 +126,7 @@ class Help_Command extends FP_CLI_Command {
 		// For Windows 7 need to set code page to something other than Unicode (65001) to get around "Not enough memory." error with `more.com` on PHP 7.1+.
 		if ( 'more' === $pager && defined( 'PHP_WINDOWS_VERSION_MAJOR' ) && PHP_WINDOWS_VERSION_MAJOR < 10 ) {
 			// Note will also apply to Windows 8 (see https://msdn.microsoft.com/en-us/library/windows/desktop/ms724832.aspx) but probably harmless anyway.
-			$cp = (int) getenv( 'FP_CLI_WINDOWS_CODE_PAGE' ) ?: 1252; // Code page 1252 is the most used so probably the most compat.
+			$cp = (int) getenv( 'FIN_CLI_WINDOWS_CODE_PAGE' ) ?: 1252; // Code page 1252 is the most used so probably the most compat.
 			sapi_windows_cp_set( $cp );
 		}
 
@@ -166,7 +166,7 @@ class Help_Command extends FP_CLI_Command {
 		}
 		$hook_name        = $command->get_hook();
 		$hook_description = $hook_name ? Utils\get_hook_description( $hook_name ) : null;
-		if ( $hook_description && 'after_fp_load' !== $hook_name ) {
+		if ( $hook_description && 'after_fin_load' !== $hook_name ) {
 			if ( $command->can_have_subcommands() ) {
 				$binding['shortdesc'] .= "\n\nUnless overridden, these commands run on the '$hook_name' hook, $hook_description";
 			} else {
@@ -185,7 +185,7 @@ class Help_Command extends FP_CLI_Command {
 		$subcommands = [];
 		foreach ( $command->get_subcommands() as $subcommand ) {
 
-			if ( FP_CLI::get_runner()->is_command_disabled( $subcommand ) ) {
+			if ( FIN_CLI::get_runner()->is_command_disabled( $subcommand ) ) {
 				continue;
 			}
 

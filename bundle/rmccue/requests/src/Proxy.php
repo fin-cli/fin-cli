@@ -6,9 +6,9 @@
  * @since   1.6
  */
 
-namespace FpOrg\Requests;
+namespace FinOrg\Requests;
 
-use FpOrg\Requests\Hooks;
+use FinOrg\Requests\Hooks;
 
 /**
  * Proxy connection interface
@@ -18,7 +18,7 @@ use FpOrg\Requests\Hooks;
  * Parameters should be passed via the constructor where possible, as this
  * makes it much easier for users to use your provider.
  *
- * @see \FpOrg\Requests\Hooks
+ * @see \FinOrg\Requests\Hooks
  *
  * @package Requests\Proxy
  * @since   1.6
@@ -27,12 +27,12 @@ interface Proxy {
 	/**
 	 * Register hooks as needed
 	 *
-	 * This method is called in {@see \FpOrg\Requests\Requests::request()} when the user
+	 * This method is called in {@see \FinOrg\Requests\Requests::request()} when the user
 	 * has set an instance as the 'auth' option. Use this callback to register all the
 	 * hooks you'll need.
 	 *
-	 * @see \FpOrg\Requests\Hooks::register()
-	 * @param \FpOrg\Requests\Hooks $hooks Hook system
+	 * @see \FinOrg\Requests\Hooks::register()
+	 * @param \FinOrg\Requests\Hooks $hooks Hook system
 	 */
 	public function register(Hooks $hooks);
 }

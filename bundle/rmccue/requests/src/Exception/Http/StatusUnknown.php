@@ -5,10 +5,10 @@
  * @package Requests\Exceptions
  */
 
-namespace FpOrg\Requests\Exception\Http;
+namespace FinOrg\Requests\Exception\Http;
 
-use FpOrg\Requests\Exception\Http;
-use FpOrg\Requests\Response;
+use FinOrg\Requests\Exception\Http;
+use FinOrg\Requests\Response;
 
 /**
  * Exception for unknown status responses
@@ -33,7 +33,7 @@ final class StatusUnknown extends Http {
 	/**
 	 * Create a new exception
 	 *
-	 * If `$data` is an instance of {@see \FpOrg\Requests\Response}, uses the status
+	 * If `$data` is an instance of {@see \FinOrg\Requests\Response}, uses the status
 	 * code from it. Otherwise, sets as 0
 	 *
 	 * @param string|null $reason Reason phrase

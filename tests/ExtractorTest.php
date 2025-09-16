@@ -1,25 +1,25 @@
 <?php
 
-use FP_CLI\Extractor;
-use FP_CLI\Loggers;
-use FP_CLI\Tests\TestCase;
-use FP_CLI\Utils;
+use FIN_CLI\Extractor;
+use FIN_CLI\Loggers;
+use FIN_CLI\Tests\TestCase;
+use FIN_CLI\Utils;
 
 class ExtractorTest extends TestCase {
 
-	public static $copy_overwrite_files_prefix = 'fp-cli-test-utils-copy-overwrite-files-';
+	public static $copy_overwrite_files_prefix = 'fin-cli-test-utils-copy-overwrite-files-';
 
-	public static $expected_fp = [
+	public static $expected_fin = [
 		'index1.php',
 		'license2.php',
-		'fp-admin/',
-		'fp-admin/about3.php',
-		'fp-admin/includes/',
-		'fp-admin/includes/file4.php',
-		'fp-admin/widgets5.php',
-		'fp-config6.php',
-		'fp-includes/',
-		'fp-includes/file7.php',
+		'fin-admin/',
+		'fin-admin/about3.php',
+		'fin-admin/includes/',
+		'fin-admin/includes/file4.php',
+		'fin-admin/widgets5.php',
+		'fin-config6.php',
+		'fin-includes/',
+		'fin-includes/file7.php',
 		'xmlrpc8.php',
 	];
 
@@ -29,10 +29,10 @@ class ExtractorTest extends TestCase {
 	public function set_up(): void {
 		parent::set_up();
 
-		self::$prev_logger = FP_CLI::get_logger();
+		self::$prev_logger = FIN_CLI::get_logger();
 
 		self::$logger = new Loggers\Execution();
-		FP_CLI::set_logger( self::$logger );
+		FIN_CLI::set_logger( self::$logger );
 
 		// Remove any failed tests detritus.
 		$temp_dirs = glob( Utils\get_temp_dir() . self::$copy_overwrite_files_prefix . '*' );
@@ -46,17 +46,17 @@ class ExtractorTest extends TestCase {
 
 	public function tear_down(): void {
 		// Restore logger.
-		FP_CLI::set_logger( self::$prev_logger );
+		FIN_CLI::set_logger( self::$prev_logger );
 
 		parent::tear_down();
 	}
 
 	public function test_rmdir(): void {
-		list( $temp_dir, $src_dir, $fp_dir ) = self::create_test_directory_structure();
+		list( $temp_dir, $src_dir, $fin_dir ) = self::create_test_directory_structure();
 
-		$this->assertTrue( is_dir( $fp_dir ) );
-		Extractor::rmdir( $fp_dir );
-		$this->assertFalse( file_exists( $fp_dir ) );
+		$this->assertTrue( is_dir( $fin_dir ) );
+		Extractor::rmdir( $fin_dir );
+		$this->assertFalse( file_exists( $fin_dir ) );
 
 		$this->assertTrue( is_dir( $temp_dir ) );
 		Extractor::rmdir( $temp_dir );
@@ -75,15 +75,15 @@ class ExtractorTest extends TestCase {
 	}
 
 	public function test_copy_overwrite_files(): void {
-		list( $temp_dir, $src_dir, $fp_dir ) = self::create_test_directory_structure();
+		list( $temp_dir, $src_dir, $fin_dir ) = self::create_test_directory_structure();
 
 		$dest_dir = $temp_dir . '/dest';
 
-		Extractor::copy_overwrite_files( $fp_dir, $dest_dir );
+		Extractor::copy_overwrite_files( $fin_dir, $dest_dir );
 
 		$files = self::recursive_scandir( $dest_dir );
 
-		$this->assertSame( self::$expected_fp, $files );
+		$this->assertSame( self::$expected_fin, $files );
 		$this->assertTrue( empty( self::$logger->stderr ) );
 
 		// Clean up.
@@ -106,7 +106,7 @@ class ExtractorTest extends TestCase {
 			$this->markTestSkipped( 'tar not installed.' );
 		}
 
-		list( $temp_dir, $src_dir, $fp_dir ) = self::create_test_directory_structure();
+		list( $temp_dir, $src_dir, $fin_dir ) = self::create_test_directory_structure();
 
 		$tarball  = $temp_dir . '/test.tar.gz';
 		$dest_dir = $temp_dir . '/dest';
@@ -139,7 +139,7 @@ class ExtractorTest extends TestCase {
 		Extractor::extract( $tarball, $dest_dir );
 
 		$files = self::recursive_scandir( $dest_dir );
-		$this->assertSame( self::$expected_fp, $files );
+		$this->assertSame( self::$expected_fin, $files );
 		$this->assertTrue( empty( self::$logger->stderr ) );
 
 		// Clean up.
@@ -184,7 +184,7 @@ class ExtractorTest extends TestCase {
 			$this->markTestSkipped( 'ZipArchive not installed.' );
 		}
 
-		list( $temp_dir, $src_dir, $fp_dir ) = self::create_test_directory_structure();
+		list( $temp_dir, $src_dir, $fin_dir ) = self::create_test_directory_structure();
 
 		$zipfile  = $temp_dir . '/test.zip';
 		$dest_dir = $temp_dir . '/dest';
@@ -209,7 +209,7 @@ class ExtractorTest extends TestCase {
 		Extractor::extract( $zipfile, $dest_dir );
 
 		$files = self::recursive_scandir( $dest_dir );
-		$this->assertSame( self::$expected_fp, $files );
+		$this->assertSame( self::$expected_fin, $files );
 		$this->assertTrue( empty( self::$logger->stderr ) );
 
 		// Clean up.
@@ -267,18 +267,18 @@ class ExtractorTest extends TestCase {
 		$src_dir = $temp_dir . '/src';
 		mkdir( $src_dir );
 
-		$fp_dir = $src_dir . '/finpress';
-		mkdir( $fp_dir );
+		$fin_dir = $src_dir . '/finpress';
+		mkdir( $fin_dir );
 
-		foreach ( self::$expected_fp as $file ) {
+		foreach ( self::$expected_fin as $file ) {
 			if ( 0 === substr_compare( $file, '/', -1 ) ) {
-				mkdir( $fp_dir . '/' . $file );
+				mkdir( $fin_dir . '/' . $file );
 			} else {
-				touch( $fp_dir . '/' . $file );
+				touch( $fin_dir . '/' . $file );
 			}
 		}
 
-		return [ $temp_dir, $src_dir, $fp_dir ];
+		return [ $temp_dir, $src_dir, $fin_dir ];
 	}
 
 	private static function recursive_scandir( $dir, $prefix_dir = '' ) {

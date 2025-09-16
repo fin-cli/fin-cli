@@ -1,22 +1,22 @@
-Feature: `fp cli` tasks
+Feature: `fin cli` tasks
 
   @less-than-php-8
-  Scenario: Ability to detect a FP-CLI registered command
-    Given a FP installation
+  Scenario: Ability to detect a FIN-CLI registered command
+    Given a FIN installation
 
     # Allow for composer/ca-bundle using `openssl_x509_parse()` which throws PHP warnings on old versions of PHP.
-    When I try `fp package install fp-cli/scaffold-package-command`
-    And I run `fp cli has-command scaffold package`
+    When I try `fin package install fin-cli/scaffold-package-command`
+    And I run `fin cli has-command scaffold package`
     Then the return code should be 0
 
     # Allow for composer/ca-bundle using `openssl_x509_parse()` which throws PHP warnings on old versions of PHP.
-    When I try `fp package uninstall fp-cli/scaffold-package-command`
-    And I try `fp cli has-command scaffold package`
+    When I try `fin package uninstall fin-cli/scaffold-package-command`
+    And I try `fin cli has-command scaffold package`
     Then the return code should be 1
 
   Scenario: Ability to detect a command which is registered by plugin
-    Given a FP installation
-    And a fp-content/mu-plugins/test-cli.php file:
+    Given a FIN installation
+    And a fin-content/mu-plugins/test-cli.php file:
       """
       <?php
       // Plugin Name: Test CLI Help
@@ -24,16 +24,16 @@ Feature: `fp cli` tasks
       class TestCommand {
       }
 
-      FP_CLI::add_command( 'test-command', 'TestCommand' );
+      FIN_CLI::add_command( 'test-command', 'TestCommand' );
       """
 
-    When I run `fp cli has-command test-command`
+    When I run `fin cli has-command test-command`
     Then the return code should be 0
 
   Scenario: Dump the list of global parameters with values
-    Given a FP installation
+    Given a FIN installation
 
-    When I run `fp cli param-dump --with-values | grep -o '"current":' | uniq -c | tr -d ' '`
+    When I run `fin cli param-dump --with-values | grep -o '"current":' | uniq -c | tr -d ' '`
     Then STDOUT should be:
       """
       19"current":
@@ -42,11 +42,11 @@ Feature: `fp cli` tasks
     And the return code should be 0
 
   Scenario: Checking whether a global configuration parameter exists or not
-    Given a FP installation
+    Given a FIN installation
     And a custom-cmd.php file:
       """
       <?php
-      class Custom_Command extends FP_CLI_Command {
+      class Custom_Command extends FIN_CLI_Command {
 
           /**
            * Custom command to validate a global configuration does exist or not.
@@ -54,26 +54,26 @@ Feature: `fp cli` tasks
            * <config>
            * : Configuration parameter name to check for.
            *
-           * @when after_fp_load
+           * @when after_fin_load
            */
           public function __invoke( $args ) {
-              if ( FP_CLI::has_config( $args[0] ) ) {
-                  FP_CLI::log( "Global configuration '{$args[0]}' does exist." );
+              if ( FIN_CLI::has_config( $args[0] ) ) {
+                  FIN_CLI::log( "Global configuration '{$args[0]}' does exist." );
               } else {
-                  FP_CLI::log( "Global configuration '{$args[0]}' does not exist." );
+                  FIN_CLI::log( "Global configuration '{$args[0]}' does not exist." );
               }
           }
       }
-      FP_CLI::add_command( 'custom-command', 'Custom_Command' );
+      FIN_CLI::add_command( 'custom-command', 'Custom_Command' );
       """
 
-    When I run `fp --require=custom-cmd.php custom-command url`
+    When I run `fin --require=custom-cmd.php custom-command url`
     Then STDOUT should be:
       """
       Global configuration 'url' does exist.
       """
 
-    When I run `fp --require=custom-cmd.php custom-command dummy`
+    When I run `fin --require=custom-cmd.php custom-command dummy`
     Then STDOUT should be:
       """
       Global configuration 'dummy' does not exist.

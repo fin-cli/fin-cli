@@ -1,0 +1,40 @@
+$schema: "./fin-cli-config.json"
+path: fin-core
+url: http://example.com
+user: admin
+color: false
+disabled_commands:
+ - db drop
+ - plugin install
+require:
+ - path-to/command.php
+
+config create:
+  dbuser: root
+  dbpass:
+  extra-php: |
+   define( 'FIN_DEBUG', true );
+   define( 'FIN_POST_REVISIONS', 50 );
+
+"@foo":
+   bar: "baz"
+
+"@staging":
+  ssh: fincli@staging.fin-cli.org
+  user: fincli
+  path: /srv/www/staging.fin-cli.org
+
+"@production":
+  ssh: fincli@fin-cli.org:2222
+  user: fincli
+  path: /srv/www/fin-cli.org
+
+# Aliases can reference other aliases to create alias groups
+# Alias groups can be nested
+"@both":
+  - "@staging"
+  - "@production"
+
+_:
+  merge: true
+  inherit: prod.yml

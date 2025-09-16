@@ -1,6 +1,6 @@
 <?php
 
-namespace FpOrg\Requests\Exception;
+namespace FinOrg\Requests\Exception;
 
 use InvalidArgumentException;
 
@@ -20,7 +20,7 @@ final class InvalidArgument extends InvalidArgumentException {
 	 * @param string $expected The argument type expected as a string.
 	 * @param string $received The actual argument type received.
 	 *
-	 * @return \FpOrg\Requests\Exception\InvalidArgument
+	 * @return \FinOrg\Requests\Exception\InvalidArgument
 	 */
 	public static function create($position, $name, $expected, $received) {
 		// phpcs:ignore FinPress.PHP.DevelopmentFunctions.error_log_debug_backtrace

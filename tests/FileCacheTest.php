@@ -1,14 +1,14 @@
 <?php
 
-use FP_CLI\FileCache;
-use FP_CLI\Loggers;
-use FP_CLI\Tests\TestCase;
-use FP_CLI\Utils;
+use FIN_CLI\FileCache;
+use FIN_CLI\Loggers;
+use FIN_CLI\Tests\TestCase;
+use FIN_CLI\Utils;
 
 class FileCacheTest extends TestCase {
 
 	public static function set_up_before_class() {
-		require_once dirname( __DIR__ ) . '/php/class-fp-cli.php';
+		require_once dirname( __DIR__ ) . '/php/class-fin-cli.php';
 	}
 
 	/**
@@ -18,7 +18,7 @@ class FileCacheTest extends TestCase {
 		$max_size = 32;
 		$ttl      = 60;
 
-		$cache_dir = Utils\get_temp_dir() . uniqid( 'fp-cli-test-file-cache', true );
+		$cache_dir = Utils\get_temp_dir() . uniqid( 'fin-cli-test-file-cache', true );
 
 		$cache = new FileCache( $cache_dir, $ttl, $max_size );
 		$this->assertSame( $cache_dir . '/', $cache->get_root() );
@@ -36,14 +36,14 @@ class FileCacheTest extends TestCase {
 	}
 
 	public function test_ensure_dir_exists(): void {
-		$prev_logger = FP_CLI::get_logger();
+		$prev_logger = FIN_CLI::get_logger();
 
 		$logger = new Loggers\Execution();
-		FP_CLI::set_logger( $logger );
+		FIN_CLI::set_logger( $logger );
 
 		$max_size  = 32;
 		$ttl       = 60;
-		$cache_dir = Utils\get_temp_dir() . uniqid( 'fp-cli-test-file-cache', true );
+		$cache_dir = Utils\get_temp_dir() . uniqid( 'fin-cli-test-file-cache', true );
 
 		$cache      = new FileCache( $cache_dir, $ttl, $max_size );
 		$test_class = new ReflectionClass( $cache );
@@ -83,14 +83,14 @@ class FileCacheTest extends TestCase {
 		rmdir( $cache_dir . '/test1' );
 		unlink( $cache_dir . '/test2' );
 		rmdir( $cache_dir );
-		FP_CLI::set_logger( $prev_logger );
+		FIN_CLI::set_logger( $prev_logger );
 	}
 
 	public function test_export(): void {
 		$max_size   = 32;
 		$ttl        = 60;
-		$cache_dir  = Utils\get_temp_dir() . uniqid( 'fp-cli-test-file-cache', true );
-		$target_dir = Utils\get_temp_dir() . uniqid( 'fp-cli-test-file-cache-export/nonexistant-subdirectory', true );
+		$cache_dir  = Utils\get_temp_dir() . uniqid( 'fin-cli-test-file-cache', true );
+		$target_dir = Utils\get_temp_dir() . uniqid( 'fin-cli-test-file-cache-export/nonexistant-subdirectory', true );
 		$target     = $target_dir . '/foo';
 		$key        = 'foo';
 		$contents   = 'bar';
@@ -110,10 +110,10 @@ class FileCacheTest extends TestCase {
 	public function test_import(): void {
 		$max_size  = 32;
 		$ttl       = 60;
-		$cache_dir = Utils\get_temp_dir() . uniqid( 'fp-cli-test-file-cache', true );
+		$cache_dir = Utils\get_temp_dir() . uniqid( 'fin-cli-test-file-cache', true );
 		$cache     = new FileCache( $cache_dir, $ttl, $max_size );
 
-		$tmp_dir = Utils\get_temp_dir() . uniqid( 'fp-cli-test-file-cache-import', true );
+		$tmp_dir = Utils\get_temp_dir() . uniqid( 'fin-cli-test-file-cache-import', true );
 		mkdir( $tmp_dir );
 
 		// "$group/$slug-$version.$ext";
@@ -138,15 +138,15 @@ class FileCacheTest extends TestCase {
 	}
 
 	/**
-	 * @see https://github.com/fp-cli/fp-cli/pull/5947
+	 * @see https://github.com/fin-cli/fin-cli/pull/5947
 	 */
 	public function test_import_do_not_use_cache_file_cannot_be_read(): void {
 		$max_size  = 32;
 		$ttl       = 60;
-		$cache_dir = Utils\get_temp_dir() . uniqid( 'fp-cli-test-file-cache', true );
+		$cache_dir = Utils\get_temp_dir() . uniqid( 'fin-cli-test-file-cache', true );
 		$cache     = new FileCache( $cache_dir, $ttl, $max_size );
 
-		$tmp_dir = Utils\get_temp_dir() . uniqid( 'fp-cli-test-file-cache-import', true );
+		$tmp_dir = Utils\get_temp_dir() . uniqid( 'fin-cli-test-file-cache-import', true );
 		mkdir( $tmp_dir );
 
 		$key              = 'plugin/my-fixture-plugin-1.0.0.zip';
@@ -184,15 +184,15 @@ class FileCacheTest extends TestCase {
 	/**
 	 * Windows filenames cannot end in periods.
 	 *
-	 * @covers \FP_CLI\FileCache::validate_key
+	 * @covers \FIN_CLI\FileCache::validate_key
 	 *
-	 * @see https://github.com/fp-cli/fp-cli/pull/5947
+	 * @see https://github.com/fin-cli/fin-cli/pull/5947
 	 * @see https://learn.microsoft.com/en-us/windows/win32/fileio/naming-a-file#naming-conventions
 	 */
 	public function test_validate_key_ending_in_period(): void {
 		$max_size  = 32;
 		$ttl       = 60;
-		$cache_dir = Utils\get_temp_dir() . uniqid( 'fp-cli-test-file-cache', true );
+		$cache_dir = Utils\get_temp_dir() . uniqid( 'fin-cli-test-file-cache', true );
 		$cache     = new FileCache( $cache_dir, $ttl, $max_size );
 
 		$key = 'plugin/advanced-sidebar-menu-pro-9.5.7.';

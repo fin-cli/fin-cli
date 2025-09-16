@@ -5,7 +5,7 @@
  * @package Requests\Exceptions
  */
 
-namespace FpOrg\Requests;
+namespace FinOrg\Requests;
 
 use Exception as PHPException;
 

@@ -5,7 +5,7 @@
  * @package Requests\Utilities
  */
 
-namespace FpOrg\Requests\Utility;
+namespace FinOrg\Requests\Utility;
 
 use ArrayAccess;
 use CurlHandle;

@@ -9,16 +9,16 @@
 
 date
 
-if [ -z "$FP_CLI_DIR" ]; then
-	echo 'Please set $FP_CLI_DIR'
+if [ -z "$FIN_CLI_DIR" ]; then
+	echo 'Please set $FIN_CLI_DIR'
 	exit 1
 fi
 
 set -ex
 
-cd $FP_CLI_DIR
+cd $FIN_CLI_DIR
 
-# Reset FP-CLI directory to baseline
+# Reset FIN-CLI directory to baseline
 git checkout -f master
 git pull origin master
 composer install

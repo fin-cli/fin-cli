@@ -6,12 +6,12 @@
  * @since   1.6
  */
 
-namespace FpOrg\Requests\Proxy;
+namespace FinOrg\Requests\Proxy;
 
-use FpOrg\Requests\Exception\ArgumentCount;
-use FpOrg\Requests\Exception\InvalidArgument;
-use FpOrg\Requests\Hooks;
-use FpOrg\Requests\Proxy;
+use FinOrg\Requests\Exception\ArgumentCount;
+use FinOrg\Requests\Exception\InvalidArgument;
+use FinOrg\Requests\Hooks;
+use FinOrg\Requests\Proxy;
 
 /**
  * HTTP Proxy connection interface
@@ -61,8 +61,8 @@ final class Http implements Proxy {
 	 *                                When passed as an array, must have exactly one (proxy)
 	 *                                or three elements (proxy, user, password).
 	 *
-	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed argument is not an array, a string or null.
-	 * @throws \FpOrg\Requests\Exception\ArgumentCount On incorrect number of arguments (`proxyhttpbadargs`)
+	 * @throws \FinOrg\Requests\Exception\InvalidArgument When the passed argument is not an array, a string or null.
+	 * @throws \FinOrg\Requests\Exception\ArgumentCount On incorrect number of arguments (`proxyhttpbadargs`)
 	 */
 	public function __construct($args = null) {
 		if (is_string($args)) {
@@ -89,11 +89,11 @@ final class Http implements Proxy {
 	 * Register the necessary callbacks
 	 *
 	 * @since 1.6
-	 * @see \FpOrg\Requests\Proxy\Http::curl_before_send()
-	 * @see \FpOrg\Requests\Proxy\Http::fsockopen_remote_socket()
-	 * @see \FpOrg\Requests\Proxy\Http::fsockopen_remote_host_path()
-	 * @see \FpOrg\Requests\Proxy\Http::fsockopen_header()
-	 * @param \FpOrg\Requests\Hooks $hooks Hook system
+	 * @see \FinOrg\Requests\Proxy\Http::curl_before_send()
+	 * @see \FinOrg\Requests\Proxy\Http::fsockopen_remote_socket()
+	 * @see \FinOrg\Requests\Proxy\Http::fsockopen_remote_host_path()
+	 * @see \FinOrg\Requests\Proxy\Http::fsockopen_header()
+	 * @param \FinOrg\Requests\Hooks $hooks Hook system
 	 */
 	public function register(Hooks $hooks) {
 		$hooks->register('curl.before_send', [$this, 'curl_before_send']);

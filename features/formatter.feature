@@ -14,7 +14,7 @@ Feature: Format output
        * [--fields=<fields>]
        * : Limit output to particular fields
        *
-       * @when before_fp_load
+       * @when before_fin_load
        */
       $output_yaml = function( $args, $assoc_args ) {
           $items = array(
@@ -33,17 +33,17 @@ Feature: Format output
           } else {
               $format_args['fields'] = array( 'label', 'slug' );
           }
-          $formatter = new \FP_CLI\Formatter( $format_args );
+          $formatter = new \FIN_CLI\Formatter( $format_args );
           if ( 'all' === $args[0] ) {
           	  $formatter->display_items( $items );
           } else if ( 'single' === $args[0] ) {
               $formatter->display_item( $items[0] );
           }
       };
-      FP_CLI::add_command( 'yaml', $output_yaml );
+      FIN_CLI::add_command( 'yaml', $output_yaml );
       """
 
-    When I run `fp --require=output-yaml.php yaml all`
+    When I run `fin --require=output-yaml.php yaml all`
     Then STDOUT should be YAML containing:
       """
       ---
@@ -55,7 +55,7 @@ Feature: Format output
         slug: bar
       """
 
-    When I run `fp --require=output-yaml.php yaml all --fields=label`
+    When I run `fin --require=output-yaml.php yaml all --fields=label`
     Then STDOUT should be YAML containing:
       """
       ---
@@ -69,7 +69,7 @@ Feature: Format output
       slug: bar
       """
 
-    When I run `fp --require=output-yaml.php yaml single`
+    When I run `fin --require=output-yaml.php yaml single`
     Then STDOUT should be YAML containing:
       """
       ---
@@ -100,11 +100,11 @@ Feature: Format output
         ),
       );
       $assoc_args = array( 'format' => 'csv' );
-      $formatter = new FP_CLI\Formatter( $assoc_args, array( 'id', 'language', 'is_rtl' ) );
+      $formatter = new FIN_CLI\Formatter( $assoc_args, array( 'id', 'language', 'is_rtl' ) );
       $formatter->display_items( $items );
       """
 
-    When I run `fp eval-file file.php --skip-finpress`
+    When I run `fin eval-file file.php --skip-finpress`
     Then STDOUT should be CSV containing:
       | id | language      | is_rtl |
       | 1  | Afrikaans     | 0      |
@@ -130,7 +130,7 @@ Feature: Format output
        *   - table
        * ---
        *
-       * @when before_fp_load
+       * @when before_fin_load
        */
       $fake_command = function( $args, $assoc_args ) {
           Colors::enable( true );
@@ -140,13 +140,13 @@ Feature: Format output
               array( 'package' => Colors::colorize( '%ygaa/gaa-nonsense%n' ), 'version' => 'v3.0.11', 'result' => Colors::colorize( "%r\xf0\x9f\x9b\x87%n" ) ),
               array( 'package' => Colors::colorize( '%ygaa/gaa-100%%new%n' ), 'version' => 'v100%new', 'result' => Colors::colorize( "%g\xe2\x9c\x94%n" ) ),
           );
-          $formatter = new \FP_CLI\Formatter( $assoc_args, array( 'package', 'version', 'result' ) );
+          $formatter = new \FIN_CLI\Formatter( $assoc_args, array( 'package', 'version', 'result' ) );
           $formatter->display_items( $items, array( true, false, true ) );
       };
-      FP_CLI::add_command( 'fake', $fake_command );
+      FIN_CLI::add_command( 'fake', $fake_command );
       """
 
-    When I run `fp --require=file.php fake`
+    When I run `fin --require=file.php fake`
     Then STDOUT should be a table containing rows:
       | package          | version    | result |
       | [33mgaa/gaa-kabes[0m    | dev-master | [31m🛇[0m      |
@@ -177,11 +177,11 @@ Feature: Format output
         ),
       );
       $assoc_args = array();
-      $formatter  = new FP_CLI\Formatter( $assoc_args, array( 'post_id', 'meta_key', 'meta_value' ) );
+      $formatter  = new FIN_CLI\Formatter( $assoc_args, array( 'post_id', 'meta_key', 'meta_value' ) );
       $formatter->display_items( $items );
       """
 
-    When I run `fp eval-file file.php --skip-finpress`
+    When I run `fin eval-file file.php --skip-finpress`
     Then STDOUT should be a table containing rows:
       | post_id | meta_key | meta_value |
       | 1       | foo      | foo        |

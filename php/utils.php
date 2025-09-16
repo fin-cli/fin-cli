@@ -2,7 +2,7 @@
 
 // Utilities that do NOT depend on FinPress code.
 
-namespace FP_CLI\Utils;
+namespace FIN_CLI\Utils;
 
 use ArrayIterator;
 use cli;
@@ -16,15 +16,15 @@ use Iterator;
 use Mustache\Engine as Mustache_Engine;
 use ReflectionFunction;
 use RuntimeException;
-use FP_CLI;
-use FP_CLI\ExitException;
-use FP_CLI\Formatter;
-use FP_CLI\Inflector;
-use FP_CLI\Iterators\Transform;
-use FP_CLI\NoOp;
-use FP_CLI\Process;
-use FP_CLI\RequestsLibrary;
-use FpOrg\Requests\Response;
+use FIN_CLI;
+use FIN_CLI\ExitException;
+use FIN_CLI\Formatter;
+use FIN_CLI\Inflector;
+use FIN_CLI\Iterators\Transform;
+use FIN_CLI\NoOp;
+use FIN_CLI\Process;
+use FIN_CLI\RequestsLibrary;
+use FinOrg\Requests\Response;
 
 /**
  * File stream wrapper prefix for Phar archives.
@@ -49,19 +49,19 @@ const FILE_DIR_PATTERN = '%(?>#.*?$)|(?>//.*?$)|(?>/\*.*?\*/)|(?>\'(?:(?=(\\\\?)
 /**
  * Check if a certain path is within a Phar archive.
  *
- * If no path is provided, the function checks whether the current FP_CLI instance is
+ * If no path is provided, the function checks whether the current FIN_CLI instance is
  * running from within a Phar archive.
  *
- * @param string|null $path Optional. Path to check. Defaults to null, which checks FP_CLI_ROOT.
+ * @param string|null $path Optional. Path to check. Defaults to null, which checks FIN_CLI_ROOT.
  * @return bool Whether path is within a Phar archive.
  */
 function inside_phar( $path = null ) {
 	if ( null === $path ) {
-		if ( ! defined( 'FP_CLI_ROOT' ) ) {
+		if ( ! defined( 'FIN_CLI_ROOT' ) ) {
 			return false;
 		}
 
-		$path = FP_CLI_ROOT;
+		$path = FIN_CLI_ROOT;
 	}
 
 	return 0 === strpos( $path, PHAR_STREAM_PREFIX );
@@ -83,7 +83,7 @@ function extract_from_phar( $path ) {
 
 	$fname = basename( $path );
 
-	$tmp_path = get_temp_dir() . uniqid( 'fp-cli-extract-from-phar-', true ) . "-$fname";
+	$tmp_path = get_temp_dir() . uniqid( 'fin-cli-extract-from-phar-', true ) . "-$fname";
 
 	copy( $path, $tmp_path );
 
@@ -105,10 +105,10 @@ function extract_from_phar( $path ) {
  */
 function load_dependencies() {
 	if ( inside_phar() ) {
-		if ( file_exists( FP_CLI_ROOT . '/vendor/autoload.php' ) ) {
-			require FP_CLI_ROOT . '/vendor/autoload.php';
-		} elseif ( file_exists( dirname( dirname( FP_CLI_ROOT ) ) . '/autoload.php' ) ) {
-			require dirname( dirname( FP_CLI_ROOT ) ) . '/autoload.php';
+		if ( file_exists( FIN_CLI_ROOT . '/vendor/autoload.php' ) ) {
+			require FIN_CLI_ROOT . '/vendor/autoload.php';
+		} elseif ( file_exists( dirname( dirname( FIN_CLI_ROOT ) ) . '/autoload.php' ) ) {
+			require dirname( dirname( FIN_CLI_ROOT ) ) . '/autoload.php';
 		}
 		return;
 	}
@@ -136,17 +136,17 @@ function load_dependencies() {
  */
 function get_vendor_paths() {
 	$vendor_paths        = [
-		FP_CLI_ROOT . '/../../../vendor',  // Part of a larger project / installed via Composer (preferred).
-		FP_CLI_ROOT . '/vendor',           // Top-level project / installed as Git clone.
+		FIN_CLI_ROOT . '/../../../vendor',  // Part of a larger project / installed via Composer (preferred).
+		FIN_CLI_ROOT . '/vendor',           // Top-level project / installed as Git clone.
 	];
-	$maybe_composer_json = FP_CLI_ROOT . '/../../../composer.json';
+	$maybe_composer_json = FIN_CLI_ROOT . '/../../../composer.json';
 	if ( file_exists( $maybe_composer_json ) && is_readable( $maybe_composer_json ) ) {
 		/**
 		 * @var object{config: object{'vendor-dir': string}} $composer
 		 */
 		$composer = json_decode( (string) file_get_contents( $maybe_composer_json ), false );
 		if ( ! empty( $composer->config ) && ! empty( $composer->config->{'vendor-dir'} ) ) {
-			array_unshift( $vendor_paths, FP_CLI_ROOT . '/../../../' . $composer->config->{'vendor-dir'} );
+			array_unshift( $vendor_paths, FIN_CLI_ROOT . '/../../../' . $composer->config->{'vendor-dir'} );
 		}
 	}
 	return $vendor_paths;
@@ -172,7 +172,7 @@ function load_file( $path ) {
  * @return void
  */
 function load_command( $name ) {
-	$path = FP_CLI_ROOT . "/php/commands/$name.php";
+	$path = FIN_CLI_ROOT . "/php/commands/$name.php";
 
 	if ( is_readable( $path ) ) {
 		include_once $path;
@@ -324,20 +324,20 @@ function esc_cmd( $cmd, ...$args ) {
  *
  * @return string
  */
-function locate_fp_config() {
+function locate_fin_config() {
 	static $path;
 
 	if ( null === $path ) {
 		$path = false;
 
-		$config_path = (string) getenv( 'FP_CONFIG_PATH' );
+		$config_path = (string) getenv( 'FIN_CONFIG_PATH' );
 
 		if ( $config_path && file_exists( $config_path ) ) {
 			$path = $config_path;
-		} elseif ( file_exists( ABSPATH . 'fp-config.php' ) ) {
-			$path = ABSPATH . 'fp-config.php';
-		} elseif ( file_exists( dirname( ABSPATH ) . '/fp-config.php' ) && ! file_exists( dirname( ABSPATH ) . '/fp-settings.php' ) ) {
-			$path = dirname( ABSPATH ) . '/fp-config.php';
+		} elseif ( file_exists( ABSPATH . 'fin-config.php' ) ) {
+			$path = ABSPATH . 'fin-config.php';
+		} elseif ( file_exists( dirname( ABSPATH ) . '/fin-config.php' ) && ! file_exists( dirname( ABSPATH ) . '/fin-settings.php' ) ) {
+			$path = dirname( ABSPATH ) . '/fin-config.php';
 		}
 
 		if ( $path ) {
@@ -355,10 +355,10 @@ function locate_fp_config() {
  * @param string $operator
  * @return bool
  */
-function fp_version_compare( $since, $operator ) {
-	$fp_version = str_replace( '-src', '', $GLOBALS['fp_version'] );
+function fin_version_compare( $since, $operator ) {
+	$fin_version = str_replace( '-src', '', $GLOBALS['fin_version'] );
 	$since      = str_replace( '-src', '', $since );
-	return version_compare( $fp_version, $since, $operator );
+	return version_compare( $fin_version, $since, $operator );
 }
 
 /**
@@ -378,7 +378,7 @@ function fp_version_compare( $since, $operator ) {
  * Render `$items` as an ASCII table:
  *
  * ```
- * FP_CLI\Utils\format_items( 'table', $items, array( 'key', 'value' ) );
+ * FIN_CLI\Utils\format_items( 'table', $items, array( 'key', 'value' ) );
  *
  * # +-----+-------+
  * # | key | value |
@@ -390,7 +390,7 @@ function fp_version_compare( $since, $operator ) {
  * Or render `$items` as YAML:
  *
  * ```
- * FP_CLI\Utils\format_items( 'yaml', $items, array( 'key', 'value' ) );
+ * FIN_CLI\Utils\format_items( 'yaml', $items, array( 'key', 'value' ) );
  *
  * # ---
  * # -
@@ -426,7 +426,7 @@ function format_items( $format, $items, $fields ) {
 function write_csv( $fd, $rows, $headers = [] ) {
 	if ( ! empty( $headers ) ) {
 		$headers = array_map( __NAMESPACE__ . '\escape_csv_value', $headers );
-		fputcsv( $fd, $headers, ',', '"', '\\' );
+		finutcsv( $fd, $headers, ',', '"', '\\' );
 	}
 
 	/**
@@ -444,7 +444,7 @@ function write_csv( $fd, $rows, $headers = [] ) {
 
 		$callback = __NAMESPACE__ . '\escape_csv_value';
 		$row      = array_map( $callback, $row );
-		fputcsv( $fd, array_values( $row ), ',', '"', '\\' );
+		finutcsv( $fd, array_values( $row ), ',', '"', '\\' );
 	}
 }
 
@@ -482,7 +482,7 @@ function pick_fields( $item, $fields ) {
  * @param string $ext   Extension to use with the temp file.
  * @return string|bool  Edited text, if file is saved from editor; false, if no change to file.
  */
-function launch_editor_for_input( $input, $title = 'FP-CLI', $ext = 'tmp' ) {
+function launch_editor_for_input( $input, $title = 'FIN-CLI', $ext = 'tmp' ) {
 
 	check_proc_available( 'launch_editor_for_input' );
 
@@ -491,21 +491,21 @@ function launch_editor_for_input( $input, $title = 'FP-CLI', $ext = 'tmp' ) {
 	do {
 		$tmpfile  = basename( $title );
 		$tmpfile  = preg_replace( '|\.[^.]*$|', '', $tmpfile );
-		$tmpfile .= '-' . substr( md5( (string) mt_rand() ), 0, 6 ); // phpcs:ignore FinPress.FP.AlternativeFunctions.rand_mt_rand -- no crypto and FP not loaded.
+		$tmpfile .= '-' . substr( md5( (string) mt_rand() ), 0, 6 ); // phpcs:ignore FinPress.FIN.AlternativeFunctions.rand_mt_rand -- no crypto and FIN not loaded.
 		$tmpfile  = $tmpdir . $tmpfile . '.' . $ext;
-		$fp       = fopen( $tmpfile, 'xb' );
-		if ( ! $fp && is_writable( $tmpdir ) && file_exists( $tmpfile ) ) {
+		$fin       = fopen( $tmpfile, 'xb' );
+		if ( ! $fin && is_writable( $tmpdir ) && file_exists( $tmpfile ) ) {
 			$tmpfile = '';
 			continue;
 		}
-		if ( $fp ) {
-			fclose( $fp );
+		if ( $fin ) {
+			fclose( $fin );
 		}
 	} while ( ! $tmpfile );
 
 	// @phpstan-ignore booleanNot.alwaysFalse
 	if ( ! $tmpfile ) {
-		FP_CLI::error( 'Error creating temporary file.' );
+		FIN_CLI::error( 'Error creating temporary file.' );
 	}
 
 	file_put_contents( $tmpfile, $input );
@@ -536,7 +536,7 @@ function launch_editor_for_input( $input, $title = 'FP-CLI', $ext = 'tmp' ) {
 }
 
 /**
- * @param string $raw_host MySQL host string, as defined in fp-config.php.
+ * @param string $raw_host MySQL host string, as defined in fin-config.php.
  *
  * @return array<string, string|int>
  */
@@ -629,7 +629,7 @@ function run_mysql_command( $cmd, $assoc_args, $_ = null, $send_to_shell = true,
 
 	$final_cmd = force_env_on_nix_systems( $cmd ) . assoc_args_to_str( $assoc_args );
 
-	FP_CLI::debug( 'Final MySQL command: ' . $final_cmd, 'db' );
+	FIN_CLI::debug( 'Final MySQL command: ' . $final_cmd, 'db' );
 	$process = proc_open_compat( $final_cmd, $descriptors, $pipes );
 
 	if ( isset( $old_password ) ) {
@@ -637,7 +637,7 @@ function run_mysql_command( $cmd, $assoc_args, $_ = null, $send_to_shell = true,
 	}
 
 	if ( ! $process ) {
-		FP_CLI::debug( 'Failed to create a valid process using proc_open_compat()', 'db' );
+		FIN_CLI::debug( 'Failed to create a valid process using proc_open_compat()', 'db' );
 		exit( 1 );
 	}
 
@@ -672,7 +672,7 @@ function run_mysql_command( $cmd, $assoc_args, $_ = null, $send_to_shell = true,
  */
 function mustache_render( $template_name, $data = [] ) {
 	if ( ! file_exists( $template_name ) ) {
-		$template_name = FP_CLI_ROOT . "/templates/$template_name";
+		$template_name = FIN_CLI_ROOT . "/templates/$template_name";
 	}
 
 	$template = (string) file_get_contents( $template_name );
@@ -695,14 +695,14 @@ function mustache_render( $template_name, $data = [] ) {
  * Process bar also indicates elapsed time and expected total time.
  *
  * ```
- * # `fp user generate` ticks progress bar each time a new user is created.
+ * # `fin user generate` ticks progress bar each time a new user is created.
  * #
- * # $ fp user generate --count=500
+ * # $ fin user generate --count=500
  * # Generating users  22 % [=======>                             ] 0:05 / 0:23
  *
- * $progress = \FP_CLI\Utils\make_progress_bar( 'Generating users', $count );
+ * $progress = \FIN_CLI\Utils\make_progress_bar( 'Generating users', $count );
  * for ( $i = 0; $i < $count; $i++ ) {
- *     // uses fp_insert_user() to insert the user
+ *     // uses fin_insert_user() to insert the user
  *     $progress->tick();
  * }
  * $progress->finish();
@@ -714,7 +714,7 @@ function mustache_render( $template_name, $data = [] ) {
  * @param string  $message  Text to display before the progress bar.
  * @param integer $count    Total number of ticks to be performed.
  * @param int     $interval Optional. The interval in milliseconds between updates. Default 100.
- * @return \cli\progress\Bar|\FP_CLI\NoOp
+ * @return \cli\progress\Bar|\FIN_CLI\NoOp
  */
 function make_progress_bar( $message, $count, $interval = 100 ) {
 	if ( Shell::isPiped() ) {
@@ -725,7 +725,7 @@ function make_progress_bar( $message, $count, $interval = 100 ) {
 }
 
 /**
- * Helper function to use fp_parse_url when available or fall back to PHP's
+ * Helper function to use fin_parse_url when available or fall back to PHP's
  * parse_url if not.
  *
  * Additionally, this adds 'http://' to the URL if no scheme was found.
@@ -746,16 +746,16 @@ function make_progress_bar( $message, $count, $interval = 100 ) {
  * @phpstan-return ($component is non-negative-int ? string|null|int|false : array{scheme?: string, host?: string, port?: int, user?: string, pass?: string, query?: string, path?: string, fragment?: string})
  */
 function parse_url( $url, $component = - 1, $auto_add_scheme = true ) {
-	if ( function_exists( 'fp_parse_url' ) ) {
-		$url_parts = fp_parse_url( $url, $component );
+	if ( function_exists( 'fin_parse_url' ) ) {
+		$url_parts = fin_parse_url( $url, $component );
 	} else {
-		// phpcs:ignore FinPress.FP.AlternativeFunctions.parse_url_parse_url -- Fallback.
+		// phpcs:ignore FinPress.FIN.AlternativeFunctions.parse_url_parse_url -- Fallback.
 		$url_parts = \parse_url( $url, $component );
 	}
 
-	// phpcs:ignore FinPress.FP.AlternativeFunctions.parse_url_parse_url -- Own version based on FP one.
+	// phpcs:ignore FinPress.FIN.AlternativeFunctions.parse_url_parse_url -- Own version based on FIN one.
 	if ( $auto_add_scheme && ! parse_url( $url, PHP_URL_SCHEME, false ) ) {
-		// phpcs:ignore FinPress.FP.AlternativeFunctions.parse_url_parse_url -- Own version based on FP one.
+		// phpcs:ignore FinPress.FIN.AlternativeFunctions.parse_url_parse_url -- Own version based on FIN one.
 		$url_parts = parse_url( 'http://' . $url, $component, false );
 	}
 
@@ -768,7 +768,7 @@ function parse_url( $url, $component = - 1, $auto_add_scheme = true ) {
  * @return bool
  */
 function is_windows() {
-	$test_is_windows = getenv( 'FP_CLI_TEST_IS_WINDOWS' );
+	$test_is_windows = getenv( 'FIN_CLI_TEST_IS_WINDOWS' );
 	return false !== $test_is_windows ? (bool) $test_is_windows : strtoupper( substr( PHP_OS, 0, 3 ) ) === 'WIN';
 }
 
@@ -816,11 +816,11 @@ function replace_path_consts( $source, $path ) {
  * Wraps the Requests HTTP library to ensure every request includes a cert.
  *
  * ```
- * # `fp core download` verifies the hash for a downloaded FinPress archive
+ * # `fin core download` verifies the hash for a downloaded FinPress archive
  *
  * $md5_response = Utils\http_request( 'GET', $download_url . '.md5' );
  * if ( 20 != substr( $md5_response->status_code, 0, 2 ) ) {
- *      FP_CLI::error( "Couldn't access md5 hash for release (HTTP code {$response->status_code})" );
+ *      FIN_CLI::error( "Couldn't access md5 hash for release (HTTP code {$response->status_code})" );
  * }
  * ```
  *
@@ -859,7 +859,7 @@ function http_request( $method, $url, $data = null, $headers = [], $options = []
 	/**
 	 * @var array{halt_on_error?: bool, verify: bool|string, insecure?: bool} $options
 	 */
-	$options = FP_CLI::do_hook( 'http_request_options', $options );
+	$options = FIN_CLI::do_hook( 'http_request_options', $options );
 
 	RequestsLibrary::register_autoloader();
 
@@ -871,7 +871,7 @@ function http_request( $method, $url, $data = null, $headers = [], $options = []
 	try {
 		try {
 			return $request_method( $url, $headers, $data, $method, $options );
-		} catch ( \Requests_Exception | \FpOrg\Requests\Exception $exception ) {
+		} catch ( \Requests_Exception | \FinOrg\Requests\Exception $exception ) {
 			/**
 			 * @var \CurlHandle $curl_handle
 			 */
@@ -888,7 +888,7 @@ function http_request( $method, $url, $data = null, $headers = [], $options = []
 
 			return $request_method( $url, $headers, $data, $method, $options );
 		}
-	} catch ( \Requests_Exception | \FpOrg\Requests\Exception $exception ) {
+	} catch ( \Requests_Exception | \FinOrg\Requests\Exception $exception ) {
 		/**
 		 * @var \CurlHandle $curl_handle
 		 */
@@ -902,7 +902,7 @@ function http_request( $method, $url, $data = null, $headers = [], $options = []
 		) {
 			$error_msg = sprintf( "Failed to get url '%s': %s.", $url, $exception->getMessage() );
 			if ( $halt_on_error ) {
-				FP_CLI::error( $error_msg );
+				FIN_CLI::error( $error_msg );
 			}
 			throw new RuntimeException( $error_msg, 0, $exception );
 		}
@@ -912,17 +912,17 @@ function http_request( $method, $url, $data = null, $headers = [], $options = []
 			$url,
 			$exception->getMessage()
 		);
-		FP_CLI::warning( $warning );
+		FIN_CLI::warning( $warning );
 
 		// Disable certificate validation for the next try.
 		$options['verify'] = false;
 
 		try {
 			return $request_method( $url, $headers, $data, $method, $options );
-		} catch ( \Requests_Exception | \FpOrg\Requests\Exception $exception ) {
+		} catch ( \Requests_Exception | \FinOrg\Requests\Exception $exception ) {
 			$error_msg = sprintf( "Failed to get non-verified url '%s' %s.", $url, $exception->getMessage() );
 			if ( $halt_on_error ) {
-				FP_CLI::error( $error_msg );
+				FIN_CLI::error( $error_msg );
 			}
 			throw new RuntimeException( $error_msg, 0, $exception );
 		}
@@ -951,7 +951,7 @@ function get_default_cacert( $halt_on_error = false ) {
 	}
 
 	if ( $halt_on_error ) {
-		FP_CLI::error( $error_msg );
+		FIN_CLI::error( $error_msg );
 	}
 
 	throw new RuntimeException( $error_msg );
@@ -1163,7 +1163,7 @@ function get_temp_dir() {
 	$temp = trailingslashit( sys_get_temp_dir() );
 
 	if ( ! is_writable( $temp ) ) {
-		FP_CLI::warning( "Temp directory isn't writable: {$temp}" );
+		FIN_CLI::warning( "Temp directory isn't writable: {$temp}" );
 	}
 
 	return $temp;
@@ -1246,17 +1246,17 @@ function report_batch_operation_results( $noun, $verb, $total, $successes, $fail
 	if ( $failures ) {
 		$failed_skipped_message = null === $skips ? '' : " ({$failures} failed" . ( $skips ? ", {$skips} skipped" : '' ) . ')';
 		if ( $successes ) {
-			FP_CLI::error( "Only {$past_tense_verb} {$successes} of {$total} {$plural_noun}{$failed_skipped_message}." );
+			FIN_CLI::error( "Only {$past_tense_verb} {$successes} of {$total} {$plural_noun}{$failed_skipped_message}." );
 		} else {
-			FP_CLI::error( "No {$plural_noun} {$past_tense_verb}{$failed_skipped_message}." );
+			FIN_CLI::error( "No {$plural_noun} {$past_tense_verb}{$failed_skipped_message}." );
 		}
 	} else {
 		$skipped_message = $skips ? " ({$skips} skipped)" : '';
 		if ( $successes || $skips ) {
-			FP_CLI::success( "{$past_tense_verb_upper} {$successes} of {$total} {$plural_noun}{$skipped_message}." );
+			FIN_CLI::success( "{$past_tense_verb_upper} {$successes} of {$total} {$plural_noun}{$skipped_message}." );
 		} else {
 			$message = $total > 1 ? ucfirst( $plural_noun ) : ucfirst( $noun );
-			FP_CLI::success( "{$message} already {$past_tense_verb}." );
+			FIN_CLI::success( "{$message} already {$past_tense_verb}." );
 		}
 	}
 }
@@ -1313,13 +1313,13 @@ function basename( $path, $suffix = '' ) {
  * To enable ASCII formatting even when the shell is piped, use the
  * ENV variable `SHELL_PIPE=0`.
  * ```
- * SHELL_PIPE=0 fp plugin list | cat
+ * SHELL_PIPE=0 fin plugin list | cat
  * ```
  *
  * Note that the db command forwards to the mysql client, which is unaware of the env
  * variable. For db commands, pass the `--table` option instead.
  * ```
- * fp db query --table "SELECT 1" | cat
+ * fin db query --table "SELECT 1" | cat
  * ```
  *
  * @access public
@@ -1349,8 +1349,8 @@ function expand_globs( $paths, $flags = 'default' ) {
 	// Compatibility for systems without GLOB_BRACE.
 	$glob_func = 'glob';
 	if ( 'default' === $flags ) {
-		if ( ! defined( 'GLOB_BRACE' ) || getenv( 'FP_CLI_TEST_EXPAND_GLOBS_NO_GLOB_BRACE' ) ) {
-			$glob_func = 'FP_CLI\Utils\glob_brace';
+		if ( ! defined( 'GLOB_BRACE' ) || getenv( 'FIN_CLI_TEST_EXPAND_GLOBS_NO_GLOB_BRACE' ) ) {
+			$glob_func = 'FIN_CLI\Utils\glob_brace';
 		} else {
 			$flags = GLOB_BRACE;
 		}
@@ -1560,7 +1560,7 @@ function phar_safe_path( $path ) {
 	}
 
 	return str_replace(
-		PHAR_STREAM_PREFIX . rtrim( FP_CLI_PHAR_PATH, '/' ) . '/',
+		PHAR_STREAM_PREFIX . rtrim( FIN_CLI_PHAR_PATH, '/' ) . '/',
 		PHAR_STREAM_PREFIX,
 		$path
 	);
@@ -1600,9 +1600,9 @@ function check_proc_available( $context = null, $return = false ) {
 		}
 		$msg = 'The PHP functions `proc_open()` and/or `proc_close()` are disabled. Please check your PHP ini directive `disable_functions` or suhosin settings.';
 		if ( $context ) {
-			FP_CLI::error( sprintf( "Cannot do '%s': %s", $context, $msg ) );
+			FIN_CLI::error( sprintf( "Cannot do '%s': %s", $context, $msg ) );
 		} else {
-			FP_CLI::error( $msg );
+			FIN_CLI::error( $msg );
 		}
 	}
 	return true;
@@ -1634,7 +1634,7 @@ function past_tense_verb( $verb ) {
 }
 
 /**
- * Get the path to the PHP binary used when executing FP-CLI.
+ * Get the path to the PHP binary used when executing FIN-CLI.
  *
  * Environment values permit specific binaries to be indicated.
  *
@@ -1649,14 +1649,14 @@ function get_php_binary() {
 		return PHP_BINARY;
 	}
 
-	$fp_cli_php_used = getenv( 'FP_CLI_PHP_USED' );
-	if ( false !== $fp_cli_php_used ) {
-		return $fp_cli_php_used;
+	$fin_cli_php_used = getenv( 'FIN_CLI_PHP_USED' );
+	if ( false !== $fin_cli_php_used ) {
+		return $fin_cli_php_used;
 	}
 
-	$fp_cli_php = getenv( 'FP_CLI_PHP' );
-	if ( false !== $fp_cli_php ) {
-		return $fp_cli_php;
+	$fin_cli_php = getenv( 'FIN_CLI_PHP' );
+	if ( false !== $fin_cli_php ) {
+		return $fin_cli_php;
 	}
 
 	return PHP_BINARY;
@@ -1712,28 +1712,28 @@ function _proc_open_compat_win_env( $cmd, &$env ) {
 /**
  * First half of escaping for LIKE special characters % and _ before preparing for MySQL.
  *
- * Use this only before fpdb::prepare() or esc_sql().  Reversing the order is very bad for security.
+ * Use this only before findb::prepare() or esc_sql().  Reversing the order is very bad for security.
  *
- * Copied from core "fp-includes/fp-db.php". Avoids dependency on FP 4.4 fpdb.
+ * Copied from core "fin-includes/fin-db.php". Avoids dependency on FIN 4.4 findb.
  *
  * @access public
  *
  * @param string $text The raw text to be escaped. The input typed by the user should have no
  *                     extra or deleted slashes.
- * @return string Text in the form of a LIKE phrase. The output is not SQL safe. Call $fpdb::prepare()
+ * @return string Text in the form of a LIKE phrase. The output is not SQL safe. Call $findb::prepare()
  *                or real_escape next.
  */
 function esc_like( $text ) {
 	/**
-	 * @var null|\fpdb $fpdb
+	 * @var null|\findb $findb
 	 */
-	global $fpdb;
+	global $findb;
 
-	// Check if the esc_like() method exists on the global $fpdb object.
+	// Check if the esc_like() method exists on the global $findb object.
 	// We need to do this because to ensure compatibility layers like the
 	// SQLite integration plugin still work.
-	if ( null !== $fpdb && method_exists( $fpdb, 'esc_like' ) ) {
-		return $fpdb->esc_like( $text );
+	if ( null !== $findb && method_exists( $findb, 'esc_like' ) ) {
+		return $findb->esc_like( $text );
 	}
 
 	return addcslashes( $text, '_%\\' );
@@ -2044,13 +2044,13 @@ function get_sql_modes() {
 }
 
 /**
- * Get the FP-CLI cache directory.
+ * Get the FIN-CLI cache directory.
  *
  * @return string
  */
 function get_cache_dir() {
 	$home = get_home_dir();
-	return getenv( 'FP_CLI_CACHE_DIR' ) ? : "$home/.fp-cli/cache";
+	return getenv( 'FIN_CLI_CACHE_DIR' ) ? : "$home/.fin-cli/cache";
 }
 
 /**
@@ -2075,20 +2075,20 @@ function has_stdin() {
 }
 
 /**
- * Return description of FP_CLI hooks used in @when tag
+ * Return description of FIN_CLI hooks used in @when tag
  *
- *  @param string $hook Name of FP_CLI hook
+ *  @param string $hook Name of FIN_CLI hook
  *
  * @return string|null
  */
 function get_hook_description( $hook ) {
 	$events = [
-		'find_command_to_run_pre'     => 'just before FP-CLI finds the command to run.',
+		'find_command_to_run_pre'     => 'just before FIN-CLI finds the command to run.',
 		'before_registering_contexts' => 'before the contexts are registered.',
-		'before_fp_load'              => 'just before the FP load process begins.',
-		'before_fp_config_load'       => 'after fp-config.php has been located.',
-		'after_fp_config_load'        => 'after fp-config.php has been loaded into scope.',
-		'after_fp_load'               => 'just after the FP load process has completed.',
+		'before_fin_load'              => 'just before the FIN load process begins.',
+		'before_fin_config_load'       => 'after fin-config.php has been located.',
+		'after_fin_config_load'        => 'after fin-config.php has been loaded into scope.',
+		'after_fin_load'               => 'just after the FIN load process has completed.',
 	];
 
 	if ( array_key_exists( $hook, $events ) ) {

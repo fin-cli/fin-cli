@@ -1,7 +1,7 @@
 <?php
 
-use FP_CLI\SynopsisParser;
-use FP_CLI\Tests\TestCase;
+use FIN_CLI\SynopsisParser;
+use FIN_CLI\Tests\TestCase;
 
 class SynopsisParserTest extends TestCase {
 

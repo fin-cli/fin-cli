@@ -1,8 +1,8 @@
 <?php
 
-use FP_CLI\Process;
-use FP_CLI\Tests\TestCase;
-use FP_CLI\Utils;
+use FIN_CLI\Process;
+use FIN_CLI\Tests\TestCase;
+use FIN_CLI\Utils;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 class ProcessTest extends TestCase {

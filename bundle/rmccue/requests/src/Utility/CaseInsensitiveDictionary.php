@@ -5,13 +5,13 @@
  * @package Requests\Utilities
  */
 
-namespace FpOrg\Requests\Utility;
+namespace FinOrg\Requests\Utility;
 
 use ArrayAccess;
 use ArrayIterator;
 use IteratorAggregate;
 use ReturnTypeWillChange;
-use FpOrg\Requests\Exception;
+use FinOrg\Requests\Exception;
 
 /**
  * Case-insensitive dictionary, suitable for HTTP headers
@@ -77,7 +77,7 @@ class CaseInsensitiveDictionary implements ArrayAccess, IteratorAggregate {
 	 * @param string $offset Item name
 	 * @param string $value Item value
 	 *
-	 * @throws \FpOrg\Requests\Exception On attempting to use dictionary as list (`invalidset`)
+	 * @throws \FinOrg\Requests\Exception On attempting to use dictionary as list (`invalidset`)
 	 */
 	#[ReturnTypeWillChange]
 	public function offsetSet($offset, $value) {

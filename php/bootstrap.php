@@ -1,15 +1,15 @@
 <?php
 
-namespace FP_CLI;
+namespace FIN_CLI;
 
-use FP_CLI\Bootstrap\BootstrapState;
-use FP_CLI\Bootstrap\BootstrapStep;
+use FIN_CLI\Bootstrap\BootstrapState;
+use FIN_CLI\Bootstrap\BootstrapStep;
 
 /**
- * Get the list of ordered steps that need to be processed to bootstrap FP-CLI.
+ * Get the list of ordered steps that need to be processed to bootstrap FIN-CLI.
  *
  * Each entry is a fully qualified class name for a class implementing the
- * `FP_CLI\Bootstrap\BootstrapStep` interface.
+ * `FIN_CLI\Bootstrap\BootstrapStep` interface.
  *
  * @return string[]
  */
@@ -45,13 +45,13 @@ function get_bootstrap_steps() {
  * custom autoloader to fetch the bootstrap classes in a flexible way.
  */
 function prepare_bootstrap() {
-	require_once FP_CLI_ROOT . '/php/FP_CLI/Autoloader.php';
+	require_once FIN_CLI_ROOT . '/php/FIN_CLI/Autoloader.php';
 
 	$autoloader = new Autoloader();
 
 	$autoloader->add_namespace(
-		'FP_CLI\Bootstrap',
-		FP_CLI_ROOT . '/php/FP_CLI/Bootstrap'
+		'FIN_CLI\Bootstrap',
+		FIN_CLI_ROOT . '/php/FIN_CLI/Bootstrap'
 	)->register();
 }
 
@@ -76,8 +76,8 @@ function bootstrap() {
 
 	foreach ( get_bootstrap_steps() as $step ) {
 		/** @var BootstrapStep $step_instance */
-		if ( class_exists( 'FP_CLI' ) ) {
-			\FP_CLI::debug( "Processing bootstrap step: {$step}", 'bootstrap' );
+		if ( class_exists( 'FIN_CLI' ) ) {
+			\FIN_CLI::debug( "Processing bootstrap step: {$step}", 'bootstrap' );
 		}
 
 		/**

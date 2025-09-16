@@ -5,9 +5,9 @@
  * @package Requests\Exceptions
  */
 
-namespace FpOrg\Requests\Exception\Transport;
+namespace FinOrg\Requests\Exception\Transport;
 
-use FpOrg\Requests\Exception\Transport;
+use FinOrg\Requests\Exception\Transport;
 
 /**
  * CURL Transport Exception.

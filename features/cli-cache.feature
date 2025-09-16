@@ -3,15 +3,15 @@ Feature: CLI Cache
   Scenario: Remove all files from cache directory
     Given an empty cache
 
-    When I run `fp core download --path={CACHE_DIR} --version=4.9 --force`
-    And I run `fp core download --path={CACHE_DIR} --version=4.9 --force --locale=de_DE`
+    When I run `fin core download --path={CACHE_DIR} --version=4.9 --force`
+    And I run `fin core download --path={CACHE_DIR} --version=4.9 --force --locale=de_DE`
     Then the {SUITE_CACHE_DIR}/core directory should contain:
       """
       finpress-4.9-de_DE.tar.gz
       finpress-4.9-en_US.tar.gz
       """
 
-    When I run `fp cli cache clear`
+    When I run `fin cli cache clear`
     Then STDOUT should be:
       """
       Success: Cache cleared.
@@ -31,10 +31,10 @@ Feature: CLI Cache
     And a env-var.php file:
       """
       <?php
-      putenv( 'FP_CLI_CACHE_DIR=/dev/null' );
+      putenv( 'FIN_CLI_CACHE_DIR=/dev/null' );
       """
 
-    When I run `fp --require=env-var.php core download --path=/tmp/fp-core --version=4.9 --force`
+    When I run `fin --require=env-var.php core download --path=/tmp/fin-core --version=4.9 --force`
     Then STDERR should be empty
 
   Scenario: Remove all but newest files from cache directory
@@ -64,7 +64,7 @@ Feature: CLI Cache
       -empty-
       """
 
-    When I run `fp cli cache prune`
+    When I run `fin cli cache prune`
     Then STDOUT should be:
       """
       Success: Cache pruned.

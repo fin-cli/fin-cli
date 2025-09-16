@@ -2,32 +2,32 @@ parameters:
   level: 9
   paths:
     - php/commands
-    - php/FP_CLI
+    - php/FIN_CLI
     - php/boot-fs.php
     - php/bootstrap.php
-    - php/class-fp-cli.php
-    - php/class-fp-cli-command.php
+    - php/class-fin-cli.php
+    - php/class-fin-cli-command.php
     - php/dispatcher.php
     - php/utils.php
-    - php/utils-fp.php
-    - php/fp-cli.php
+    - php/utils-fin.php
+    - php/fin-cli.php
     - tests
   excludePaths:
-     - php/FP_CLI/ComposerIO.php
-     - php/FP_CLI/PackageManagerEventSubscriber.php
+     - php/FIN_CLI/ComposerIO.php
+     - php/FIN_CLI/PackageManagerEventSubscriber.php
      - tests/data
   scanDirectories:
     - bundle/rmccue/requests
-    - vendor/fp-cli/fp-cli-tests
+    - vendor/fin-cli/fin-cli-tests
   scanFiles:
     - vendor/php-stubs/finpress-stubs/finpress-stubs.php
     - utils/phpstan/scan-files.php
     - php/boot-fs.php
   treatPhpDocTypesAsCertain: false
   dynamicConstantNames:
-    - FP_DEBUG
-    - FP_DEBUG_LOG
-    - FP_DEBUG_DISPLAY
+    - FIN_DEBUG
+    - FIN_DEBUG_LOG
+    - FIN_DEBUG_DISPLAY
   strictRules:
     uselessCast: true
     closureUsesThis: true

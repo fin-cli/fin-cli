@@ -1,28 +1,28 @@
 {
-    "name": "fp-cli/fp-cli",
-    "description": "FP-CLI framework",
+    "name": "fin-cli/fin-cli",
+    "description": "FIN-CLI framework",
     "keywords": [
         "cli",
         "finpress"
     ],
-    "homepage": "https://fp-cli.org",
+    "homepage": "https://fin-cli.org",
     "license": "MIT",
     "require": {
         "php": ">=7.2.24 || ^8.0",
         "ext-curl": "*",
         "mustache/mustache": "^3.0.0",
         "symfony/finder": ">2.7",
-        "fp-cli/mustangostang-spyc": "^0.6.3",
-        "fp-cli/php-cli-tools": "~0.12.4"
+        "fin-cli/mustangostang-spyc": "^0.6.3",
+        "fin-cli/php-cli-tools": "~0.12.4"
     },
     "require-dev": {
         "justinrainbow/json-schema": "^6.3",
         "roave/security-advisories": "dev-latest",
-        "fp-cli/db-command": "^1.3 || ^2",
-        "fp-cli/entity-command": "^1.2 || ^2",
-        "fp-cli/extension-command": "^1.1 || ^2",
-        "fp-cli/package-command": "^1 || ^2",
-        "fp-cli/fp-cli-tests": "^4"
+        "fin-cli/db-command": "^1.3 || ^2",
+        "fin-cli/entity-command": "^1.2 || ^2",
+        "fin-cli/extension-command": "^1.1 || ^2",
+        "fin-cli/package-command": "^1 || ^2",
+        "fin-cli/fin-cli-tests": "^4"
     },
     "suggest": {
         "ext-readline": "Include for a better --prompt implementation",
@@ -45,18 +45,18 @@
     },
     "autoload": {
         "psr-0": {
-            "FP_CLI\\": "php/"
+            "FIN_CLI\\": "php/"
         },
         "classmap": [
-            "php/class-fp-cli.php",
-            "php/class-fp-cli-command.php"
+            "php/class-fin-cli.php",
+            "php/class-fin-cli-command.php"
         ]
     },
     "minimum-stability": "dev",
     "prefer-stable": true,
     "bin": [
-        "bin/fp",
-        "bin/fp.bat"
+        "bin/fin",
+        "bin/fin.bat"
     ],
     "scripts": {
         "behat": "run-behat-tests",
@@ -76,8 +76,8 @@
         ]
     },
     "support": {
-        "issues": "https://github.com/fp-cli/fp-cli/issues",
-        "source": "https://github.com/fp-cli/fp-cli",
+        "issues": "https://github.com/fin-cli/fin-cli/issues",
+        "source": "https://github.com/fin-cli/fin-cli",
         "docs": "https://make.finpress.org/cli/handbook/"
     }
 }

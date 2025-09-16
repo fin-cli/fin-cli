@@ -4,33 +4,33 @@
  *
  * Inspired by Requests for Python.
  *
- * Based on concepts from SimplePie_File, RequestCore and FP_Http.
+ * Based on concepts from SimplePie_File, RequestCore and FIN_Http.
  *
  * @package Requests
  */
 
-namespace FpOrg\Requests;
+namespace FinOrg\Requests;
 
-use FpOrg\Requests\Auth\Basic;
-use FpOrg\Requests\Capability;
-use FpOrg\Requests\Cookie\Jar;
-use FpOrg\Requests\Exception;
-use FpOrg\Requests\Exception\InvalidArgument;
-use FpOrg\Requests\Hooks;
-use FpOrg\Requests\IdnaEncoder;
-use FpOrg\Requests\Iri;
-use FpOrg\Requests\Proxy\Http;
-use FpOrg\Requests\Response;
-use FpOrg\Requests\Transport\Curl;
-use FpOrg\Requests\Transport\Fsockopen;
-use FpOrg\Requests\Utility\InputValidator;
+use FinOrg\Requests\Auth\Basic;
+use FinOrg\Requests\Capability;
+use FinOrg\Requests\Cookie\Jar;
+use FinOrg\Requests\Exception;
+use FinOrg\Requests\Exception\InvalidArgument;
+use FinOrg\Requests\Hooks;
+use FinOrg\Requests\IdnaEncoder;
+use FinOrg\Requests\Iri;
+use FinOrg\Requests\Proxy\Http;
+use FinOrg\Requests\Response;
+use FinOrg\Requests\Transport\Curl;
+use FinOrg\Requests\Transport\Fsockopen;
+use FinOrg\Requests\Utility\InputValidator;
 
 /**
  * Requests for PHP
  *
  * Inspired by Requests for Python.
  *
- * Based on concepts from SimplePie_File, RequestCore and FP_Http.
+ * Based on concepts from SimplePie_File, RequestCore and FIN_Http.
  *
  * @package Requests
  */
@@ -102,8 +102,8 @@ class Requests {
 	/**
 	 * Option defaults.
 	 *
-	 * @see \FpOrg\Requests\Requests::get_default_options()
-	 * @see \FpOrg\Requests\Requests::request() for values returned by this method
+	 * @see \FinOrg\Requests\Requests::get_default_options()
+	 * @see \FinOrg\Requests\Requests::request() for values returned by this method
 	 *
 	 * @since 2.0.0
 	 *
@@ -153,7 +153,7 @@ class Requests {
 	/**
 	 * Selected transport name
 	 *
-	 * Use {@see \FpOrg\Requests\Requests::get_transport()} instead
+	 * Use {@see \FinOrg\Requests\Requests::get_transport()} instead
 	 *
 	 * @var array
 	 */
@@ -169,8 +169,8 @@ class Requests {
 	/**
 	 * Default certificate path.
 	 *
-	 * @see \FpOrg\Requests\Requests::get_certificate_path()
-	 * @see \FpOrg\Requests\Requests::set_certificate_path()
+	 * @see \FinOrg\Requests\Requests::get_certificate_path()
+	 * @see \FinOrg\Requests\Requests::set_certificate_path()
 	 *
 	 * @var string
 	 */
@@ -205,7 +205,7 @@ class Requests {
 	/**
 	 * Register a transport
 	 *
-	 * @param string $transport Transport class to add, must support the \FpOrg\Requests\Transport interface
+	 * @param string $transport Transport class to add, must support the \FinOrg\Requests\Transport interface
 	 */
 	public static function add_transport($transport) {
 		if (empty(self::$transports)) {
@@ -262,8 +262,8 @@ class Requests {
 	 * Get a working transport.
 	 *
 	 * @param array<string, bool> $capabilities Optional. Associative array of capabilities to test against, i.e. `['<capability>' => true]`.
-	 * @return \FpOrg\Requests\Transport
-	 * @throws \FpOrg\Requests\Exception If no valid transport is found (`notransport`).
+	 * @return \FinOrg\Requests\Transport
+	 * @throws \FinOrg\Requests\Exception If no valid transport is found (`notransport`).
 	 */
 	protected static function get_transport(array $capabilities = []) {
 		$class = self::get_transport_class($capabilities);
@@ -278,7 +278,7 @@ class Requests {
 	/**
 	 * Checks to see if we have a transport for the capabilities requested.
 	 *
-	 * Supported capabilities can be found in the {@see \FpOrg\Requests\Capability}
+	 * Supported capabilities can be found in the {@see \FinOrg\Requests\Capability}
 	 * interface as constants.
 	 *
 	 * Example usage:
@@ -292,11 +292,11 @@ class Requests {
 	}
 
 	/**#@+
-	 * @see \FpOrg\Requests\Requests::request()
+	 * @see \FinOrg\Requests\Requests::request()
 	 * @param string $url
 	 * @param array $headers
 	 * @param array $options
-	 * @return \FpOrg\Requests\Response
+	 * @return \FinOrg\Requests\Response
 	 */
 	/**
 	 * Send a GET request
@@ -328,12 +328,12 @@ class Requests {
 	/**#@-*/
 
 	/**#@+
-	 * @see \FpOrg\Requests\Requests::request()
+	 * @see \FinOrg\Requests\Requests::request()
 	 * @param string $url
 	 * @param array $headers
 	 * @param array $data
 	 * @param array $options
-	 * @return \FpOrg\Requests\Response
+	 * @return \FinOrg\Requests\Response
 	 */
 	/**
 	 * Send a POST request
@@ -358,7 +358,7 @@ class Requests {
 	/**
 	 * Send a PATCH request
 	 *
-	 * Note: Unlike {@see \FpOrg\Requests\Requests::post()} and {@see \FpOrg\Requests\Requests::put()},
+	 * Note: Unlike {@see \FinOrg\Requests\Requests::post()} and {@see \FinOrg\Requests\Requests::put()},
 	 * `$headers` is required, as the specification recommends that should send an ETag
 	 *
 	 * @link https://tools.ietf.org/html/rfc5789
@@ -395,19 +395,19 @@ class Requests {
 	 *    (string|boolean, default: false)
 	 * - `auth`: Authentication handler or array of user/password details to use
 	 *    for Basic authentication
-	 *    (\FpOrg\Requests\Auth|array|boolean, default: false)
+	 *    (\FinOrg\Requests\Auth|array|boolean, default: false)
 	 * - `proxy`: Proxy details to use for proxy by-passing and authentication
-	 *    (\FpOrg\Requests\Proxy|array|string|boolean, default: false)
+	 *    (\FinOrg\Requests\Proxy|array|string|boolean, default: false)
 	 * - `max_bytes`: Limit for the response body size.
 	 *    (integer|boolean, default: false)
 	 * - `idn`: Enable IDN parsing
 	 *    (boolean, default: true)
 	 * - `transport`: Custom transport. Either a class name, or a
 	 *    transport object. Defaults to the first working transport from
-	 *    {@see \FpOrg\Requests\Requests::getTransport()}
-	 *    (string|\FpOrg\Requests\Transport, default: {@see \FpOrg\Requests\Requests::getTransport()})
+	 *    {@see \FinOrg\Requests\Requests::getTransport()}
+	 *    (string|\FinOrg\Requests\Transport, default: {@see \FinOrg\Requests\Requests::getTransport()})
 	 * - `hooks`: Hooks handler.
-	 *    (\FpOrg\Requests\HookManager, default: new FpOrg\Requests\Hooks())
+	 *    (\FinOrg\Requests\HookManager, default: new FinOrg\Requests\Hooks())
 	 * - `verify`: Should we verify SSL certificates? Allows passing in a custom
 	 *    certificate file as a string. (Using true uses the system-wide root
 	 *    certificate store instead, but this may have different behaviour
@@ -424,12 +424,12 @@ class Requests {
 	 * @param array|null $data Data to send either as a query string for GET/HEAD requests, or in the body for POST requests
 	 * @param string $type HTTP request type (use Requests constants)
 	 * @param array $options Options for the request (see description for more information)
-	 * @return \FpOrg\Requests\Response
+	 * @return \FinOrg\Requests\Response
 	 *
-	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $url argument is not a string or Stringable.
-	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $type argument is not a string.
-	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $options argument is not an array.
-	 * @throws \FpOrg\Requests\Exception On invalid URLs (`nonhttp`)
+	 * @throws \FinOrg\Requests\Exception\InvalidArgument When the passed $url argument is not a string or Stringable.
+	 * @throws \FinOrg\Requests\Exception\InvalidArgument When the passed $type argument is not a string.
+	 * @throws \FinOrg\Requests\Exception\InvalidArgument When the passed $options argument is not an array.
+	 * @throws \FinOrg\Requests\Exception On invalid URLs (`nonhttp`)
 	 */
 	public static function request($url, $headers = [], $data = [], $type = self::GET, $options = []) {
 		if (InputValidator::is_string_or_stringable($url) === false) {
@@ -484,38 +484,38 @@ class Requests {
 	 * The request fields value is an associative array with the following keys:
 	 *
 	 * - `url`: Request URL Same as the `$url` parameter to
-	 *    {@see \FpOrg\Requests\Requests::request()}
+	 *    {@see \FinOrg\Requests\Requests::request()}
 	 *    (string, required)
 	 * - `headers`: Associative array of header fields. Same as the `$headers`
-	 *    parameter to {@see \FpOrg\Requests\Requests::request()}
+	 *    parameter to {@see \FinOrg\Requests\Requests::request()}
 	 *    (array, default: `array()`)
 	 * - `data`: Associative array of data fields or a string. Same as the
-	 *    `$data` parameter to {@see \FpOrg\Requests\Requests::request()}
+	 *    `$data` parameter to {@see \FinOrg\Requests\Requests::request()}
 	 *    (array|string, default: `array()`)
-	 * - `type`: HTTP request type (use \FpOrg\Requests\Requests constants). Same as the `$type`
-	 *    parameter to {@see \FpOrg\Requests\Requests::request()}
-	 *    (string, default: `\FpOrg\Requests\Requests::GET`)
+	 * - `type`: HTTP request type (use \FinOrg\Requests\Requests constants). Same as the `$type`
+	 *    parameter to {@see \FinOrg\Requests\Requests::request()}
+	 *    (string, default: `\FinOrg\Requests\Requests::GET`)
 	 * - `cookies`: Associative array of cookie name to value, or cookie jar.
-	 *    (array|\FpOrg\Requests\Cookie\Jar)
+	 *    (array|\FinOrg\Requests\Cookie\Jar)
 	 *
 	 * If the `$options` parameter is specified, individual requests will
 	 * inherit options from it. This can be used to use a single hooking system,
-	 * or set all the types to `\FpOrg\Requests\Requests::POST`, for example.
+	 * or set all the types to `\FinOrg\Requests\Requests::POST`, for example.
 	 *
 	 * In addition, the `$options` parameter takes the following global options:
 	 *
 	 * - `complete`: A callback for when a request is complete. Takes two
-	 *    parameters, a \FpOrg\Requests\Response/\FpOrg\Requests\Exception reference, and the
+	 *    parameters, a \FinOrg\Requests\Response/\FinOrg\Requests\Exception reference, and the
 	 *    ID from the request array (Note: this can also be overridden on a
 	 *    per-request basis, although that's a little silly)
 	 *    (callback)
 	 *
 	 * @param array $requests Requests data (see description for more information)
-	 * @param array $options Global and default options (see {@see \FpOrg\Requests\Requests::request()})
-	 * @return array Responses (either \FpOrg\Requests\Response or a \FpOrg\Requests\Exception object)
+	 * @param array $options Global and default options (see {@see \FinOrg\Requests\Requests::request()})
+	 * @return array Responses (either \FinOrg\Requests\Response or a \FinOrg\Requests\Exception object)
 	 *
-	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $requests argument is not an array or iterable object with array access.
-	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $options argument is not an array.
+	 * @throws \FinOrg\Requests\Exception\InvalidArgument When the passed $requests argument is not an array or iterable object with array access.
+	 * @throws \FinOrg\Requests\Exception\InvalidArgument When the passed $options argument is not an array.
 	 */
 	public static function request_multiple($requests, $options = []) {
 		if (InputValidator::has_array_access($requests) === false || InputValidator::is_iterable($requests) === false) {
@@ -600,7 +600,7 @@ class Requests {
 	/**
 	 * Get the default options
 	 *
-	 * @see \FpOrg\Requests\Requests::request() for values returned by this method
+	 * @see \FinOrg\Requests\Requests::request() for values returned by this method
 	 * @param boolean $multirequest Is this a multirequest?
 	 * @return array Default option values
 	 */
@@ -629,7 +629,7 @@ class Requests {
 	 *
 	 * @param string|Stringable|bool $path Certificate path, pointing to a PEM file.
 	 *
-	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $url argument is not a string, Stringable or boolean.
+	 * @throws \FinOrg\Requests\Exception\InvalidArgument When the passed $url argument is not a string, Stringable or boolean.
 	 */
 	public static function set_certificate_path($path) {
 		if (InputValidator::is_string_or_stringable($path) === false && is_bool($path) === false) {
@@ -651,7 +651,7 @@ class Requests {
 	 * @param array $options Options for the request
 	 * @return void
 	 *
-	 * @throws \FpOrg\Requests\Exception When the $url is not an http(s) URL.
+	 * @throws \FinOrg\Requests\Exception When the $url is not an http(s) URL.
 	 */
 	protected static function set_defaults(&$url, &$headers, &$data, &$type, &$options) {
 		if (!preg_match('/^http(s)?:\/\//i', $url, $matches)) {
@@ -714,11 +714,11 @@ class Requests {
 	 * @param array $req_headers Original $headers array passed to {@link request()}, in case we need to follow redirects
 	 * @param array $req_data Original $data array passed to {@link request()}, in case we need to follow redirects
 	 * @param array $options Original $options array passed to {@link request()}, in case we need to follow redirects
-	 * @return \FpOrg\Requests\Response
+	 * @return \FinOrg\Requests\Response
 	 *
-	 * @throws \FpOrg\Requests\Exception On missing head/body separator (`requests.no_crlf_separator`)
-	 * @throws \FpOrg\Requests\Exception On missing head/body separator (`noversion`)
-	 * @throws \FpOrg\Requests\Exception On missing head/body separator (`toomanyredirects`)
+	 * @throws \FinOrg\Requests\Exception On missing head/body separator (`requests.no_crlf_separator`)
+	 * @throws \FinOrg\Requests\Exception On missing head/body separator (`noversion`)
+	 * @throws \FinOrg\Requests\Exception On missing head/body separator (`toomanyredirects`)
 	 */
 	protected static function parse_response($headers, $url, $req_headers, $req_data, $options) {
 		$return = new Response();
@@ -823,13 +823,13 @@ class Requests {
 	/**
 	 * Callback for `transport.internal.parse_response`
 	 *
-	 * Internal use only. Converts a raw HTTP response to a \FpOrg\Requests\Response
+	 * Internal use only. Converts a raw HTTP response to a \FinOrg\Requests\Response
 	 * while still executing a multiple request.
 	 *
-	 * `$response` is either set to a \FpOrg\Requests\Response instance, or a \FpOrg\Requests\Exception object
+	 * `$response` is either set to a \FinOrg\Requests\Response instance, or a \FinOrg\Requests\Exception object
 	 *
 	 * @param string $response Full response text including headers and body (will be overwritten with Response instance)
-	 * @param array $request Request data as passed into {@see \FpOrg\Requests\Requests::request_multiple()}
+	 * @param array $request Request data as passed into {@see \FinOrg\Requests\Requests::request_multiple()}
 	 * @return void
 	 */
 	public static function parse_multiple(&$response, $request) {
@@ -892,7 +892,7 @@ class Requests {
 	 * @param iterable $dictionary Dictionary of header values
 	 * @return array List of headers
 	 *
-	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed argument is not iterable.
+	 * @throws \FinOrg\Requests\Exception\InvalidArgument When the passed argument is not iterable.
 	 */
 	public static function flatten($dictionary) {
 		if (InputValidator::is_iterable($dictionary) === false) {
@@ -916,7 +916,7 @@ class Requests {
 	 * @param string $data Compressed data in one of the above formats
 	 * @return string Decompressed string
 	 *
-	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed argument is not a string.
+	 * @throws \FinOrg\Requests\Exception\InvalidArgument When the passed argument is not a string.
 	 */
 	public static function decompress($data) {
 		if (is_string($data) === false) {
@@ -983,7 +983,7 @@ class Requests {
 	 * @param string $gz_data String to decompress.
 	 * @return string|bool False on failure.
 	 *
-	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed argument is not a string.
+	 * @throws \FinOrg\Requests\Exception\InvalidArgument When the passed argument is not a string.
 	 */
 	public static function compatible_gzinflate($gz_data) {
 		if (is_string($gz_data) === false) {

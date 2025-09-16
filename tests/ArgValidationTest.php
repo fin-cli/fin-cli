@@ -1,7 +1,7 @@
 <?php
 
-use FP_CLI\SynopsisValidator;
-use FP_CLI\Tests\TestCase;
+use FIN_CLI\SynopsisValidator;
+use FIN_CLI\Tests\TestCase;
 
 class ArgValidationTest extends TestCase {
 

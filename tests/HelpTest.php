@@ -1,12 +1,12 @@
 <?php
 
-use FP_CLI\Tests\TestCase;
+use FIN_CLI\Tests\TestCase;
 
 class HelpTest extends TestCase {
 
 	public static function set_up_before_class() {
-		require_once dirname( __DIR__ ) . '/php/class-fp-cli.php';
-		require_once dirname( __DIR__ ) . '/php/class-fp-cli-command.php';
+		require_once dirname( __DIR__ ) . '/php/class-fin-cli.php';
+		require_once dirname( __DIR__ ) . '/php/class-fin-cli-command.php';
 		require_once dirname( __DIR__ ) . '/php/commands/help.php';
 	}
 
@@ -28,7 +28,7 @@ This is a [reference link][1]. It should be displayed very nice!
 EOL;
 		$this->assertSame( $expected, $result );
 
-		$desc   = 'This is a [reference link](https://finpress.org/) and [second link](http://fp-cli.org/). It should be displayed very nice!';
+		$desc   = 'This is a [reference link](https://finpress.org/) and [second link](http://fin-cli.org/). It should be displayed very nice!';
 		$result = $method->invokeArgs( null, [ $desc ] );
 
 		$expected = <<<'EOL'
@@ -36,12 +36,12 @@ This is a [reference link][1] and [second link][2]. It should be displayed very 
 
 ---
 [1] https://finpress.org/
-[2] http://fp-cli.org/
+[2] http://fin-cli.org/
 EOL;
 		$this->assertSame( $expected, $result );
 
 		$desc   = <<<'EOL'
-This is a [reference link](https://finpress.org/) and [second link](http://fp-cli.org/).
+This is a [reference link](https://finpress.org/) and [second link](http://fin-cli.org/).
 It should be displayed very nice!
 EOL;
 		$result = $method->invokeArgs( null, [ $desc ] );
@@ -52,13 +52,13 @@ It should be displayed very nice!
 
 ---
 [1] https://finpress.org/
-[2] http://fp-cli.org/
+[2] http://fin-cli.org/
 EOL;
 
 		$this->assertSame( $expected, $result );
 
 		$desc   = <<<'EOL'
-This is a [reference link](https://finpress.org/) and [second link](http://fp-cli.org/).
+This is a [reference link](https://finpress.org/) and [second link](http://fin-cli.org/).
 It should be displayed very nice!
 
 ## Example
@@ -73,7 +73,7 @@ It should be displayed very nice!
 
 ---
 [1] https://finpress.org/
-[2] http://fp-cli.org/
+[2] http://fin-cli.org/
 
 ## Example
 

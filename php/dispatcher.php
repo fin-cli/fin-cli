@@ -1,6 +1,6 @@
 <?php
 
-namespace FP_CLI\Dispatcher;
+namespace FIN_CLI\Dispatcher;
 
 /**
  * Get the path to a command, e.g. "core download"

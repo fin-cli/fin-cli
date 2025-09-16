@@ -1,9 +1,9 @@
-Feature: `fp cli completions` tasks
+Feature: `fin cli completions` tasks
 
-  Scenario: Bash Completion without fp-cli.yml
+  Scenario: Bash Completion without fin-cli.yml
     Given an empty directory
 
-    When I run `fp cli completions --line="fp " --point=100`
+    When I run `fin cli completions --line="fin " --point=100`
     Then STDOUT should contain:
       """
       config
@@ -19,7 +19,7 @@ Feature: `fp cli completions` tasks
     And STDERR should be empty
     And the return code should be 0
 
-    When I run `fp cli completions --line="fp co" --point=100`
+    When I run `fin cli completions --line="fin co" --point=100`
     Then STDOUT should contain:
       """
       config
@@ -35,7 +35,7 @@ Feature: `fp cli completions` tasks
     And STDERR should be empty
     And the return code should be 0
 
-    When I run `fp cli completions --line="fp core " --point=100`
+    When I run `fin cli completions --line="fin core " --point=100`
     Then STDOUT should contain:
       """
       install
@@ -47,7 +47,7 @@ Feature: `fp cli completions` tasks
     And STDERR should be empty
     And the return code should be 0
 
-    When I run `fp cli completions --line="fp help " --point=100`
+    When I run `fin cli completions --line="fin help " --point=100`
     Then STDOUT should contain:
       """
       config
@@ -59,7 +59,7 @@ Feature: `fp cli completions` tasks
     And STDERR should be empty
     And the return code should be 0
 
-    When I run `fp cli completions --line="fp help core " --point=100`
+    When I run `fin cli completions --line="fin help core " --point=100`
     Then STDOUT should contain:
       """
       install
@@ -71,7 +71,7 @@ Feature: `fp cli completions` tasks
     And STDERR should be empty
     And the return code should be 0
 
-    When I run `fp cli completions --line="fp core" --point=100`
+    When I run `fin cli completions --line="fin core" --point=100`
     Then STDOUT should contain:
       """
       core
@@ -79,7 +79,7 @@ Feature: `fp cli completions` tasks
     And STDERR should be empty
     And the return code should be 0
 
-    When I run `fp cli completions --line="fp core " --point=100`
+    When I run `fin cli completions --line="fin core " --point=100`
     Then STDOUT should contain:
       """
       download
@@ -87,10 +87,10 @@ Feature: `fp cli completions` tasks
     And STDERR should be empty
     And the return code should be 0
 
-    When I run `fp cli completions --line='fp bogus-comand ' --point=100`
+    When I run `fin cli completions --line='fin bogus-comand ' --point=100`
     Then STDOUT should be empty
 
-    When I run `fp cli completions --line='fp eva' --point=100`
+    When I run `fin cli completions --line='fin eva' --point=100`
     Then STDOUT should contain:
       """
       eval
@@ -100,19 +100,19 @@ Feature: `fp cli completions` tasks
       eval-file
       """
 
-    When I run `fp cli completions --line='fp config create --dbname=' --point=100`
+    When I run `fin cli completions --line='fin config create --dbname=' --point=100`
     Then STDOUT should not contain:
       """
       --dbname=
       """
 
-    When I run `fp cli completions --line='fp config create --dbname' --point=100`
+    When I run `fin cli completions --line='fin config create --dbname' --point=100`
     Then STDOUT should contain:
       """
       --dbname=
       """
 
-    When I run `fp cli completions --line='fp config create --dbname=foo ' --point=100`
+    When I run `fin cli completions --line='fin config create --dbname=foo ' --point=100`
     Then STDOUT should not contain:
       """
       --dbname=
@@ -122,7 +122,7 @@ Feature: `fp cli completions` tasks
       --extra-php
       """
 
-    When I run `fp cli completions --line='fp eval-file ' --point=100`
+    When I run `fin cli completions --line='fin eval-file ' --point=100`
     Then STDOUT should contain:
       """
       <file>
@@ -130,13 +130,13 @@ Feature: `fp cli completions` tasks
 
   Scenario: Bash Completion with SSH aliases
     Given an empty directory
-    And a fp-cli.yml file:
+    And a fin-cli.yml file:
       """
       @example:
         ssh: example.com
       """
 
-    When I run `fp cli completions --line="fp " --point=100`
+    When I run `fin cli completions --line="fin " --point=100`
     Then STDOUT should contain:
       """
       @example
@@ -156,7 +156,7 @@ Feature: `fp cli completions` tasks
     And STDERR should be empty
     And the return code should be 0
 
-    When I run `fp cli completions --line="fp @e" --point=100`
+    When I run `fin cli completions --line="fin @e" --point=100`
     Then STDOUT should contain:
       """
       @example
@@ -164,7 +164,7 @@ Feature: `fp cli completions` tasks
     And STDERR should be empty
     And the return code should be 0
 
-    When I run `fp cli completions --line="fp @example " --point=100`
+    When I run `fin cli completions --line="fin @example " --point=100`
     Then STDOUT should not contain:
       """
       @example
@@ -184,7 +184,7 @@ Feature: `fp cli completions` tasks
     And STDERR should be empty
     And the return code should be 0
 
-    When I run `fp cli completions --line="fp @example core " --point=100`
+    When I run `fin cli completions --line="fin @example core " --point=100`
     Then STDOUT should contain:
       """
       install
@@ -196,7 +196,7 @@ Feature: `fp cli completions` tasks
     And STDERR should be empty
     And the return code should be 0
 
-    When I run `fp cli completions --line="fp help core " --point=100`
+    When I run `fin cli completions --line="fin help core " --point=100`
     Then STDOUT should contain:
       """
       install
@@ -208,7 +208,7 @@ Feature: `fp cli completions` tasks
     And STDERR should be empty
     And the return code should be 0
 
-    When I run `fp cli completions --line="fp help " --point=100`
+    When I run `fin cli completions --line="fin help " --point=100`
     Then STDOUT should not contain:
       """
       @example
@@ -228,7 +228,7 @@ Feature: `fp cli completions` tasks
     And STDERR should be empty
     And the return code should be 0
 
-    When I run `fp cli completions --line="fp help core" --point=100`
+    When I run `fin cli completions --line="fin help core" --point=100`
     Then STDOUT should contain:
       """
       core
@@ -236,7 +236,7 @@ Feature: `fp cli completions` tasks
     And STDERR should be empty
     And the return code should be 0
 
-    When I run `fp cli completions --line="fp help core " --point=100`
+    When I run `fin cli completions --line="fin help core " --point=100`
     Then STDOUT should contain:
       """
       download
@@ -247,7 +247,7 @@ Feature: `fp cli completions` tasks
   Scenario: Bash Completion for global parameters
     Given an empty directory
 
-    When I run `fp cli completions --line="fp core download " --point=100`
+    When I run `fin cli completions --line="fin core download " --point=100`
     Then STDOUT should contain:
       """
       --path=
@@ -319,7 +319,7 @@ Feature: `fp cli completions` tasks
     And STDERR should be empty
     And the return code should be 0
 
-    When I run `fp cli completions --line="fp core download --path --p" --point=100`
+    When I run `fin cli completions --line="fin core download --path --p" --point=100`
     Then STDOUT should contain:
       """
       --prompt=
@@ -329,11 +329,11 @@ Feature: `fp cli completions` tasks
       --path
       """
 
-    When I run `fp cli completions --line="fp core download --no-color" --point=100`
+    When I run `fin cli completions --line="fin core download --no-color" --point=100`
     Then STDOUT should contain:
       """
       --no-color
       """
 
-    When I run `fp cli completions --line="fp core download --no-color --no-color" --point=100`
+    When I run `fin cli completions --line="fin core download --no-color --no-color" --point=100`
     Then STDOUT should be empty

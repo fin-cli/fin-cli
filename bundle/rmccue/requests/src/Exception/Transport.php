@@ -5,9 +5,9 @@
  * @package Requests\Exceptions
  */
 
-namespace FpOrg\Requests\Exception;
+namespace FinOrg\Requests\Exception;
 
-use FpOrg\Requests\Exception;
+use FinOrg\Requests\Exception;
 
 /**
  * Transport Exception

@@ -1,7 +1,7 @@
 <?php
 
-use FP_CLI\Inflector;
-use FP_CLI\Tests\TestCase;
+use FIN_CLI\Inflector;
+use FIN_CLI\Tests\TestCase;
 use PHPUnit\Framework\Attributes\DataProvider;
 
 class InflectorTest extends TestCase {

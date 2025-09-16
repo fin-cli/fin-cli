@@ -2,9 +2,9 @@
 // phpcs:disable Generic.Files.OneObjectStructurePerFile.MultipleFound -- Ignoring test doubles.
 // phpcs:disable FinPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Ignoring test doubles.
 
-use FP_CLI\Tests\TestCase;
+use FIN_CLI\Tests\TestCase;
 
-class MockRegularLogger extends FP_CLI\Loggers\Regular {
+class MockRegularLogger extends FIN_CLI\Loggers\Regular {
 
 	protected function get_runner() {
 		// @phpstan-ignore return.type
@@ -20,7 +20,7 @@ class MockRegularLogger extends FP_CLI\Loggers\Regular {
 	}
 }
 
-class MockQuietLogger extends FP_CLI\Loggers\Quiet {
+class MockQuietLogger extends FIN_CLI\Loggers\Quiet {
 
 	protected function get_runner() {
 		// @phpstan-ignore return.type
@@ -57,7 +57,7 @@ class LoggingTest extends TestCase {
 
 	public function testExecutionLogger(): void {
 		// Save Runner config.
-		$runner        = FP_CLI::get_runner();
+		$runner        = FIN_CLI::get_runner();
 		$runner_config = new \ReflectionProperty( $runner, 'config' );
 		if ( PHP_VERSION_ID < 80100 ) {
 			$runner_config->setAccessible( true );
@@ -68,7 +68,7 @@ class LoggingTest extends TestCase {
 		// Set debug.
 		$runner_config->setValue( $runner, [ 'debug' => true ] );
 
-		$logger = new FP_CLI\Loggers\Execution();
+		$logger = new FIN_CLI\Loggers\Execution();
 
 		// Standard use.
 

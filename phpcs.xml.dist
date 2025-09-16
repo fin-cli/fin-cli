@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<ruleset name="FP-CLI">
-	<description>Custom ruleset for FP-CLI</description>
+<ruleset name="FIN-CLI">
+	<description>Custom ruleset for FIN-CLI</description>
 
 	<!--
 	#############################################################################
@@ -29,11 +29,11 @@
 
 	<!--
 	#############################################################################
-	USE THE FP_CLI_CS RULESET
+	USE THE FIN_CLI_CS RULESET
 	#############################################################################
 	-->
 
-	<rule ref="FP_CLI_CS">
+	<rule ref="FIN_CLI_CS">
 		<!-- The `while` control structure is the only one where assignments in conditions are mostly valid. -->
 		<exclude name="Generic.CodeAnalysis.AssignmentInCondition.FoundInWhileCondition"/>
 	</rule>
@@ -51,7 +51,7 @@
 	<config name="testVersion" value="7.2-"/>
 
 	<!-- Verify that everything in the global namespace is either namespaced or prefixed.
-		 The default prefixes `FP_CLI` (for namespaces and classes) and `fpcli` (for variables) are inherited
+		 The default prefixes `FIN_CLI` (for namespaces and classes) and `fincli` (for variables) are inherited
 		 from the ruleset. This adds one additional allowed prefix specifically for hooks (though
 		 not automatically limited to them).
 		 See: https://github.com/FinPress-Coding-Standards/FinPress-Coding-Standards/wiki/Customizable-sniff-properties#naming-conventions-prefix-everything-in-the-global-namespace -->
@@ -95,11 +95,11 @@
 
 	<!-- Exclude existing classes from the prefix rule as it would break BC to prefix them now. -->
 	<rule ref="FinPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound">
-		<exclude-pattern>php/fp-settings-cli\.php$</exclude-pattern>
+		<exclude-pattern>php/fin-settings-cli\.php$</exclude-pattern>
 	</rule>
 
 	<!-- These are all to do with file-system related tests. Just ignore them. -->
-	<rule ref="FinPress.FP.CapitalPDangit">
+	<rule ref="FinPress.FIN.CapitalPDangit">
 		<exclude-pattern>*/tests/(Extractor|Utils)Test\.php$</exclude-pattern>
 	</rule>
 
@@ -109,24 +109,24 @@
 	</rule>
 
 	<!-- This is a procedural stand-alone file that is never loaded in a FinPress context,
-		 so this file does not have to comply with FP naming conventions. -->
+		 so this file does not have to comply with FIN naming conventions. -->
 	<rule ref="FinPress.NamingConventions.PrefixAllGlobals">
 		<exclude-pattern>*/utils/get-package-require-from-composer\.php$</exclude-pattern>
 	</rule>
 
 	<!-- Exclude existing classes from the protected parameter names rule as it would break BC to change these now. -->
 	<rule ref="Universal.NamingConventions.NoReservedKeywordParameterNames">
-		<exclude-pattern>*/php/FP_CLI/Iterators/Transform\.php</exclude-pattern>
-		<exclude-pattern>*/php/FP_CLI/Inflector\.php</exclude-pattern>
-		<exclude-pattern>*/php/FP_CLI/Autoloader\.php</exclude-pattern>
-		<exclude-pattern>*/php/FP_CLI/Dispatcher/CommandFactory\.php</exclude-pattern>
-		<exclude-pattern>*/php/FP_CLI/Dispatcher/CompositeCommand\.php</exclude-pattern>
-		<exclude-pattern>*/php/FP_CLI/Dispatcher/Subcommand\.php</exclude-pattern>
+		<exclude-pattern>*/php/FIN_CLI/Iterators/Transform\.php</exclude-pattern>
+		<exclude-pattern>*/php/FIN_CLI/Inflector\.php</exclude-pattern>
+		<exclude-pattern>*/php/FIN_CLI/Autoloader\.php</exclude-pattern>
+		<exclude-pattern>*/php/FIN_CLI/Dispatcher/CommandFactory\.php</exclude-pattern>
+		<exclude-pattern>*/php/FIN_CLI/Dispatcher/CompositeCommand\.php</exclude-pattern>
+		<exclude-pattern>*/php/FIN_CLI/Dispatcher/Subcommand\.php</exclude-pattern>
 		<exclude-pattern>*/php/utils\.php</exclude-pattern>
-		<exclude-pattern>*/php/utils-fp\.php</exclude-pattern>
-		<exclude-pattern>*/php/FP_CLI/Runner\.php</exclude-pattern>
-		<exclude-pattern>*/php/FP_CLI/UpgraderSkin\.php$</exclude-pattern>
-		<exclude-pattern>*/php/class-fp-cli\.php$</exclude-pattern>
+		<exclude-pattern>*/php/utils-fin\.php</exclude-pattern>
+		<exclude-pattern>*/php/FIN_CLI/Runner\.php</exclude-pattern>
+		<exclude-pattern>*/php/FIN_CLI/UpgraderSkin\.php$</exclude-pattern>
+		<exclude-pattern>*/php/class-fin-cli\.php$</exclude-pattern>
 	</rule>
 
 </ruleset>

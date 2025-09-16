@@ -1,8 +1,8 @@
 <?php
 
-namespace FpOrg\Requests\Exception;
+namespace FinOrg\Requests\Exception;
 
-use FpOrg\Requests\Exception;
+use FinOrg\Requests\Exception;
 
 /**
  * Exception for when an incorrect number of arguments are passed to a method.
@@ -27,7 +27,7 @@ final class ArgumentCount extends Exception {
 	 * @param int    $received The actual argument count received.
 	 * @param string $type     Exception type.
 	 *
-	 * @return \FpOrg\Requests\Exception\ArgumentCount
+	 * @return \FinOrg\Requests\Exception\ArgumentCount
 	 */
 	public static function create($expected, $received, $type) {
 		// phpcs:ignore FinPress.PHP.DevelopmentFunctions.error_log_debug_backtrace

@@ -5,18 +5,18 @@
  * @package Requests\Cookies
  */
 
-namespace FpOrg\Requests\Cookie;
+namespace FinOrg\Requests\Cookie;
 
 use ArrayAccess;
 use ArrayIterator;
 use IteratorAggregate;
 use ReturnTypeWillChange;
-use FpOrg\Requests\Cookie;
-use FpOrg\Requests\Exception;
-use FpOrg\Requests\Exception\InvalidArgument;
-use FpOrg\Requests\HookManager;
-use FpOrg\Requests\Iri;
-use FpOrg\Requests\Response;
+use FinOrg\Requests\Cookie;
+use FinOrg\Requests\Exception;
+use FinOrg\Requests\Exception\InvalidArgument;
+use FinOrg\Requests\HookManager;
+use FinOrg\Requests\Iri;
+use FinOrg\Requests\Response;
 
 /**
  * Cookie holder object
@@ -36,7 +36,7 @@ class Jar implements ArrayAccess, IteratorAggregate {
 	 *
 	 * @param array $cookies Existing cookie values
 	 *
-	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed argument is not an array.
+	 * @throws \FinOrg\Requests\Exception\InvalidArgument When the passed argument is not an array.
 	 */
 	public function __construct($cookies = []) {
 		if (is_array($cookies) === false) {
@@ -47,11 +47,11 @@ class Jar implements ArrayAccess, IteratorAggregate {
 	}
 
 	/**
-	 * Normalise cookie data into a \FpOrg\Requests\Cookie
+	 * Normalise cookie data into a \FinOrg\Requests\Cookie
 	 *
-	 * @param string|\FpOrg\Requests\Cookie $cookie Cookie header value, possibly pre-parsed (object).
+	 * @param string|\FinOrg\Requests\Cookie $cookie Cookie header value, possibly pre-parsed (object).
 	 * @param string                        $key    Optional. The name for this cookie.
-	 * @return \FpOrg\Requests\Cookie
+	 * @return \FinOrg\Requests\Cookie
 	 */
 	public function normalize_cookie($cookie, $key = '') {
 		if ($cookie instanceof Cookie) {
@@ -93,7 +93,7 @@ class Jar implements ArrayAccess, IteratorAggregate {
 	 * @param string $offset Item name
 	 * @param string $value Item value
 	 *
-	 * @throws \FpOrg\Requests\Exception On attempting to use dictionary as list (`invalidset`)
+	 * @throws \FinOrg\Requests\Exception On attempting to use dictionary as list (`invalidset`)
 	 */
 	#[ReturnTypeWillChange]
 	public function offsetSet($offset, $value) {
@@ -127,7 +127,7 @@ class Jar implements ArrayAccess, IteratorAggregate {
 	/**
 	 * Register the cookie handler with the request's hooking system
 	 *
-	 * @param \FpOrg\Requests\HookManager $hooks Hooking system
+	 * @param \FinOrg\Requests\HookManager $hooks Hooking system
 	 */
 	public function register(HookManager $hooks) {
 		$hooks->register('requests.before_request', [$this, 'before_request']);
@@ -172,7 +172,7 @@ class Jar implements ArrayAccess, IteratorAggregate {
 	/**
 	 * Parse all cookies from a response and attach them to the response
 	 *
-	 * @param \FpOrg\Requests\Response $response Response as received.
+	 * @param \FinOrg\Requests\Response $response Response as received.
 	 */
 	public function before_redirect_check(Response $response) {
 		$url = $response->url;

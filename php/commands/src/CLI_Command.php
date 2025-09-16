@@ -1,42 +1,42 @@
 <?php
 
 use Composer\Semver\Comparator;
-use FP_CLI\Completions;
-use FP_CLI\Formatter;
-use FP_CLI\Process;
-use FP_CLI\Utils;
+use FIN_CLI\Completions;
+use FIN_CLI\Formatter;
+use FIN_CLI\Process;
+use FIN_CLI\Utils;
 
 /**
- * Reviews current FP-CLI info, checks for updates, or views defined aliases.
+ * Reviews current FIN-CLI info, checks for updates, or views defined aliases.
  *
  * ## EXAMPLES
  *
  *     # Display the version currently installed.
- *     $ fp cli version
- *     FP-CLI 0.24.1
+ *     $ fin cli version
+ *     FIN-CLI 0.24.1
  *
- *     # Check for updates to FP-CLI.
- *     $ fp cli check-update
- *     Success: FP-CLI is at the latest version.
+ *     # Check for updates to FIN-CLI.
+ *     $ fin cli check-update
+ *     Success: FIN-CLI is at the latest version.
  *
- *     # Update FP-CLI to the latest stable release.
- *     $ fp cli update
+ *     # Update FIN-CLI to the latest stable release.
+ *     $ fin cli update
  *     You have version 0.24.0. Would you like to update to 0.24.1? [y/n] y
- *     Downloading from https://github.com/fp-cli/fp-cli/releases/download/v0.24.1/fp-cli-0.24.1.phar...
+ *     Downloading from https://github.com/fin-cli/fin-cli/releases/download/v0.24.1/fin-cli-0.24.1.phar...
  *     New version works. Proceeding to replace.
- *     Success: Updated FP-CLI to 0.24.1.
+ *     Success: Updated FIN-CLI to 0.24.1.
  *
- *     # Clear the internal FP-CLI cache.
- *     $ fp cli cache clear
+ *     # Clear the internal FIN-CLI cache.
+ *     $ fin cli cache clear
  *     Success: Cache cleared.
  *
- * @when before_fp_load
+ * @when before_fin_load
  *
  * @phpstan-type GitHubRelease object{tag_name: string, assets: array<object{browser_download_url: string}>}
  *
  * @phpstan-type UpdateOffer array{version: string, update_type: string, package_url: string, status: string, requires_php: string}
  */
-class CLI_Command extends FP_CLI_Command {
+class CLI_Command extends FIN_CLI_Command {
 
 	private function command_to_array( $command ) {
 		$dump = [
@@ -58,20 +58,20 @@ class CLI_Command extends FP_CLI_Command {
 	}
 
 	/**
-	 * Prints FP-CLI version.
+	 * Prints FIN-CLI version.
 	 *
 	 * ## EXAMPLES
 	 *
 	 *     # Display CLI version.
-	 *     $ fp cli version
-	 *     FP-CLI 0.24.1
+	 *     $ fin cli version
+	 *     FIN-CLI 0.24.1
 	 */
 	public function version() {
-		FP_CLI::line( 'FP-CLI ' . FP_CLI_VERSION );
+		FIN_CLI::line( 'FIN-CLI ' . FIN_CLI_VERSION );
 	}
 
 	/**
-	 * Prints various details about the FP-CLI environment.
+	 * Prints various details about the FIN-CLI environment.
 	 *
 	 * Helpful for diagnostic purposes, this command shares:
 	 *
@@ -80,10 +80,10 @@ class CLI_Command extends FP_CLI_Command {
 	 * * PHP binary used.
 	 * * PHP binary version.
 	 * * php.ini configuration file used (which is typically different than web).
-	 * * FP-CLI root dir: where FP-CLI is installed (if non-Phar install).
-	 * * FP-CLI global config: where the global config YAML file is located.
-	 * * FP-CLI project config: where the project config YAML file is located.
-	 * * FP-CLI version: currently installed version.
+	 * * FIN-CLI root dir: where FIN-CLI is installed (if non-Phar install).
+	 * * FIN-CLI global config: where the global config YAML file is located.
+	 * * FIN-CLI project config: where the project config YAML file is located.
+	 * * FIN-CLI version: currently installed version.
 	 *
 	 * See [config docs](https://make.finpress.org/cli/handbook/references/config/) for more details on global
 	 * and project config YAML files.
@@ -102,17 +102,17 @@ class CLI_Command extends FP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # Display various data about the CLI environment.
-	 *     $ fp cli info
+	 *     $ fin cli info
 	 *     OS:  Linux 4.10.0-42-generic #46~16.04.1-Ubuntu SMP Mon Dec 4 15:57:59 UTC 2017 x86_64
 	 *     Shell:   /usr/bin/zsh
 	 *     PHP binary:  /usr/bin/php
 	 *     PHP version: 7.1.12-1+ubuntu16.04.1+deb.sury.org+1
 	 *     php.ini used:    /etc/php/7.1/cli/php.ini
-	 *     FP-CLI root dir:    phar://fp-cli.phar
-	 *     FP-CLI packages dir:    /home/person/.fp-cli/packages/
-	 *     FP-CLI global config:
-	 *     FP-CLI project config:
-	 *     FP-CLI version: 1.5.0
+	 *     FIN-CLI root dir:    phar://fin-cli.phar
+	 *     FIN-CLI packages dir:    /home/person/.fin-cli/packages/
+	 *     FIN-CLI global config:
+	 *     FIN-CLI project config:
+	 *     FIN-CLI version: 1.5.0
 	 *
 	 * @param array $args                       Positional arguments. Unused.
 	 * @param array $assoc_args{format: string} Associative arguments.
@@ -133,7 +133,7 @@ class CLI_Command extends FP_CLI_Command {
 
 		$php_bin = Utils\get_php_binary();
 
-		$runner = FP_CLI::get_runner();
+		$runner = FIN_CLI::get_runner();
 
 		$packages_dir = $runner->get_packages_dir_path();
 		if ( ! is_dir( $packages_dir ) ) {
@@ -150,43 +150,43 @@ class CLI_Command extends FP_CLI_Command {
 				'mysql_binary_path'        => Utils\get_mysql_binary_path(),
 				'mysql_version'            => Utils\get_mysql_version(),
 				'sql_modes'                => Utils\get_sql_modes(),
-				'fp_cli_dir_path'          => FP_CLI_ROOT,
-				'fp_cli_vendor_path'       => FP_CLI_VENDOR_DIR,
-				'fp_cli_phar_path'         => defined( 'FP_CLI_PHAR_PATH' ) ? FP_CLI_PHAR_PATH : '',
-				'fp_cli_packages_dir_path' => $packages_dir,
-				'fp_cli_cache_dir_path'    => Utils\get_cache_dir(),
+				'fin_cli_dir_path'          => FIN_CLI_ROOT,
+				'fin_cli_vendor_path'       => FIN_CLI_VENDOR_DIR,
+				'fin_cli_phar_path'         => defined( 'FIN_CLI_PHAR_PATH' ) ? FIN_CLI_PHAR_PATH : '',
+				'fin_cli_packages_dir_path' => $packages_dir,
+				'fin_cli_cache_dir_path'    => Utils\get_cache_dir(),
 				'global_config_path'       => $runner->global_config_path,
 				'project_config_path'      => $runner->project_config_path,
-				'fp_cli_version'           => FP_CLI_VERSION,
+				'fin_cli_version'           => FIN_CLI_VERSION,
 			];
 
-			FP_CLI::line( (string) json_encode( $info ) );
+			FIN_CLI::line( (string) json_encode( $info ) );
 		} else {
 			/**
 			 * @var string $cfg_file_path
 			 */
 			$cfg_file_path = get_cfg_var( 'cfg_file_path' );
-			FP_CLI::line( "OS:\t" . $system_os );
-			FP_CLI::line( "Shell:\t" . $shell );
-			FP_CLI::line( "PHP binary:\t" . $php_bin );
-			FP_CLI::line( "PHP version:\t" . PHP_VERSION );
-			FP_CLI::line( "php.ini used:\t" . $cfg_file_path );
-			FP_CLI::line( "MySQL binary:\t" . Utils\get_mysql_binary_path() );
-			FP_CLI::line( "MySQL version:\t" . Utils\get_mysql_version() );
-			FP_CLI::line( "SQL modes:\t" . implode( ',', Utils\get_sql_modes() ) );
-			FP_CLI::line( "FP-CLI root dir:\t" . FP_CLI_ROOT );
-			FP_CLI::line( "FP-CLI vendor dir:\t" . FP_CLI_VENDOR_DIR );
-			FP_CLI::line( "FP_CLI phar path:\t" . ( defined( 'FP_CLI_PHAR_PATH' ) ? FP_CLI_PHAR_PATH : '' ) );
-			FP_CLI::line( "FP-CLI packages dir:\t" . $packages_dir );
-			FP_CLI::line( "FP-CLI cache dir:\t" . Utils\get_cache_dir() );
-			FP_CLI::line( "FP-CLI global config:\t" . $runner->global_config_path );
-			FP_CLI::line( "FP-CLI project config:\t" . $runner->project_config_path );
-			FP_CLI::line( "FP-CLI version:\t" . FP_CLI_VERSION );
+			FIN_CLI::line( "OS:\t" . $system_os );
+			FIN_CLI::line( "Shell:\t" . $shell );
+			FIN_CLI::line( "PHP binary:\t" . $php_bin );
+			FIN_CLI::line( "PHP version:\t" . PHP_VERSION );
+			FIN_CLI::line( "php.ini used:\t" . $cfg_file_path );
+			FIN_CLI::line( "MySQL binary:\t" . Utils\get_mysql_binary_path() );
+			FIN_CLI::line( "MySQL version:\t" . Utils\get_mysql_version() );
+			FIN_CLI::line( "SQL modes:\t" . implode( ',', Utils\get_sql_modes() ) );
+			FIN_CLI::line( "FIN-CLI root dir:\t" . FIN_CLI_ROOT );
+			FIN_CLI::line( "FIN-CLI vendor dir:\t" . FIN_CLI_VENDOR_DIR );
+			FIN_CLI::line( "FIN_CLI phar path:\t" . ( defined( 'FIN_CLI_PHAR_PATH' ) ? FIN_CLI_PHAR_PATH : '' ) );
+			FIN_CLI::line( "FIN-CLI packages dir:\t" . $packages_dir );
+			FIN_CLI::line( "FIN-CLI cache dir:\t" . Utils\get_cache_dir() );
+			FIN_CLI::line( "FIN-CLI global config:\t" . $runner->global_config_path );
+			FIN_CLI::line( "FIN-CLI project config:\t" . $runner->project_config_path );
+			FIN_CLI::line( "FIN-CLI version:\t" . FIN_CLI_VERSION );
 		}
 	}
 
 	/**
-	 * Checks to see if there is a newer version of FP-CLI available.
+	 * Checks to see if there is a newer version of FIN-CLI available.
 	 *
 	 * Queries the GitHub releases API. Returns available versions if there are
 	 * updates available, or success message if using the latest release.
@@ -223,15 +223,15 @@ class CLI_Command extends FP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # Check for update.
-	 *     $ fp cli check-update
-	 *     Success: FP-CLI is at the latest version.
+	 *     $ fin cli check-update
+	 *     Success: FIN-CLI is at the latest version.
 	 *
 	 *     # Check for update and new version is available.
-	 *     $ fp cli check-update
+	 *     $ fin cli check-update
 	 *     +---------+-------------+-------------------------------------------------------------------------------+
 	 *     | version | update_type | package_url                                                                   |
 	 *     +---------+-------------+-------------------------------------------------------------------------------+
-	 *     | 0.24.1  | patch       | https://github.com/fp-cli/fp-cli/releases/download/v0.24.1/fp-cli-0.24.1.phar |
+	 *     | 0.24.1  | patch       | https://github.com/fin-cli/fin-cli/releases/download/v0.24.1/fin-cli-0.24.1.phar |
 	 *     +---------+-------------+-------------------------------------------------------------------------------+
 	 *
 	 * @subcommand check-update
@@ -250,12 +250,12 @@ class CLI_Command extends FP_CLI_Command {
 			$formatter->display_items( $updates );
 		} elseif ( empty( $assoc_args['format'] ) || 'table' === $assoc_args['format'] ) {
 			$update_type = $this->get_update_type_str( $assoc_args );
-			FP_CLI::success( "FP-CLI is at the latest{$update_type}version." );
+			FIN_CLI::success( "FIN-CLI is at the latest{$update_type}version." );
 		}
 	}
 
 	/**
-	 * Updates FP-CLI to the latest release.
+	 * Updates FIN-CLI to the latest release.
 	 *
 	 * Default behavior is to check the releases API for the newest stable
 	 * version, and prompt if one is available.
@@ -295,38 +295,38 @@ class CLI_Command extends FP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # Update CLI.
-	 *     $ fp cli update
-	 *     You are currently using FP-CLI version 0.24.0. Would you like to update to 0.24.1? [y/n] y
-	 *     Downloading from https://github.com/fp-cli/fp-cli/releases/download/v0.24.1/fp-cli-0.24.1.phar...
+	 *     $ fin cli update
+	 *     You are currently using FIN-CLI version 0.24.0. Would you like to update to 0.24.1? [y/n] y
+	 *     Downloading from https://github.com/fin-cli/fin-cli/releases/download/v0.24.1/fin-cli-0.24.1.phar...
 	 *     New version works. Proceeding to replace.
-	 *     Success: Updated FP-CLI to 0.24.1.
+	 *     Success: Updated FIN-CLI to 0.24.1.
 	 *
 	 * @param array $args Positional arguments. Unused.
 	 * @param array $assoc_args{patch?: bool, minor?: bool, major?: bool, stable?: bool, nightly?: bool, yes?: bool, insecure?: bool} Associative arguments.
 	 */
 	public function update( $args, $assoc_args ) {
 		if ( ! Utils\inside_phar() ) {
-			FP_CLI::error( 'You can only self-update Phar files.' );
+			FIN_CLI::error( 'You can only self-update Phar files.' );
 		}
 
 		$old_phar = (string) realpath( $_SERVER['argv'][0] );
 
 		if ( ! is_writable( $old_phar ) ) {
-			FP_CLI::error( sprintf( '%s is not writable by current user.', $old_phar ) );
+			FIN_CLI::error( sprintf( '%s is not writable by current user.', $old_phar ) );
 		} elseif ( ! is_writable( dirname( $old_phar ) ) ) {
-			FP_CLI::error( sprintf( '%s is not writable by current user.', dirname( $old_phar ) ) );
+			FIN_CLI::error( sprintf( '%s is not writable by current user.', dirname( $old_phar ) ) );
 		}
 
 		if ( Utils\get_flag_value( $assoc_args, 'nightly' ) ) {
-			FP_CLI::confirm( sprintf( 'You are currently using FP-CLI version %s. Would you like to update to the latest nightly version?', FP_CLI_VERSION ), $assoc_args );
-			$download_url = 'https://raw.githubusercontent.com/fp-cli/builds/gh-pages/phar/fp-cli-nightly.phar';
-			$md5_url      = 'https://raw.githubusercontent.com/fp-cli/builds/gh-pages/phar/fp-cli-nightly.phar.md5';
-			$sha512_url   = 'https://raw.githubusercontent.com/fp-cli/builds/gh-pages/phar/fp-cli-nightly.phar.sha512';
+			FIN_CLI::confirm( sprintf( 'You are currently using FIN-CLI version %s. Would you like to update to the latest nightly version?', FIN_CLI_VERSION ), $assoc_args );
+			$download_url = 'https://raw.githubusercontent.com/fin-cli/builds/gh-pages/phar/fin-cli-nightly.phar';
+			$md5_url      = 'https://raw.githubusercontent.com/fin-cli/builds/gh-pages/phar/fin-cli-nightly.phar.md5';
+			$sha512_url   = 'https://raw.githubusercontent.com/fin-cli/builds/gh-pages/phar/fin-cli-nightly.phar.sha512';
 		} elseif ( Utils\get_flag_value( $assoc_args, 'stable' ) ) {
-			FP_CLI::confirm( sprintf( 'You are currently using FP-CLI version %s. Would you like to update to the latest stable release?', FP_CLI_VERSION ), $assoc_args );
-			$download_url = 'https://raw.githubusercontent.com/fp-cli/builds/gh-pages/phar/fp-cli.phar';
-			$md5_url      = 'https://raw.githubusercontent.com/fp-cli/builds/gh-pages/phar/fp-cli.phar.md5';
-			$sha512_url   = 'https://raw.githubusercontent.com/fp-cli/builds/gh-pages/phar/fp-cli.phar.sha512';
+			FIN_CLI::confirm( sprintf( 'You are currently using FIN-CLI version %s. Would you like to update to the latest stable release?', FIN_CLI_VERSION ), $assoc_args );
+			$download_url = 'https://raw.githubusercontent.com/fin-cli/builds/gh-pages/phar/fin-cli.phar';
+			$md5_url      = 'https://raw.githubusercontent.com/fin-cli/builds/gh-pages/phar/fin-cli.phar.md5';
+			$sha512_url   = 'https://raw.githubusercontent.com/fin-cli/builds/gh-pages/phar/fin-cli.phar.sha512';
 		} else {
 
 			$updates = $this->get_updates( $assoc_args );
@@ -343,20 +343,20 @@ class CLI_Command extends FP_CLI_Command {
 
 			if ( ! $newest ) {
 				$update_type = $this->get_update_type_str( $assoc_args );
-				FP_CLI::success( "FP-CLI is at the latest{$update_type}version." );
+				FIN_CLI::success( "FIN-CLI is at the latest{$update_type}version." );
 				return;
 			}
 
-			FP_CLI::confirm( sprintf( 'You have version %s. Would you like to update to %s?', FP_CLI_VERSION, $newest['version'] ), $assoc_args );
+			FIN_CLI::confirm( sprintf( 'You have version %s. Would you like to update to %s?', FIN_CLI_VERSION, $newest['version'] ), $assoc_args );
 
 			$download_url = $newest['package_url'];
 			$md5_url      = str_replace( '.phar', '.phar.md5', $download_url );
 			$sha512_url   = str_replace( '.phar', '.phar.sha512', $download_url );
 		}
 
-		FP_CLI::log( sprintf( 'Downloading from %s...', $download_url ) );
+		FIN_CLI::log( sprintf( 'Downloading from %s...', $download_url ) );
 
-		$temp = Utils\get_temp_dir() . uniqid( 'fp_', true ) . '.phar';
+		$temp = Utils\get_temp_dir() . uniqid( 'fin_', true ) . '.phar';
 
 		$headers = [];
 		$options = [
@@ -371,28 +371,28 @@ class CLI_Command extends FP_CLI_Command {
 
 		$this->validate_hashes( $temp, $sha512_url, $md5_url );
 
-		$allow_root = FP_CLI::get_runner()->config['allow-root'] ? '--allow-root' : '';
+		$allow_root = FIN_CLI::get_runner()->config['allow-root'] ? '--allow-root' : '';
 		$php_binary = Utils\get_php_binary();
 		$process    = Process::create( "{$php_binary} $temp --info {$allow_root}" );
 		$result     = $process->run();
-		if ( 0 !== $result->return_code || false === stripos( $result->stdout, 'FP-CLI version' ) ) {
+		if ( 0 !== $result->return_code || false === stripos( $result->stdout, 'FIN-CLI version' ) ) {
 			$multi_line = explode( PHP_EOL, $result->stderr );
-			FP_CLI::error_multi_line( $multi_line );
-			FP_CLI::error( 'The downloaded PHAR is broken, try running fp cli update again.' );
+			FIN_CLI::error_multi_line( $multi_line );
+			FIN_CLI::error( 'The downloaded PHAR is broken, try running fin cli update again.' );
 		}
 
-		FP_CLI::log( 'New version works. Proceeding to replace.' );
+		FIN_CLI::log( 'New version works. Proceeding to replace.' );
 
 		$mode = fileperms( $old_phar ) & 511;
 
 		if ( false === chmod( $temp, $mode ) ) {
-			FP_CLI::error( sprintf( 'Cannot chmod %s.', $temp ) );
+			FIN_CLI::error( sprintf( 'Cannot chmod %s.', $temp ) );
 		}
 
 		class_exists( '\cli\Colors' ); // This autoloads \cli\Colors - after we move the file we no longer have access to this class.
 
 		if ( false === rename( $temp, $old_phar ) ) {
-			FP_CLI::error( sprintf( 'Cannot move %s to %s', $temp, $old_phar ) );
+			FIN_CLI::error( sprintf( 'Cannot move %s to %s', $temp, $old_phar ) );
 		}
 
 		if ( Utils\get_flag_value( $assoc_args, 'nightly', false ) ) {
@@ -402,7 +402,7 @@ class CLI_Command extends FP_CLI_Command {
 		} else {
 			$updated_version = isset( $newest['version'] ) ? $newest['version'] : '<not provided>';
 		}
-		FP_CLI::success( sprintf( 'Updated FP-CLI to %s.', $updated_version ) );
+		FIN_CLI::success( sprintf( 'Updated FIN-CLI to %s.', $updated_version ) );
 	}
 
 	/**
@@ -410,7 +410,7 @@ class CLI_Command extends FP_CLI_Command {
 	 * @param string $sha512_url URL to sha512 hash.
 	 * @param string $md5_url    URL to md5 hash.
 	 *
-	 * @throws \FP_CLI\ExitException
+	 * @throws \FIN_CLI\ExitException
 	 */
 	private function validate_hashes( $file, $sha512_url, $md5_url ): void {
 		$algos = [
@@ -421,7 +421,7 @@ class CLI_Command extends FP_CLI_Command {
 		foreach ( $algos as $algo => $url ) {
 			$response = Utils\http_request( 'GET', $url );
 			if ( '20' !== substr( (string) $response->status_code, 0, 2 ) ) {
-				FP_CLI::log( "Couldn't access $algo hash for release (HTTP code {$response->status_code})." );
+				FIN_CLI::log( "Couldn't access $algo hash for release (HTTP code {$response->status_code})." );
 				continue;
 			}
 
@@ -429,21 +429,21 @@ class CLI_Command extends FP_CLI_Command {
 
 			$release_hash = trim( $response->body );
 			if ( $file_hash === $release_hash ) {
-				FP_CLI::log( "$algo hash verified: $release_hash" );
+				FIN_CLI::log( "$algo hash verified: $release_hash" );
 				return;
 			} else {
-				FP_CLI::error( "$algo hash for download ($file_hash) is different than the release hash ($release_hash)." );
+				FIN_CLI::error( "$algo hash for download ($file_hash) is different than the release hash ($release_hash)." );
 			}
 		}
 
-		FP_CLI::error( 'Release hash verification failed.' );
+		FIN_CLI::error( 'Release hash verification failed.' );
 	}
 
 	/**
 	 * Returns update information.
 	 */
 	private function get_updates( $assoc_args ) {
-		$url = 'https://api.github.com/repos/fp-cli/fp-cli/releases?per_page=100';
+		$url = 'https://api.github.com/repos/fin-cli/fin-cli/releases?per_page=100';
 
 		$options = [
 			'timeout'  => 30,
@@ -462,7 +462,7 @@ class CLI_Command extends FP_CLI_Command {
 		$response = Utils\http_request( 'GET', $url, null, $headers, $options );
 
 		if ( ! $response->success || 200 !== $response->status_code ) {
-			FP_CLI::error( sprintf( 'Failed to get latest version (HTTP code %d).', $response->status_code ) );
+			FIN_CLI::error( sprintf( 'Failed to get latest version (HTTP code %d).', $response->status_code ) );
 		}
 
 		/**
@@ -486,7 +486,7 @@ class CLI_Command extends FP_CLI_Command {
 				$release_version = ltrim( $release_version, 'v' );
 			}
 
-			$update_type = Utils\get_named_sem_ver( $release_version, FP_CLI_VERSION );
+			$update_type = Utils\get_named_sem_ver( $release_version, FIN_CLI_VERSION );
 
 			if ( ! $update_type ) {
 				continue;
@@ -500,7 +500,7 @@ class CLI_Command extends FP_CLI_Command {
 			$package_url = null;
 
 			/**
-			 * FP-CLI manifest.json data.
+			 * FIN-CLI manifest.json data.
 			 *
 			 * @var object{requires_php?: string}|null $manifest_data
 			 */
@@ -521,7 +521,7 @@ class CLI_Command extends FP_CLI_Command {
 
 					if ( $response->success ) {
 						/**
-						 * FP-CLI manifest.json data.
+						 * FIN-CLI manifest.json data.
 						 *
 						 * @var object{requires_php?: string}|null $manifest_data
 						 */
@@ -569,23 +569,23 @@ class CLI_Command extends FP_CLI_Command {
 			}
 		}
 
-		if ( empty( $updates ) && preg_match( '#-alpha-(.+)$#', FP_CLI_VERSION, $matches ) ) {
-			$version_url = 'https://raw.githubusercontent.com/fp-cli/builds/gh-pages/phar/NIGHTLY_VERSION';
+		if ( empty( $updates ) && preg_match( '#-alpha-(.+)$#', FIN_CLI_VERSION, $matches ) ) {
+			$version_url = 'https://raw.githubusercontent.com/fin-cli/builds/gh-pages/phar/NIGHTLY_VERSION';
 			$response    = Utils\http_request( 'GET', $version_url, null, [], $options );
 			if ( ! $response->success || 200 !== $response->status_code ) {
-				FP_CLI::error( sprintf( 'Failed to get current nightly version (HTTP code %d)', $response->status_code ) );
+				FIN_CLI::error( sprintf( 'Failed to get current nightly version (HTTP code %d)', $response->status_code ) );
 			}
 			$nightly_version = trim( $response->body );
 
-			if ( FP_CLI_VERSION !== $nightly_version ) {
+			if ( FIN_CLI_VERSION !== $nightly_version ) {
 				$manifest_data = null;
 
 				// The manifest.json file, if it exists, contains information about PHP version requirements and similar.
-				$response = Utils\http_request( 'GET', 'https://raw.githubusercontent.com/fp-cli/builds/gh-pages/phar/fp-cli-nightly.manifest.json', null, $headers, $options );
+				$response = Utils\http_request( 'GET', 'https://raw.githubusercontent.com/fin-cli/builds/gh-pages/phar/fin-cli-nightly.manifest.json', null, $headers, $options );
 
 				if ( $response->success ) {
 					/**
-					 * FP-CLI manifest.json data.
+					 * FIN-CLI manifest.json data.
 					 *
 					 * @var object{requires_php?: string}|null $manifest_data
 					 */
@@ -600,7 +600,7 @@ class CLI_Command extends FP_CLI_Command {
 					$updates_unavailable[] = [
 						'version'      => $nightly_version,
 						'update_type'  => 'nightly',
-						'package_url'  => 'https://raw.githubusercontent.com/fp-cli/builds/gh-pages/phar/fp-cli-nightly.phar',
+						'package_url'  => 'https://raw.githubusercontent.com/fin-cli/builds/gh-pages/phar/fin-cli-nightly.phar',
 						'status'       => 'unvailable',
 						'requires_php' => $manifest_data->requires_php,
 					];
@@ -608,7 +608,7 @@ class CLI_Command extends FP_CLI_Command {
 					$updates['nightly'] = [
 						'version'      => $nightly_version,
 						'update_type'  => 'nightly',
-						'package_url'  => 'https://raw.githubusercontent.com/fp-cli/builds/gh-pages/phar/fp-cli-nightly.phar',
+						'package_url'  => 'https://raw.githubusercontent.com/fin-cli/builds/gh-pages/phar/fin-cli-nightly.phar',
 						'status'       => 'available',
 						'requires_php' => isset( $manifest_data->requires_php ) ? $manifest_data->requires_php : '',
 					];
@@ -664,7 +664,7 @@ class CLI_Command extends FP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # Dump the list of global parameters.
-	 *     $ fp cli param-dump --format=var_export
+	 *     $ fin cli param-dump --format=var_export
 	 *     array (
 	 *       'path' =>
 	 *       array (
@@ -681,10 +681,10 @@ class CLI_Command extends FP_CLI_Command {
 	 * @subcommand param-dump
 	 */
 	public function param_dump( $_, $assoc_args ) {
-		$spec = FP_CLI::get_configurator()->get_spec();
+		$spec = FIN_CLI::get_configurator()->get_spec();
 
 		if ( Utils\get_flag_value( $assoc_args, 'with-values' ) ) {
-			$config = FP_CLI::get_configurator()->to_array();
+			$config = FIN_CLI::get_configurator()->to_array();
 			// Copy current config values to $spec.
 			foreach ( $spec as $key => $value ) {
 				$current = null;
@@ -708,13 +708,13 @@ class CLI_Command extends FP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # Dump the list of installed commands.
-	 *     $ fp cli cmd-dump
-	 *     {"name":"fp","description":"Manage FinPress through the command-line.","longdesc":"\n\n## GLOBAL PARAMETERS\n\n  --path=<path>\n      Path to the FinPress files.\n\n  --ssh=<ssh>\n      Perform operation against a remote server over SSH (or a container using scheme of "docker" or "docker-compose").\n\n  --url=<url>\n      Pretend request came from given URL. In multisite, this argument is how the target site is specified. \n\n  --user=<id|login|email>\n
+	 *     $ fin cli cmd-dump
+	 *     {"name":"fin","description":"Manage FinPress through the command-line.","longdesc":"\n\n## GLOBAL PARAMETERS\n\n  --path=<path>\n      Path to the FinPress files.\n\n  --ssh=<ssh>\n      Perform operation against a remote server over SSH (or a container using scheme of "docker" or "docker-compose").\n\n  --url=<url>\n      Pretend request came from given URL. In multisite, this argument is how the target site is specified. \n\n  --user=<id|login|email>\n
 	 *
 	 * @subcommand cmd-dump
 	 */
 	public function cmd_dump() {
-		echo json_encode( $this->command_to_array( FP_CLI::get_root_command() ) );
+		echo json_encode( $this->command_to_array( FIN_CLI::get_root_command() ) );
 	}
 
 	/**
@@ -731,7 +731,7 @@ class CLI_Command extends FP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # Generate tab completion strings.
-	 *     $ fp cli completions --line='fp eva' --point=100
+	 *     $ fin cli completions --line='fin eva' --point=100
 	 *     eval
 	 *     eval-file
 	 */
@@ -758,7 +758,7 @@ class CLI_Command extends FP_CLI_Command {
 	/**
 	 * Detects if a command exists
 	 *
-	 * This commands checks if a command is registered with FP-CLI.
+	 * This commands checks if a command is registered with FIN-CLI.
 	 * If the command is found then it returns with exit status 0.
 	 * If the command doesn't exist, then it will exit with status 1.
 	 *
@@ -769,32 +769,32 @@ class CLI_Command extends FP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # The "site delete" command is registered.
-	 *     $ fp cli has-command "site delete"
+	 *     $ fin cli has-command "site delete"
 	 *     $ echo $?
 	 *     0
 	 *
 	 *     # The "foo bar" command is not registered.
-	 *     $ fp cli has-command "foo bar"
+	 *     $ fin cli has-command "foo bar"
 	 *     $ echo $?
 	 *     1
 	 *
-	 *     # Install a FP-CLI package if not already installed
-	 *     $ if ! $(fp cli has-command doctor); then fp package install fp-cli/doctor-command; fi
-	 *     Installing package fp-cli/doctor-command (dev-main || dev-master || dev-trunk)
-	 *     Updating /home/person/.fp-cli/packages/composer.json to require the package...
+	 *     # Install a FIN-CLI package if not already installed
+	 *     $ if ! $(fin cli has-command doctor); then fin package install fin-cli/doctor-command; fi
+	 *     Installing package fin-cli/doctor-command (dev-main || dev-master || dev-trunk)
+	 *     Updating /home/person/.fin-cli/packages/composer.json to require the package...
 	 *     Using Composer to install the package...
 	 *     ---
 	 *     Success: Package installed.
 	 *
 	 * @subcommand has-command
 	 *
-	 * @when after_fp_load
+	 * @when after_fin_load
 	 */
 	public function has_command( $_, $assoc_args ) {
 
 		// If command is input as a string, then explode it into array.
 		$command = explode( ' ', implode( ' ', $_ ) );
 
-		FP_CLI::halt( is_array( FP_CLI::get_runner()->find_command_to_run( $command ) ) ? 0 : 1 );
+		FIN_CLI::halt( is_array( FIN_CLI::get_runner()->find_command_to_run( $command ) ) ? 0 : 1 );
 	}
 }

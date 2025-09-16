@@ -1,33 +1,33 @@
 <?php
 
 namespace {
-	define( 'FP_CLI_PHAR_PATH', '' );
-	define( 'FP_CLI_ROOT', '' );
-	define( 'FP_CLI_VERSION', '' );
+	define( 'FIN_CLI_PHAR_PATH', '' );
+	define( 'FIN_CLI_ROOT', '' );
+	define( 'FIN_CLI_VERSION', '' );
 
 	define( 'ABSPATH', '' );
-	define( 'FP_CONTENT_DIR', '' );
-	define( 'FP_PLUGIN_DIR', '' );
-	define( 'FP_DEBUG', true );
-	define( 'FP_DEBUG_DISPLAY', true );
-	define( 'FP_DEBUG_LOG', '' );
-	define( 'FPINC', '' );
+	define( 'FIN_CONTENT_DIR', '' );
+	define( 'FIN_PLUGIN_DIR', '' );
+	define( 'FIN_DEBUG', true );
+	define( 'FIN_DEBUG_DISPLAY', true );
+	define( 'FIN_DEBUG_LOG', '' );
+	define( 'FININC', '' );
 	define( 'AUTH_COOKIE', '' );
 	define( 'SECURE_AUTH_COOKIE', '' );
 	define( 'DAY_IN_SECONDS', 1 );
 }
 
 namespace {
-	class Requests_Exception extends FpOrg\Requests\Exception {
+	class Requests_Exception extends FinOrg\Requests\Exception {
 	}
 
 	class XCache_Object_Cache {
 	}
 
-	class Requests_Response extends FpOrg\Requests\Response {
+	class Requests_Response extends FinOrg\Requests\Response {
 	}
 
-	class fpdb {
+	class findb {
 		/**
 		 * @param string $text The raw text to be escaped. The input typed by the user
 		 *                      should have no extra or deleted slashes.
@@ -52,7 +52,7 @@ namespace LCache {
 	}
 }
 
-namespace FpOrg\Requests {
+namespace FinOrg\Requests {
 	class Exception extends \Exception {
 		/**
 		 * Like {@see \Exception::getCode()}, but a string code.
@@ -89,7 +89,7 @@ namespace FpOrg\Requests {
 		/**
 		 * Headers, as an associative array
 		 *
-		 * @var \FpOrg\Requests\Response\Headers Array-like object representing headers
+		 * @var \FinOrg\Requests\Response\Headers Array-like object representing headers
 		 */
 		public $headers = [];
 
@@ -131,7 +131,7 @@ namespace FpOrg\Requests {
 		/**
 		 * Previous requests (from redirects)
 		 *
-		 * @var array Array of \FpOrg\Requests\Response objects
+		 * @var array Array of \FinOrg\Requests\Response objects
 		 */
 		public $history = [];
 

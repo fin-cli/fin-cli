@@ -1,75 +1,75 @@
-Feature: Get help about FP-CLI commands
+Feature: Get help about FIN-CLI commands
 
   Scenario: Help for internal commands
     Given an empty directory
 
-    When I run `fp help`
+    When I run `fin help`
     Then STDOUT should contain:
       """
-        Run 'fp help <command>' to get more information on a specific command.
+        Run 'fin help <command>' to get more information on a specific command.
 
       """
     And STDERR should be empty
 
-    When I run `fp help core`
+    When I run `fin help core`
     Then STDOUT should contain:
       """
-        fp core
+        fin core
       """
     And STDERR should be empty
 
-    When I run `fp help core download`
+    When I run `fin help core download`
     Then STDOUT should contain:
       """
-        fp core download
+        fin core download
       """
     And STDERR should be empty
 
-    When I run `fp help help`
+    When I run `fin help help`
     Then STDOUT should contain:
       """
-        fp help
+        fin help
       """
     And STDERR should be empty
 
-    When I run `fp help help`
+    When I run `fin help help`
     Then STDOUT should contain:
       """
       GLOBAL PARAMETERS
       """
     And STDERR should be empty
 
-    When I run `fp post list --post_type=post --posts_per_page=5 --help`
+    When I run `fin post list --post_type=post --posts_per_page=5 --help`
     Then STDOUT should contain:
       """
-      fp post list
+      fin post list
       """
     And STDERR should be empty
 
-    When I run `fp post list --post_type=post --posts_per_page=5 --help --prompt`
+    When I run `fin post list --post_type=post --posts_per_page=5 --help --prompt`
     Then STDOUT should contain:
       """
-      fp post list
+      fin post list
       """
     And STDERR should be empty
 
   Scenario: Include when the command is run if a non-standard hook.
     Given an empty directory
 
-    When I run `COLUMNS=80 fp help db`
+    When I run `COLUMNS=80 fin help db`
     Then STDOUT should contain:
       """
-        Unless overridden, these commands run on the 'after_fp_config_load' hook,
-        after fp-config.php has been loaded into scope.
+        Unless overridden, these commands run on the 'after_fin_config_load' hook,
+        after fin-config.php has been loaded into scope.
       """
 
-    When I run `COLUMNS=150 fp help db check`
+    When I run `COLUMNS=150 fin help db check`
     Then STDOUT should contain:
       """
-      This command runs on the 'after_fp_config_load' hook, after fp-config.php has been loaded into scope.
+      This command runs on the 'after_fin_config_load' hook, after fin-config.php has been loaded into scope.
       """
 
-    When I run `COLUMNS=150 fp help db size`
+    When I run `COLUMNS=150 fin help db size`
     Then STDOUT should not contain:
       """
       This command runs on the
@@ -78,7 +78,7 @@ Feature: Get help about FP-CLI commands
   Scenario: Hide Global parameters when requested
     Given an empty directory
 
-    When I run `fp help`
+    When I run `fin help`
     Then STDOUT should contain:
       """
       GLOBAL PARAMETERS
@@ -94,7 +94,7 @@ Feature: Get help about FP-CLI commands
       Path to the FinPress files.
       """
 
-    When I run `FP_CLI_SUPPRESS_GLOBAL_PARAMS=true fp help`
+    When I run `FIN_CLI_SUPPRESS_GLOBAL_PARAMS=true fin help`
     Then STDOUT should not contain:
       """
       GLOBAL PARAMETERS
@@ -109,7 +109,7 @@ Feature: Get help about FP-CLI commands
       Path to the FinPress files.
       """
 
-    When I run `FP_CLI_SUPPRESS_GLOBAL_PARAMS=false fp help`
+    When I run `FIN_CLI_SUPPRESS_GLOBAL_PARAMS=false fin help`
     Then STDOUT should contain:
       """
       GLOBAL PARAMETERS
@@ -124,42 +124,42 @@ Feature: Get help about FP-CLI commands
       Path to the FinPress files.
       """
 
-  # Prior to FP 4.3 widgets & others used PHP 4 style constructors and prior to FP 3.9 fpdb used the mysql extension which can all lead (depending on PHP version) to PHP Deprecated notices.
-  @require-fp-4.3
-  Scenario: Help for internal commands with FP
-    Given a FP installation
+  # Prior to FIN 4.3 widgets & others used PHP 4 style constructors and prior to FIN 3.9 findb used the mysql extension which can all lead (depending on PHP version) to PHP Deprecated notices.
+  @require-fin-4.3
+  Scenario: Help for internal commands with FIN
+    Given a FIN installation
 
-    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
-    When I try `fp help`
+    # TODO: Throwing deprecations with PHP 8.1+ and FIN < 5.9
+    When I try `fin help`
     Then STDOUT should contain:
       """
-        Run 'fp help <command>' to get more information on a specific command.
+        Run 'fin help <command>' to get more information on a specific command.
 
       """
 
-    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
-    When I try `fp help core`
+    # TODO: Throwing deprecations with PHP 8.1+ and FIN < 5.9
+    When I try `fin help core`
     Then STDOUT should contain:
       """
-        fp core
+        fin core
       """
 
-    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
-    When I try `fp help core download`
+    # TODO: Throwing deprecations with PHP 8.1+ and FIN < 5.9
+    When I try `fin help core download`
     Then STDOUT should contain:
       """
-        fp core download
+        fin core download
       """
 
-    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
-    When I try `fp help help`
+    # TODO: Throwing deprecations with PHP 8.1+ and FIN < 5.9
+    When I try `fin help help`
     Then STDOUT should contain:
       """
-        fp help
+        fin help
       """
 
-    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
-    When I try `fp help help`
+    # TODO: Throwing deprecations with PHP 8.1+ and FIN < 5.9
+    When I try `fin help help`
     Then STDOUT should contain:
       """
       GLOBAL PARAMETERS
@@ -169,51 +169,51 @@ Feature: Get help about FP-CLI commands
   Scenario: Help when FinPress is downloaded but not installed
     Given an empty directory
 
-    When I run `fp core download`
-    And I run `fp help config create`
+    When I run `fin core download`
+    And I run `fin help config create`
     Then STDOUT should contain:
       """
-      fp config create
+      fin config create
       """
     And STDERR should be empty
 
-    When I run `fp config create {CORE_CONFIG_SETTINGS} --skip-check`
-    And I run `fp help core install`
+    When I run `fin config create {CORE_CONFIG_SETTINGS} --skip-check`
+    And I run `fin help core install`
     Then STDOUT should contain:
       """
-      fp core install
+      fin core install
       """
     And STDERR should be empty
 
-    When I run `fp help core is-installed`
+    When I run `fin help core is-installed`
     Then STDOUT should contain:
       """
-      fp core is-installed
+      fin core is-installed
       """
     And STDERR should be empty
 
-    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
-    When I try `fp help core`
+    # TODO: Throwing deprecations with PHP 8.1+ and FIN < 5.9
+    When I try `fin help core`
     Then STDOUT should contain:
       """
-      fp core
+      fin core
       """
 
-    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
-    When I try `fp help config`
+    # TODO: Throwing deprecations with PHP 8.1+ and FIN < 5.9
+    When I try `fin help config`
     Then STDOUT should contain:
       """
-      fp config
+      fin config
       """
 
-    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
-    When I try `fp help db`
+    # TODO: Throwing deprecations with PHP 8.1+ and FIN < 5.9
+    When I try `fin help db`
     Then STDOUT should contain:
       """
-      fp db
+      fin db
       """
 
-    When I try `fp help non-existent-command`
+    When I try `fin help non-existent-command`
     Then the return code should be 1
     And STDERR should contain:
       """
@@ -221,152 +221,152 @@ Feature: Get help about FP-CLI commands
       """
     And STDERR should contain:
       """
-      Error: 'non-existent-command' is not a registered fp command. See 'fp help' for available commands.
+      Error: 'non-existent-command' is not a registered fin command. See 'fin help' for available commands.
       """
     And STDOUT should be empty
 
   Scenario: Help for nonexistent commands
-    Given a FP installation
+    Given a FIN installation
 
-    When I try `fp help non-existent-command`
+    When I try `fin help non-existent-command`
     Then the return code should be 1
     And STDERR should contain:
       """
-      Error: 'non-existent-command' is not a registered fp command. See 'fp help' for available commands.
+      Error: 'non-existent-command' is not a registered fin command. See 'fin help' for available commands.
       """
     And STDOUT should be empty
 
-    When I try `fp help non-existent-command --path=/nowhere`
+    When I try `fin help non-existent-command --path=/nowhere`
     Then the return code should be 1
     And STDERR should contain:
       """
       Warning: No FinPress installation found. If the command 'non-existent-command' is in a plugin or theme, pass --path=`path/to/finpress`.
-      Error: 'non-existent-command' is not a registered fp command. See 'fp help' for available commands.
+      Error: 'non-existent-command' is not a registered fin command. See 'fin help' for available commands.
       """
     And STDOUT should be empty
 
-    When I try `fp help non-existent-command non-existent-subcommand`
+    When I try `fin help non-existent-command non-existent-subcommand`
     Then the return code should be 1
     And STDERR should contain:
       """
-      Error: 'non-existent-command' is not a registered fp command. See 'fp help' for available commands.
+      Error: 'non-existent-command' is not a registered fin command. See 'fin help' for available commands.
       """
     And STDOUT should be empty
 
-    When I try `fp help non-existent-command non-existent-subcommand --path=/nowhere`
+    When I try `fin help non-existent-command non-existent-subcommand --path=/nowhere`
     Then the return code should be 1
     And STDERR should contain:
       """
       Warning: No FinPress installation found. If the command 'non-existent-command non-existent-subcommand' is in a plugin or theme, pass --path=`path/to/finpress`.
-      Error: 'non-existent-command' is not a registered fp command. See 'fp help' for available commands.
+      Error: 'non-existent-command' is not a registered fin command. See 'fin help' for available commands.
       """
     And STDOUT should be empty
 
-  Scenario: Help for nonexistent commands without a FP installation
+  Scenario: Help for nonexistent commands without a FIN installation
     Given an empty directory
 
-    When I try `fp help non-existent-command`
+    When I try `fin help non-existent-command`
     Then the return code should be 1
     And STDERR should contain:
       """
       Warning: No FinPress installation found. If the command 'non-existent-command' is in a plugin or theme, pass --path=`path/to/finpress`.
-      Error: 'non-existent-command' is not a registered fp command. See 'fp help' for available commands.
+      Error: 'non-existent-command' is not a registered fin command. See 'fin help' for available commands.
       """
     And STDOUT should be empty
 
   Scenario: Help for specially treated commands with nonexistent subcommands
-    Given a FP installation
+    Given a FIN installation
 
-    When I try `fp help config non-existent-subcommand`
+    When I try `fin help config non-existent-subcommand`
     Then the return code should be 1
     And STDERR should contain:
       """
-      Error: 'non-existent-subcommand' is not a registered subcommand of 'config'. See 'fp help config' for available subcommands.
+      Error: 'non-existent-subcommand' is not a registered subcommand of 'config'. See 'fin help config' for available subcommands.
       """
     And STDOUT should be empty
 
-    When I try `fp help config non-existent-subcommand --path=/nowhere`
+    When I try `fin help config non-existent-subcommand --path=/nowhere`
     Then the return code should be 1
     And STDERR should contain:
       """
       Warning: No FinPress installation found. If the command 'config non-existent-subcommand' is in a plugin or theme, pass --path=`path/to/finpress`.
-      Error: 'non-existent-subcommand' is not a registered subcommand of 'config'. See 'fp help config' for available subcommands.
+      Error: 'non-existent-subcommand' is not a registered subcommand of 'config'. See 'fin help config' for available subcommands.
       """
     And STDOUT should be empty
 
-    When I try `fp help core non-existent-subcommand`
+    When I try `fin help core non-existent-subcommand`
     Then the return code should be 1
     And STDERR should contain:
       """
-      Error: 'non-existent-subcommand' is not a registered subcommand of 'core'. See 'fp help core' for available subcommands.
+      Error: 'non-existent-subcommand' is not a registered subcommand of 'core'. See 'fin help core' for available subcommands.
       """
     And STDOUT should be empty
 
-    When I try `fp help core non-existent-subcommand --path=/nowhere`
+    When I try `fin help core non-existent-subcommand --path=/nowhere`
     Then the return code should be 1
     And STDERR should contain:
       """
       Warning: No FinPress installation found. If the command 'core non-existent-subcommand' is in a plugin or theme, pass --path=`path/to/finpress`.
-      Error: 'non-existent-subcommand' is not a registered subcommand of 'core'. See 'fp help core' for available subcommands.
+      Error: 'non-existent-subcommand' is not a registered subcommand of 'core'. See 'fin help core' for available subcommands.
       """
     And STDOUT should be empty
 
-    When I try `fp help db non-existent-subcommand`
+    When I try `fin help db non-existent-subcommand`
     Then the return code should be 1
     And STDERR should contain:
       """
-      Error: 'non-existent-subcommand' is not a registered subcommand of 'db'. See 'fp help db' for available subcommands.
+      Error: 'non-existent-subcommand' is not a registered subcommand of 'db'. See 'fin help db' for available subcommands.
       """
     And STDOUT should be empty
 
-    When I try `fp help db non-existent-subcommand --path=/nowhere`
+    When I try `fin help db non-existent-subcommand --path=/nowhere`
     Then the return code should be 1
     And STDERR should contain:
       """
       Warning: No FinPress installation found. If the command 'db non-existent-subcommand' is in a plugin or theme, pass --path=`path/to/finpress`.
-      Error: 'non-existent-subcommand' is not a registered subcommand of 'db'. See 'fp help db' for available subcommands.
+      Error: 'non-existent-subcommand' is not a registered subcommand of 'db'. See 'fin help db' for available subcommands.
       """
     And STDOUT should be empty
 
   Scenario: Suggestions for command typos in help
     Given an empty directory
 
-    When I try `fp help confi`
+    When I try `fin help confi`
     Then the return code should be 1
     And STDERR should be:
       """
       Warning: No FinPress installation found. If the command 'confi' is in a plugin or theme, pass --path=`path/to/finpress`.
-      Error: 'confi' is not a registered fp command. See 'fp help' for available commands.
+      Error: 'confi' is not a registered fin command. See 'fin help' for available commands.
       Did you mean 'config'?
       """
     And STDOUT should be empty
 
-    When I try `fp help cor`
+    When I try `fin help cor`
     Then the return code should be 1
     And STDERR should be:
       """
       Warning: No FinPress installation found. If the command 'cor' is in a plugin or theme, pass --path=`path/to/finpress`.
-      Error: 'cor' is not a registered fp command. See 'fp help' for available commands.
+      Error: 'cor' is not a registered fin command. See 'fin help' for available commands.
       Did you mean 'core'?
       """
     And STDOUT should be empty
 
-    When I try `fp help d`
+    When I try `fin help d`
     Then the return code should be 1
     And STDERR should be:
       """
       Warning: No FinPress installation found. If the command 'd' is in a plugin or theme, pass --path=`path/to/finpress`.
-      Error: 'd' is not a registered fp command. See 'fp help' for available commands.
+      Error: 'd' is not a registered fin command. See 'fin help' for available commands.
       Did you mean 'db'?
       """
     And STDOUT should be empty
 
-    When I try `fp help packag`
+    When I try `fin help packag`
     Then the return code should be 1
     And STDERR should be:
       """
       Warning: No FinPress installation found. If the command 'packag' is in a plugin or theme, pass --path=`path/to/finpress`.
-      Error: 'packag' is not a registered fp command. See 'fp help' for available commands.
+      Error: 'packag' is not a registered fin command. See 'fin help' for available commands.
       Did you mean 'package'?
       """
     And STDOUT should be empty
@@ -374,45 +374,45 @@ Feature: Get help about FP-CLI commands
   Scenario: Suggestions for subcommand typos in help of specially treated commands
     Given an empty directory
 
-    When I try `fp help config creat`
+    When I try `fin help config creat`
     Then the return code should be 1
     And STDERR should be:
       """
       Warning: No FinPress installation found. If the command 'config creat' is in a plugin or theme, pass --path=`path/to/finpress`.
-      Error: 'creat' is not a registered subcommand of 'config'. See 'fp help config' for available subcommands.
+      Error: 'creat' is not a registered subcommand of 'config'. See 'fin help config' for available subcommands.
       Did you mean 'create'?
       """
     And STDOUT should be empty
 
-    When I try `fp help core versio`
+    When I try `fin help core versio`
     Then the return code should be 1
     And STDERR should be:
       """
       Warning: No FinPress installation found. If the command 'core versio' is in a plugin or theme, pass --path=`path/to/finpress`.
-      Error: 'versio' is not a registered subcommand of 'core'. See 'fp help core' for available subcommands.
+      Error: 'versio' is not a registered subcommand of 'core'. See 'fin help core' for available subcommands.
       Did you mean 'version'?
       """
     And STDOUT should be empty
 
-    When I try `fp help db chec`
+    When I try `fin help db chec`
     Then the return code should be 1
     And STDERR should be:
       """
       Warning: No FinPress installation found. If the command 'db chec' is in a plugin or theme, pass --path=`path/to/finpress`.
-      Error: 'chec' is not a registered subcommand of 'db'. See 'fp help db' for available subcommands.
+      Error: 'chec' is not a registered subcommand of 'db'. See 'fin help db' for available subcommands.
       Did you mean 'check'?
       """
     And STDOUT should be empty
 
   Scenario: No FinPress installation warning or suggestions for disabled commands
     Given an empty directory
-    And a fp-cli.yml file:
+    And a fin-cli.yml file:
       """
       disabled_commands:
         db
       """
 
-    When I try `fp help db`
+    When I try `fin help db`
     Then the return code should be 1
     And STDERR should be:
       """
@@ -420,7 +420,7 @@ Feature: Get help about FP-CLI commands
       """
     And STDOUT should be empty
 
-    When I try `fp help db chec`
+    When I try `fin help db chec`
     Then the return code should be 1
     And STDERR should be:
       """
@@ -429,54 +429,54 @@ Feature: Get help about FP-CLI commands
     And STDOUT should be empty
 
   Scenario: Help for third-party commands
-    Given a FP installation
-    And a fp-content/plugins/test-cli/command.php file:
+    Given a FIN installation
+    And a fin-content/plugins/test-cli/command.php file:
       """
       <?php
       // Plugin Name: Test CLI Help
 
-      class Test_Help extends FP_CLI_Command {
+      class Test_Help extends FIN_CLI_Command {
         /**
          * A dummy command.
          */
         function __invoke() {}
       }
 
-      FP_CLI::add_command( 'test-help', 'Test_Help' );
+      FIN_CLI::add_command( 'test-help', 'Test_Help' );
       """
-    And I run `fp plugin activate test-cli`
+    And I run `fin plugin activate test-cli`
 
-    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
-    When I try `fp help`
+    # TODO: Throwing deprecations with PHP 8.1+ and FIN < 5.9
+    When I try `fin help`
     Then STDOUT should contain:
       """
       A dummy command.
       """
 
-    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
-    When I try `fp help test-help`
+    # TODO: Throwing deprecations with PHP 8.1+ and FIN < 5.9
+    When I try `fin help test-help`
     Then STDOUT should contain:
       """
-      fp test-help
+      fin test-help
       """
 
   Scenario: Help for incomplete commands
     Given an empty directory
 
-    When I run `fp core`
+    When I run `fin core`
     Then STDOUT should contain:
       """
-      usage: fp core
+      usage: fin core
       """
 
   Scenario: Help for commands with magic methods
-    Given a FP installation
-    And a fp-content/plugins/test-cli/command.php file:
+    Given a FIN installation
+    And a fin-content/plugins/test-cli/command.php file:
       """
       <?php
       // Plugin Name: Test CLI Help
 
-      class Test_Magic_Methods extends FP_CLI_Command {
+      class Test_Magic_Methods extends FIN_CLI_Command {
         /**
          * A dummy command.
          *
@@ -502,14 +502,14 @@ Feature: Get help about FP-CLI commands
         function __debugInfo() {}
       }
 
-      FP_CLI::add_command( 'test-magic-methods', 'Test_Magic_Methods' );
+      FIN_CLI::add_command( 'test-magic-methods', 'Test_Magic_Methods' );
       """
-    And I run `fp plugin activate test-cli`
+    And I run `fin plugin activate test-cli`
 
-    When I run `fp test-magic-methods`
+    When I run `fin test-magic-methods`
     Then STDOUT should contain:
       """
-      usage: fp test-magic-methods my-command
+      usage: fin test-magic-methods my-command
       """
     And STDOUT should not contain:
       """
@@ -517,13 +517,13 @@ Feature: Get help about FP-CLI commands
       """
 
   Scenario: Help for commands loaded into existing namespaces
-    Given a FP installation
-    And a fp-content/plugins/test-cli/command.php file:
+    Given a FIN installation
+    And a fin-content/plugins/test-cli/command.php file:
       """
       <?php
       // Plugin Name: Test CLI Extra Site Command
 
-      class Test_CLI_Extra_Site_Command extends FP_CLI_Command {
+      class Test_CLI_Extra_Site_Command extends FIN_CLI_Command {
 
         /**
          * A dummy command.
@@ -534,23 +534,23 @@ Feature: Get help about FP-CLI commands
 
       }
 
-      FP_CLI::add_command( 'site test-extra', 'Test_CLI_Extra_Site_Command' );
+      FIN_CLI::add_command( 'site test-extra', 'Test_CLI_Extra_Site_Command' );
       """
-    And I run `fp plugin activate test-cli`
+    And I run `fin plugin activate test-cli`
 
-    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
-    When I try `fp help site`
+    # TODO: Throwing deprecations with PHP 8.1+ and FIN < 5.9
+    When I try `fin help site`
     Then STDOUT should contain:
       """
       test-extra
       """
 
-    Given a fp-content/plugins/test-cli/command.php file:
+    Given a fin-content/plugins/test-cli/command.php file:
       """
       <?php
       // Plugin Name: Test CLI Extra Command
 
-      class Test_CLI_Extra_Command extends FP_CLI_Command {
+      class Test_CLI_Extra_Command extends FIN_CLI_Command {
 
         /**
          * A dummy command.
@@ -561,37 +561,37 @@ Feature: Get help about FP-CLI commands
 
       }
 
-      FP_CLI::add_command( 'config test-extra-config', 'Test_CLI_Extra_Command' );
-      FP_CLI::add_command( 'core test-extra-core', 'Test_CLI_Extra_Command' );
-      FP_CLI::add_command( 'db test-extra-db', 'Test_CLI_Extra_Command' );
+      FIN_CLI::add_command( 'config test-extra-config', 'Test_CLI_Extra_Command' );
+      FIN_CLI::add_command( 'core test-extra-core', 'Test_CLI_Extra_Command' );
+      FIN_CLI::add_command( 'db test-extra-db', 'Test_CLI_Extra_Command' );
       """
 
-    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
-    When I try `fp help config`
+    # TODO: Throwing deprecations with PHP 8.1+ and FIN < 5.9
+    When I try `fin help config`
     Then STDOUT should contain:
       """
       test-extra-config
       """
 
-    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
-    When I try `fp help core`
+    # TODO: Throwing deprecations with PHP 8.1+ and FIN < 5.9
+    When I try `fin help core`
     Then STDOUT should contain:
       """
       test-extra-core
       """
 
-    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
-    When I try `fp help db`
+    # TODO: Throwing deprecations with PHP 8.1+ and FIN < 5.9
+    When I try `fin help db`
     Then STDOUT should contain:
       """
       test-extra-db
       """
 
   Scenario: Help renders global parameters correctly
-    Given a FP installation
+    Given a FIN installation
 
-    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
-    When I try `fp help core`
+    # TODO: Throwing deprecations with PHP 8.1+ and FIN < 5.9
+    When I try `fin help core`
     Then STDOUT should contain:
       """
       GLOBAL PARAMETERS
@@ -601,8 +601,8 @@ Feature: Get help about FP-CLI commands
       ## GLOBAL PARAMETERS
       """
 
-    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
-    When I try `fp help option get`
+    # TODO: Throwing deprecations with PHP 8.1+ and FIN < 5.9
+    When I try `fin help option get`
     Then STDOUT should contain:
       """
       GLOBAL PARAMETERS
@@ -612,8 +612,8 @@ Feature: Get help about FP-CLI commands
       ## GLOBAL PARAMETERS
       """
 
-    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
-    When I try `fp help option`
+    # TODO: Throwing deprecations with PHP 8.1+ and FIN < 5.9
+    When I try `fin help option`
     Then STDOUT should contain:
       """
       GLOBAL PARAMETERS
@@ -624,9 +624,9 @@ Feature: Get help about FP-CLI commands
       """
 
   Scenario: Display alias in man page
-    Given a FP installation
+    Given a FIN installation
 
-    When I run `fp help plugin update`
+    When I run `fin help plugin update`
     Then STDOUT should contain:
       """
       ALIAS
@@ -634,20 +634,20 @@ Feature: Get help about FP-CLI commands
         upgrade
       """
 
-    When I run `fp help plugin install`
+    When I run `fin help plugin install`
     Then STDOUT should not contain:
       """
       ALIAS
       """
 
   Scenario: Help for commands should wordwrap well
-    Given a FP installation
-    And a fp-content/plugins/test-cli/command.php file:
+    Given a FIN installation
+    And a fin-content/plugins/test-cli/command.php file:
       """
       <?php
       // Plugin Name: Test CLI Help
 
-      class Test_Wordwrap extends FP_CLI_Command {
+      class Test_Wordwrap extends FIN_CLI_Command {
         /**
          * 123456789 123456789 123456789 123456789 123456789 123456789 123456789 12345678
          *
@@ -671,7 +671,7 @@ Feature: Get help about FP-CLI commands
          * ## EXAMPLES
          *
          *     # Re-generate only the thumbnails of "large" image size for all images.
-         *     $ fp media regenerate --image_size=large
+         *     $ fin media regenerate --image_size=large
          *     Do you really want to regenerate the "large" image size for all images? [y/n] y
          *     Found 3 images to regenerate.
          *     1/3 Regenerated "large" thumbnail for "Yoogest Image Ever, Really" (ID 9999).
@@ -691,12 +691,12 @@ Feature: Get help about FP-CLI commands
         function my_command() {}
       }
 
-      FP_CLI::add_command( 'test-wordwrap', 'Test_Wordwrap' );
+      FIN_CLI::add_command( 'test-wordwrap', 'Test_Wordwrap' );
       """
-    And I run `fp plugin activate test-cli`
+    And I run `fin plugin activate test-cli`
 
-    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
-    When I try `COLUMNS=80 fp help test-wordwrap my_command`
+    # TODO: Throwing deprecations with PHP 8.1+ and FIN < 5.9
+    When I try `COLUMNS=80 fin help test-wordwrap my_command`
     Then STDOUT should contain:
       """
         123456789 123456789 123456789 123456789 123456789 123456789 123456789 12345678
@@ -726,7 +726,7 @@ Feature: Get help about FP-CLI commands
     And STDOUT should contain:
       """
           # Re-generate only the thumbnails of "large" image size for all images.
-          $ fp media regenerate --image_size=large
+          $ fin media regenerate --image_size=large
           Do you really want to regenerate the "large" image size for all images?
           [y/n] y
           Found 3 images to regenerate.
@@ -752,15 +752,15 @@ Feature: Get help about FP-CLI commands
 
       """
 
-    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
-    When I try `COLUMNS=80 fp help test-wordwrap my_command | awk '{print length, $0}' | sort -nr | head -1 | cut -f1 -d" "`
+    # TODO: Throwing deprecations with PHP 8.1+ and FIN < 5.9
+    When I try `COLUMNS=80 fin help test-wordwrap my_command | awk '{print length, $0}' | sort -nr | head -1 | cut -f1 -d" "`
     Then STDOUT should be:
       """
       80
       """
 
-    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
-    When I try `TERM=vt100 COLUMNS=40 fp help test-wordwrap my_command`
+    # TODO: Throwing deprecations with PHP 8.1+ and FIN < 5.9
+    When I try `TERM=vt100 COLUMNS=40 fin help test-wordwrap my_command`
     Then STDOUT should contain:
       """
         123456789 123456789 123456789
@@ -795,7 +795,7 @@ Feature: Get help about FP-CLI commands
       """
           # Re-generate only the thumbnails of
           "large" image size for all images.
-          $ fp media regenerate
+          $ fin media regenerate
           --image_size=large
           Do you really want to regenerate the
           "large" image size for all images?
@@ -829,15 +829,15 @@ Feature: Get help about FP-CLI commands
 
       """
 
-    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
-    When I try `TERM=vt100 COLUMNS=40 fp help test-wordwrap my_command | sed '/\-\-ssh/d' | awk '{print length, $0}' | sort -nr | head -1 | cut -f1 -d" "`
+    # TODO: Throwing deprecations with PHP 8.1+ and FIN < 5.9
+    When I try `TERM=vt100 COLUMNS=40 fin help test-wordwrap my_command | sed '/\-\-ssh/d' | awk '{print length, $0}' | sort -nr | head -1 | cut -f1 -d" "`
     Then STDOUT should be:
       """
       40
       """
 
-    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
-    When I try `TERM=vt100 COLUMNS=1000 fp help test-wordwrap my_command`
+    # TODO: Throwing deprecations with PHP 8.1+ and FIN < 5.9
+    When I try `TERM=vt100 COLUMNS=1000 fin help test-wordwrap my_command`
     Then STDOUT should contain:
       """
         [--skip-delete]
@@ -847,7 +847,7 @@ Feature: Get help about FP-CLI commands
     And STDOUT should contain:
       """
           # Re-generate only the thumbnails of "large" image size for all images.
-          $ fp media regenerate --image_size=large
+          $ fin media regenerate --image_size=large
           Do you really want to regenerate the "large" image size for all images? [y/n] y
           Found 3 images to regenerate.
           1/3 Regenerated "large" thumbnail for "Yoogest Image Ever, Really" (ID 9999).
@@ -864,13 +864,13 @@ Feature: Get help about FP-CLI commands
       """
 
   Scenario: Help for commands with subcommands should wordwrap well
-    Given a FP installation
-    And a fp-content/plugins/test-cli/command.php file:
+    Given a FIN installation
+    And a fin-content/plugins/test-cli/command.php file:
       """
       <?php
       // Plugin Name: Test CLI Help
 
-      class Test_Wordwrap extends FP_CLI_Command {
+      class Test_Wordwrap extends FIN_CLI_Command {
         /**
          * Generate PHP code for registering a custom post type.
          *
@@ -890,7 +890,7 @@ Feature: Get help about FP-CLI commands
         /**
          * Generate GitHub configuration files for your command.
          *
-         * @when       before_fp_load
+         * @when       before_fin_load
          * @subcommand package-github
          */
         public function package_github( $args, $assoc_args ) {}
@@ -898,7 +898,7 @@ Feature: Get help about FP-CLI commands
         /**
          * Generate files needed for writing Behat tests for your command.
          *
-         * @when       before_fp_load
+         * @when       before_fin_load
          * @subcommand package-tests
          */
         public function package_tests( $args, $assoc_args ) {}
@@ -939,12 +939,12 @@ Feature: Get help about FP-CLI commands
         public function very_long( $args, $assoc_args ) {}
       }
 
-      FP_CLI::add_command( 'test-wordwrap', 'Test_Wordwrap' );
+      FIN_CLI::add_command( 'test-wordwrap', 'Test_Wordwrap' );
       """
-    And I run `fp plugin activate test-cli`
+    And I run `fin plugin activate test-cli`
 
-    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
-    When I try `TERM=vt100 COLUMNS=80 fp help test-wordwrap`
+    # TODO: Throwing deprecations with PHP 8.1+ and FIN < 5.9
+    When I try `TERM=vt100 COLUMNS=80 fin help test-wordwrap`
     Then STDOUT should contain:
       """
       SUBCOMMANDS
@@ -969,29 +969,29 @@ Feature: Get help about FP-CLI commands
 
       """
 
-    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
-    When I try `TERM=vt100 COLUMNS=80 fp help test-wordwrap | awk '{print length, $0}' | sort -nr | head -1 | cut -f1 -d" "`
+    # TODO: Throwing deprecations with PHP 8.1+ and FIN < 5.9
+    When I try `TERM=vt100 COLUMNS=80 fin help test-wordwrap | awk '{print length, $0}' | sort -nr | head -1 | cut -f1 -d" "`
     Then STDOUT should be:
       """
       80
       """
 
   Scenario: Long description for top-level command which has reference link display well
-    Given a FP installation
+    Given a FIN installation
     And a command.php file:
       """
       <?php
 
-      if ( ! defined( 'FP_CLI' ) || ! FP_CLI ) {
+      if ( ! defined( 'FIN_CLI' ) || ! FIN_CLI ) {
           return;
       }
 
-      class FP_CLI_Foo_Bar_Command extends FP_CLI_Command {
+      class FIN_CLI_Foo_Bar_Command extends FIN_CLI_Command {
           /**
           * A command that has a link in its long description.
           *
           * This is a [reference link](https://finpress.org/).
-          * Also, there is a [second link](http://fp-cli.org/).
+          * Also, there is a [second link](http://fin-cli.org/).
           * They should be displayed nicely!
           *
           * @synopsis <constant-name>
@@ -999,16 +999,16 @@ Feature: Get help about FP-CLI commands
           public function __invoke( $args, $assoc_args ) {}
       }
 
-      FP_CLI::add_command( 'reference-link', 'FP_CLI_Foo_Bar_Command' );
+      FIN_CLI::add_command( 'reference-link', 'FIN_CLI_Foo_Bar_Command' );
       """
-    And a fp-cli.yml file:
+    And a fin-cli.yml file:
       """
       require:
         - command.php
       """
 
-    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
-    When I try `TERM=vt100 COLUMNS=80 fp help reference-link`
+    # TODO: Throwing deprecations with PHP 8.1+ and FIN < 5.9
+    When I try `TERM=vt100 COLUMNS=80 fin help reference-link`
     Then STDOUT should contain:
       """
         This is a [reference link][1].
@@ -1017,40 +1017,40 @@ Feature: Get help about FP-CLI commands
 
         ---
         [1] https://finpress.org/
-        [2] http://fp-cli.org/
+        [2] http://fin-cli.org/
       """
 
   Scenario: Very long description for top-level command which has reference link display well
-    Given a FP installation
+    Given a FIN installation
     And a command.php file:
       """
       <?php
 
-      if ( ! defined( 'FP_CLI' ) || ! FP_CLI ) {
+      if ( ! defined( 'FIN_CLI' ) || ! FIN_CLI ) {
           return;
       }
 
-      class FP_CLI_Foo_Bar_Command extends FP_CLI_Command {
+      class FIN_CLI_Foo_Bar_Command extends FIN_CLI_Command {
           /**
           * A command that has a link in its long description.
           *
-          * This is a [reference link](https://finpress.org/). Also, there is a [second link](http://fp-cli.org/). They should be displayed nicely! Wow! This is a very, very long description.
+          * This is a [reference link](https://finpress.org/). Also, there is a [second link](http://fin-cli.org/). They should be displayed nicely! Wow! This is a very, very long description.
           *
           * @synopsis <constant-name>
           */
           public function __invoke( $args, $assoc_args ) {}
       }
 
-      FP_CLI::add_command( 'reference-link', 'FP_CLI_Foo_Bar_Command' );
+      FIN_CLI::add_command( 'reference-link', 'FIN_CLI_Foo_Bar_Command' );
       """
-    And a fp-cli.yml file:
+    And a fin-cli.yml file:
       """
       require:
         - command.php
       """
 
-    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
-    When I try `TERM=vt100 COLUMNS=80 fp help reference-link`
+    # TODO: Throwing deprecations with PHP 8.1+ and FIN < 5.9
+    When I try `TERM=vt100 COLUMNS=80 fin help reference-link`
     Then STDOUT should contain:
       """
         This is a [reference link][1]. Also, there is a [second link][2]. They should
@@ -1058,11 +1058,11 @@ Feature: Get help about FP-CLI commands
 
         ---
         [1] https://finpress.org/
-        [2] http://fp-cli.org/
+        [2] http://fin-cli.org/
       """
 
-    # TODO: Throwing deprecations with PHP 8.1+ and FP < 5.9
-    When I try `TERM=vt100 COLUMNS=60 fp help reference-link`
+    # TODO: Throwing deprecations with PHP 8.1+ and FIN < 5.9
+    When I try `TERM=vt100 COLUMNS=60 fin help reference-link`
     Then STDOUT should contain:
       """
         This is a [reference link][1]. Also, there is a [second
@@ -1071,12 +1071,12 @@ Feature: Get help about FP-CLI commands
 
         ---
         [1] https://finpress.org/
-        [2] http://fp-cli.org/
+        [2] http://fin-cli.org/
       """
 
   Scenario Outline: Check that proc_open() and proc_close() aren't disabled for help pager
     Given an empty directory
-    When I try `{INVOKE_FP_CLI_WITH_PHP_ARGS--ddisable_functions=<func>} help --debug`
+    When I try `{INVOKE_FIN_CLI_WITH_PHP_ARGS--ddisable_functions=<func>} help --debug`
     Then STDERR should contain:
       """
       Warning: check_proc_available() failed in pass_through_pager().

@@ -5,8 +5,8 @@
  */
 
 use Mustangostang\Spyc;
-use FP_CLI\ExitException;
-use FP_CLI\Utils;
+use FIN_CLI\ExitException;
+use FIN_CLI\Utils;
 
 /**
  * Retrieves, sets and updates aliases for FinPress Installations.
@@ -18,37 +18,37 @@ use FP_CLI\Utils;
  * ## EXAMPLES
  *
  *     # List alias information.
- *     $ fp cli alias list
+ *     $ fin cli alias list
  *     list
  *     ---
  *     @all: Run command against every registered alias.
  *     @local:
- *       user: fpcli
- *       path: /Users/fpcli/sites/testsite
+ *       user: fincli
+ *       path: /Users/fincli/sites/testsite
  *
  *     # Get alias information.
- *     $ fp cli alias get @dev
+ *     $ fin cli alias get @dev
  *     ssh: dev@somedeve.env:12345/home/dev/
  *
  *     # Add alias.
- *     $ fp cli alias add @prod --set-ssh=login@host --set-path=/path/to/finpress/install/ --set-user=fpcli
+ *     $ fin cli alias add @prod --set-ssh=login@host --set-path=/path/to/finpress/install/ --set-user=fincli
  *     Success: Added '@prod' alias.
  *
  *     # Update alias.
- *     $ fp cli alias update @prod --set-user=newuser --set-path=/new/path/to/finpress/install/
+ *     $ fin cli alias update @prod --set-user=newuser --set-path=/new/path/to/finpress/install/
  *     Success: Updated 'prod' alias.
  *
  *     # Delete alias.
- *     $ fp cli alias delete @prod
+ *     $ fin cli alias delete @prod
  *     Success: Deleted '@prod' alias.
  *
- * @package fp-cli
- * @when    before_fp_load
+ * @package fin-cli
+ * @when    before_fin_load
  */
-class CLI_Alias_Command extends FP_CLI_Command {
+class CLI_Alias_Command extends FIN_CLI_Command {
 
 	/**
-	 * Lists available FP-CLI aliases.
+	 * Lists available FIN-CLI aliases.
 	 *
 	 * ## OPTIONS
 	 *
@@ -65,7 +65,7 @@ class CLI_Alias_Command extends FP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # List all available aliases.
-	 *     $ fp cli alias list
+	 *     $ fin cli alias list
 	 *     ---
 	 *     @all: Run command against every registered alias.
 	 *     @prod:
@@ -82,7 +82,7 @@ class CLI_Alias_Command extends FP_CLI_Command {
 	 * @param array{format: string} $assoc_args Associative arguments.
 	 */
 	public function list_( $args, $assoc_args ) {
-		FP_CLI::print_value( FP_CLI::get_runner()->aliases, $assoc_args );
+		FIN_CLI::print_value( FIN_CLI::get_runner()->aliases, $assoc_args );
 	}
 
 	/**
@@ -96,7 +96,7 @@ class CLI_Alias_Command extends FP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # Get alias.
-	 *     $ fp cli alias get @prod
+	 *     $ fin cli alias get @prod
 	 *     ssh: dev@somedeve.env:12345/home/dev/
 	 *
 	 * @param array{string} $args Positional arguments.
@@ -104,14 +104,14 @@ class CLI_Alias_Command extends FP_CLI_Command {
 	public function get( $args ) {
 		list( $alias ) = $args;
 
-		$aliases = FP_CLI::get_runner()->aliases;
+		$aliases = FIN_CLI::get_runner()->aliases;
 
 		if ( empty( $aliases[ $alias ] ) ) {
-			FP_CLI::error( "No alias found with key '{$alias}'." );
+			FIN_CLI::error( "No alias found with key '{$alias}'." );
 		}
 
 		foreach ( $aliases[ $alias ] as $key => $value ) {
-			FP_CLI::log( "{$key}: {$value}" );
+			FIN_CLI::log( "{$key}: {$value}" );
 		}
 	}
 
@@ -153,15 +153,15 @@ class CLI_Alias_Command extends FP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # Add alias to global config.
-	 *     $ fp cli alias add @prod  --set-ssh=login@host --set-path=/path/to/finpress/install/ --set-user=fpcli
+	 *     $ fin cli alias add @prod  --set-ssh=login@host --set-path=/path/to/finpress/install/ --set-user=fincli
 	 *     Success: Added '@prod' alias.
 	 *
 	 *     # Add alias to project config.
-	 *     $ fp cli alias add @prod --set-ssh=login@host --set-path=/path/to/finpress/install/ --set-user=fpcli --config=project
+	 *     $ fin cli alias add @prod --set-ssh=login@host --set-path=/path/to/finpress/install/ --set-user=fincli --config=project
 	 *     Success: Added '@prod' alias.
 	 *
 	 *     # Add group of aliases.
-	 *     $ fp cli alias add @multiservers --grouping=servera,serverb
+	 *     $ fin cli alias add @multiservers --grouping=servera,serverb
 	 *     Success: Added '@multiservers' alias.
 	 *
 	 * @param array{string} $args Positional arguments.
@@ -185,7 +185,7 @@ class CLI_Alias_Command extends FP_CLI_Command {
 		$this->validate_input( $assoc_args, $grouping );
 
 		if ( isset( $aliases[ $alias ] ) ) {
-			FP_CLI::error( "Key '{$alias}' exists already." );
+			FIN_CLI::error( "Key '{$alias}' exists already." );
 		}
 
 		if ( null === $grouping ) {
@@ -216,11 +216,11 @@ class CLI_Alias_Command extends FP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # Delete alias.
-	 *     $ fp cli alias delete @prod
+	 *     $ fin cli alias delete @prod
 	 *     Success: Deleted '@prod' alias.
 	 *
 	 *     # Delete project alias.
-	 *     $ fp cli alias delete @prod --config=project
+	 *     $ fin cli alias delete @prod --config=project
 	 *     Success: Deleted '@prod' alias.
 	 *
 	 * @param array{string}          $args       Positional arguments.
@@ -237,7 +237,7 @@ class CLI_Alias_Command extends FP_CLI_Command {
 		$this->validate_config_file( $config_path );
 
 		if ( empty( $aliases[ $alias ] ) ) {
-			FP_CLI::error( "No alias found with key '{$alias}'." );
+			FIN_CLI::error( "No alias found with key '{$alias}'." );
 		}
 
 		unset( $aliases[ $alias ] );
@@ -281,11 +281,11 @@ class CLI_Alias_Command extends FP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # Update alias.
-	 *     $ fp cli alias update @prod --set-user=newuser --set-path=/new/path/to/finpress/install/
+	 *     $ fin cli alias update @prod --set-user=newuser --set-path=/new/path/to/finpress/install/
 	 *     Success: Updated 'prod' alias.
 	 *
 	 *     # Update project alias.
-	 *     $ fp cli alias update @prod --set-user=newuser --set-path=/new/path/to/finpress/install/ --config=project
+	 *     $ fin cli alias update @prod --set-user=newuser --set-path=/new/path/to/finpress/install/ --config=project
 	 *     Success: Updated 'prod' alias.
 	 *
 	 * @param array{string} $args Positional arguments.
@@ -308,7 +308,7 @@ class CLI_Alias_Command extends FP_CLI_Command {
 		$this->validate_input( $assoc_args, $grouping );
 
 		if ( empty( $aliases[ $alias ] ) ) {
-			FP_CLI::error( "No alias found with key '{$alias}'." );
+			FIN_CLI::error( "No alias found with key '{$alias}'." );
 		}
 
 		if ( null === $grouping ) {
@@ -331,7 +331,7 @@ class CLI_Alias_Command extends FP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 *     # Checks whether the alias is a group; exit status 0 if it is, otherwise 1.
-	 *     $ fp cli alias is-group @prod
+	 *     $ fin cli alias is-group @prod
 	 *     $ echo $?
 	 *     1
 	 *
@@ -340,10 +340,10 @@ class CLI_Alias_Command extends FP_CLI_Command {
 	public function is_group( $args, $assoc_args = array() ) {
 		$alias = $args[0];
 
-		$aliases = FP_CLI::get_runner()->aliases;
+		$aliases = FIN_CLI::get_runner()->aliases;
 
 		if ( empty( $aliases[ $alias ] ) ) {
-			FP_CLI::error( "No alias found with key '{$alias}'." );
+			FIN_CLI::error( "No alias found with key '{$alias}'." );
 		}
 
 		// how do we know the alias is a group?
@@ -355,9 +355,9 @@ class CLI_Alias_Command extends FP_CLI_Command {
 		$first_item_value = $first_item[ $first_item_key ];
 
 		if ( is_numeric( $first_item_key ) && substr( $first_item_value, 0, 1 ) === '@' ) {
-			FP_CLI::halt( 0 );
+			FIN_CLI::halt( 0 );
 		}
-		FP_CLI::halt( 1 );
+		FIN_CLI::halt( 1 );
 	}
 
 	/**
@@ -373,10 +373,10 @@ class CLI_Alias_Command extends FP_CLI_Command {
 	 */
 	private function get_aliases_data( $config, $alias, $create_config_file = false ) {
 
-		$global_config_path = FP_CLI::get_runner()->get_global_config_path( $create_config_file );
+		$global_config_path = FIN_CLI::get_runner()->get_global_config_path( $create_config_file );
 		$global_aliases     = Spyc::YAMLLoad( $global_config_path );
 
-		$project_config_path = FP_CLI::get_runner()->get_project_config_path();
+		$project_config_path = FIN_CLI::get_runner()->get_project_config_path();
 		$project_aliases     = Spyc::YAMLLoad( $project_config_path );
 
 		if ( 'global' === $config ) {
@@ -391,7 +391,7 @@ class CLI_Alias_Command extends FP_CLI_Command {
 			$is_project_alias = array_key_exists( $alias, $project_aliases );
 
 			if ( $is_global_alias && $is_project_alias ) {
-				FP_CLI::error( "Key '{$alias}' found in more than one path. Please pass --config param." );
+				FIN_CLI::error( "Key '{$alias}' found in more than one path. Please pass --config param." );
 			} elseif ( $is_global_alias ) {
 				$config_path = $global_config_path;
 				$aliases     = $global_aliases;
@@ -411,7 +411,7 @@ class CLI_Alias_Command extends FP_CLI_Command {
 	 */
 	private function validate_config_file( $config_path ): void {
 		if ( ! file_exists( $config_path ) || ! is_writable( $config_path ) ) {
-			FP_CLI::error( "Config file does not exist: {$config_path}" );
+			FIN_CLI::error( "Config file does not exist: {$config_path}" );
 		}
 	}
 
@@ -437,7 +437,7 @@ class CLI_Alias_Command extends FP_CLI_Command {
 			// Check for invalid args.
 			if ( ! empty( $invalid_args ) ) {
 				$args_info = implode( ',', $invalid_args );
-				FP_CLI::error( "--grouping argument works alone. Found invalid arg(s) '$args_info'." );
+				FIN_CLI::error( "--grouping argument works alone. Found invalid arg(s) '$args_info'." );
 			}
 		}
 
@@ -484,14 +484,14 @@ class CLI_Alias_Command extends FP_CLI_Command {
 
 		// Verify passed-arguments.
 		if ( empty( $grouping ) && empty( $arg_match ) ) {
-			FP_CLI::error( 'No valid arguments passed.' );
+			FIN_CLI::error( 'No valid arguments passed.' );
 		}
 
 		// Check whether passed arguments contain value or not.
 		$assoc_arg_values = array_filter( array_intersect_key( $assoc_args, array_flip( $arg_match ) ) );
 
 		if ( empty( $grouping ) && empty( $assoc_arg_values ) ) {
-			FP_CLI::error( 'No value passed to arguments.' );
+			FIN_CLI::error( 'No value passed to arguments.' );
 		}
 	}
 
@@ -513,9 +513,9 @@ class CLI_Alias_Command extends FP_CLI_Command {
 		$arg_match           = preg_grep( '/^set-(\w+)/i', array_keys( $assoc_args ) );
 
 		if ( ! empty( $group_aliases_match ) && ! empty( $arg_match ) ) {
-			FP_CLI::error( 'Trying to update group alias with invalid arguments.' );
+			FIN_CLI::error( 'Trying to update group alias with invalid arguments.' );
 		} elseif ( empty( $group_aliases_match ) && ! empty( $grouping ) ) {
-			FP_CLI::error( 'Trying to update simple alias with invalid --grouping argument.' );
+			FIN_CLI::error( 'Trying to update simple alias with invalid --grouping argument.' );
 		}
 	}
 
@@ -535,7 +535,7 @@ class CLI_Alias_Command extends FP_CLI_Command {
 
 		// Add data in config file.
 		if ( file_put_contents( $config_path, $yaml_data ) ) {
-			FP_CLI::success( "$operation '{$alias}' alias." );
+			FIN_CLI::success( "$operation '{$alias}' alias." );
 		}
 	}
 
@@ -548,7 +548,7 @@ class CLI_Alias_Command extends FP_CLI_Command {
 	 */
 	private function normalize_alias( $alias ) {
 		// Check if the alias starts with the @.
-		// See: https://github.com/fp-cli/fp-cli/issues/5391
+		// See: https://github.com/fin-cli/fin-cli/issues/5391
 		if ( strpos( $alias, '@' ) !== 0 ) {
 			$alias = '@' . ltrim( $alias, '@' );
 		}

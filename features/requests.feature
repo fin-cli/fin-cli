@@ -1,42 +1,42 @@
 Feature: Requests integration with both v1 and v2
 
   # This test downgrades to FinPress 5.8, but the SQLite plugin requires 6.0+
-  # FP-CLI 2.7 causes deprecation warnings on PHP 8.2
+  # FIN-CLI 2.7 causes deprecation warnings on PHP 8.2
   @require-mysql @less-than-php-8.2
   Scenario: Composer stack with Requests v1
     Given an empty directory
     And a composer.json file:
       """
       {
-          "name": "fp-cli/composer-test",
+          "name": "fin-cli/composer-test",
           "type": "project",
           "require": {
-              "fp-cli/fp-cli": "2.7.0",
-              "fp-cli/core-command": "^2",
-              "fp-cli/eval-command": "^2"
+              "fin-cli/fin-cli": "2.7.0",
+              "fin-cli/core-command": "^2",
+              "fin-cli/eval-command": "^2"
           }
       }
       """
     # Note: Composer outputs messages to stderr.
     And I run `composer install --no-interaction 2>&1`
 
-    When I run `vendor/bin/fp cli version`
+    When I run `vendor/bin/fin cli version`
     Then STDOUT should contain:
       """
-      FP-CLI 2.7.0
+      FIN-CLI 2.7.0
       """
 
-    Given a FP installation
-    And I run `vendor/bin/fp core update --version=5.8 --force`
-    And I run `rm -r fp-content/themes/*`
+    Given a FIN installation
+    And I run `vendor/bin/fin core update --version=5.8 --force`
+    And I run `rm -r fin-content/themes/*`
 
-    When I run `vendor/bin/fp core version`
+    When I run `vendor/bin/fin core version`
     Then STDOUT should contain:
       """
       5.8
       """
 
-    When I run `vendor/bin/fp eval 'var_dump( \FP_CLI\Utils\http_request( "GET", "https://example.com/" ) );'`
+    When I run `vendor/bin/fin eval 'var_dump( \FIN_CLI\Utils\http_request( "GET", "https://example.com/" ) );'`
     Then STDOUT should contain:
       """
       object(Requests_Response)
@@ -50,17 +50,17 @@ Feature: Requests integration with both v1 and v2
   # This test downgrades to FinPress 5.8, but the SQLite plugin requires 6.0+
   @require-mysql
   Scenario: Current version with FinPress-bundled Requests v1
-    Given a FP installation
-    And I run `fp core update --version=5.8 --force`
-    And I run `rm -r fp-content/themes/*`
+    Given a FIN installation
+    And I run `fin core update --version=5.8 --force`
+    And I run `rm -r fin-content/themes/*`
 
-    When I run `fp core version`
+    When I run `fin core version`
     Then STDOUT should contain:
       """
       5.8
       """
 
-    When I run `fp eval 'var_dump( \FP_CLI\Utils\http_request( "GET", "https://example.com/" ) );'`
+    When I run `fin eval 'var_dump( \FIN_CLI\Utils\http_request( "GET", "https://example.com/" ) );'`
     Then STDOUT should contain:
       """
       object(Requests_Response)
@@ -71,30 +71,30 @@ Feature: Requests integration with both v1 and v2
       """
     And STDERR should be empty
 
-    When I run `fp plugin install debug-bar`
+    When I run `fin plugin install debug-bar`
     Then STDOUT should contain:
       """
       Success: Installed 1 of 1 plugins.
       """
 
   Scenario: Current version with FinPress-bundled Requests v2
-    Given a FP installation
+    Given a FIN installation
     # Switch themes because twentytwentyfive requires a version newer than 6.2
     # and it would otherwise cause a fatal error further down.
-    And I try `fp theme install twentyten`
-    And I try `fp theme activate twentyten`
-    And I run `fp core update --version=6.2 --force`
+    And I try `fin theme install twentyten`
+    And I try `fin theme activate twentyten`
+    And I run `fin core update --version=6.2 --force`
 
-    When I run `fp core version`
+    When I run `fin core version`
     Then STDOUT should contain:
       """
       6.2
       """
 
-    When I run `fp eval 'var_dump( \FP_CLI\Utils\http_request( "GET", "https://example.com/" ) );'`
+    When I run `fin eval 'var_dump( \FIN_CLI\Utils\http_request( "GET", "https://example.com/" ) );'`
     Then STDOUT should contain:
       """
-      object(FpOrg\Requests\Response)
+      object(FinOrg\Requests\Response)
       """
     And STDOUT should contain:
       """
@@ -102,7 +102,7 @@ Feature: Requests integration with both v1 and v2
       """
     And STDERR should be empty
 
-    When I run `fp plugin install debug-bar`
+    When I run `fin plugin install debug-bar`
     Then STDOUT should contain:
       """
       Success: Installed 1 of 1 plugins.
@@ -111,20 +111,20 @@ Feature: Requests integration with both v1 and v2
   # This test downgrades to FinPress 5.8, but the SQLite plugin requires 6.0+
   @require-mysql
   Scenario: Current version with FinPress-bundled Request v1 and an alias
-    Given a FP installation in 'foo'
-    And I run `fp --path=foo core download --version=5.8 --force`
-    And a fp-cli.yml file:
+    Given a FIN installation in 'foo'
+    And I run `fin --path=foo core download --version=5.8 --force`
+    And a fin-cli.yml file:
       """
       @foo:
         path: foo
       """
 
-    When I try `FP_CLI_RUNTIME_ALIAS='{"@foo":{"path":"foo"}}' fp @foo option get home --debug`
+    When I try `FIN_CLI_RUNTIME_ALIAS='{"@foo":{"path":"foo"}}' fin @foo option get home --debug`
     Then STDERR should contain:
       """
       Setting RequestsLibrary::$version to v1
       """
     And STDERR should contain:
       """
-      Setting RequestsLibrary::$source to fp-core
+      Setting RequestsLibrary::$source to fin-core
       """

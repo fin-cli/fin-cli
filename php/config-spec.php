@@ -97,7 +97,7 @@ return [
 		'runtime' => '[=<group>]',
 		'file'    => '<group>',
 		'default' => false,
-		'desc'    => 'Show all PHP errors and add verbosity to FP-CLI output. Built-in groups include: bootstrap, commandfactory, and help.',
+		'desc'    => 'Show all PHP errors and add verbosity to FIN-CLI output. Built-in groups include: bootstrap, commandfactory, and help.',
 	],
 
 	'prompt'            => [
@@ -121,7 +121,7 @@ return [
 		'default'  => [],
 	],
 
-	# --allow-root => (NOT RECOMMENDED) Allow fp-cli to run as root. This poses
+	# --allow-root => (NOT RECOMMENDED) Allow fin-cli to run as root. This poses
 	# a security risk, so you probably do not want to do this.
 	'allow-root'        => [
 		'file'    => false, # Explicit. Just in case the default changes.

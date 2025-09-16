@@ -5,13 +5,13 @@
  * @package Requests\Cookies
  */
 
-namespace FpOrg\Requests;
+namespace FinOrg\Requests;
 
-use FpOrg\Requests\Exception\InvalidArgument;
-use FpOrg\Requests\Iri;
-use FpOrg\Requests\Response\Headers;
-use FpOrg\Requests\Utility\CaseInsensitiveDictionary;
-use FpOrg\Requests\Utility\InputValidator;
+use FinOrg\Requests\Exception\InvalidArgument;
+use FinOrg\Requests\Iri;
+use FinOrg\Requests\Response\Headers;
+use FinOrg\Requests\Utility\CaseInsensitiveDictionary;
+use FinOrg\Requests\Utility\InputValidator;
 
 /**
  * Cookie storage object
@@ -39,7 +39,7 @@ class Cookie {
 	 * Valid keys are `'path'`, `'domain'`, `'expires'`, `'max-age'`, `'secure'` and
 	 * `'httponly'`.
 	 *
-	 * @var \FpOrg\Requests\Utility\CaseInsensitiveDictionary|array Array-like object
+	 * @var \FinOrg\Requests\Utility\CaseInsensitiveDictionary|array Array-like object
 	 */
 	public $attributes = [];
 
@@ -67,17 +67,17 @@ class Cookie {
 	 *
 	 * @param string                                                  $name           The name of the cookie.
 	 * @param string                                                  $value          The value for the cookie.
-	 * @param array|\FpOrg\Requests\Utility\CaseInsensitiveDictionary $attributes Associative array of attribute data
+	 * @param array|\FinOrg\Requests\Utility\CaseInsensitiveDictionary $attributes Associative array of attribute data
 	 * @param array                                                   $flags          The flags for the cookie.
 	 *                                                                                Valid keys are `'creation'`, `'last-access'`,
 	 *                                                                                `'persistent'` and `'host-only'`.
 	 * @param int|null                                                $reference_time Reference time for relative calculations.
 	 *
-	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $name argument is not a string.
-	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $value argument is not a string.
-	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $attributes argument is not an array or iterable object with array access.
-	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $flags argument is not an array.
-	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $reference_time argument is not an integer or null.
+	 * @throws \FinOrg\Requests\Exception\InvalidArgument When the passed $name argument is not a string.
+	 * @throws \FinOrg\Requests\Exception\InvalidArgument When the passed $value argument is not a string.
+	 * @throws \FinOrg\Requests\Exception\InvalidArgument When the passed $attributes argument is not an array or iterable object with array access.
+	 * @throws \FinOrg\Requests\Exception\InvalidArgument When the passed $flags argument is not an array.
+	 * @throws \FinOrg\Requests\Exception\InvalidArgument When the passed $reference_time argument is not an integer or null.
 	 */
 	public function __construct($name, $value, $attributes = [], $flags = [], $reference_time = null) {
 		if (is_string($name) === false) {
@@ -157,7 +157,7 @@ class Cookie {
 	/**
 	 * Check if a cookie is valid for a given URI
 	 *
-	 * @param \FpOrg\Requests\Iri $uri URI to check
+	 * @param \FinOrg\Requests\Iri $uri URI to check
 	 * @return boolean Whether the cookie is valid for the given URI
 	 */
 	public function uri_matches(Iri $uri) {
@@ -408,10 +408,10 @@ class Cookie {
 	 * @param string $cookie_header Cookie header value (from a Set-Cookie header)
 	 * @param string $name
 	 * @param int|null $reference_time
-	 * @return \FpOrg\Requests\Cookie Parsed cookie object
+	 * @return \FinOrg\Requests\Cookie Parsed cookie object
 	 *
-	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $cookie_header argument is not a string.
-	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $name argument is not a string.
+	 * @throws \FinOrg\Requests\Exception\InvalidArgument When the passed $cookie_header argument is not a string.
+	 * @throws \FinOrg\Requests\Exception\InvalidArgument When the passed $name argument is not a string.
 	 */
 	public static function parse($cookie_header, $name = '', $reference_time = null) {
 		if (is_string($cookie_header) === false) {
@@ -466,12 +466,12 @@ class Cookie {
 	/**
 	 * Parse all Set-Cookie headers from request headers
 	 *
-	 * @param \FpOrg\Requests\Response\Headers $headers Headers to parse from
-	 * @param \FpOrg\Requests\Iri|null $origin URI for comparing cookie origins
+	 * @param \FinOrg\Requests\Response\Headers $headers Headers to parse from
+	 * @param \FinOrg\Requests\Iri|null $origin URI for comparing cookie origins
 	 * @param int|null $time Reference time for expiration calculation
 	 * @return array
 	 *
-	 * @throws \FpOrg\Requests\Exception\InvalidArgument When the passed $origin argument is not null or an instance of the Iri class.
+	 * @throws \FinOrg\Requests\Exception\InvalidArgument When the passed $origin argument is not null or an instance of the Iri class.
 	 */
 	public static function parse_from_headers(Headers $headers, $origin = null, $time = null) {
 		$cookie_headers = $headers->getValues('Set-Cookie');

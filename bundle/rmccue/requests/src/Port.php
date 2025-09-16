@@ -6,10 +6,10 @@
  * @since   2.0.0
  */
 
-namespace FpOrg\Requests;
+namespace FinOrg\Requests;
 
-use FpOrg\Requests\Exception;
-use FpOrg\Requests\Exception\InvalidArgument;
+use FinOrg\Requests\Exception;
+use FinOrg\Requests\Exception\InvalidArgument;
 
 /**
  * Find the correct port depending on the Request type.
@@ -56,8 +56,8 @@ final class Port {
 	 *
 	 * @return int
 	 *
-	 * @throws \FpOrg\Requests\Exception\InvalidArgument When a non-string input has been passed.
-	 * @throws \FpOrg\Requests\Exception                 When a non-supported port is requested ('portnotsupported').
+	 * @throws \FinOrg\Requests\Exception\InvalidArgument When a non-string input has been passed.
+	 * @throws \FinOrg\Requests\Exception                 When a non-supported port is requested ('portnotsupported').
 	 */
 	public static function get($type) {
 		if (!is_string($type)) {
